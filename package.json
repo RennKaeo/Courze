@@ -1,0 +1,45 @@
+{
+  "name": "course-code",
+  "version": "0.1.0",
+  "description": "Open source AI coding agent — autonomous & assistive mode, multi-provider",
+  "type": "module",
+  "bin": {
+    "course": "dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsx src/index.ts",
+    "start": "node dist/index.js",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "lint": "biome check src/",
+    "lint:fix": "biome check --write src/",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build"
+  },
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.39.0",
+    "@google/generative-ai": "^0.24.0",
+    "commander": "^13.1.0",
+    "conf": "^14.0.0",
+    "execa": "^9.5.0",
+    "openai": "^4.86.0",
+    "ora": "^8.1.0",
+    "picocolors": "^1.1.0",
+    "zod": "^3.24.0"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "^1.9.0",
+    "@types/node": "^22.0.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.9.3",
+    "vitest": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "license": "GPL-3.0-only"
+}
