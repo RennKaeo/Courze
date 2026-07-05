@@ -51,10 +51,6 @@ export class ContextManager {
       }
     }
 
-    droppable.sort(
-      (a, b) => (a.role === 'assistant' ? 0 : 1) - (b.role === 'assistant' ? 0 : 1)
-    )
-
     while (droppable.length > 0) {
       const total = [...systemMessages, ...droppable, ...preservedToolResults]
       totalTokens = total.reduce((sum, m) => sum + countMessageTokens(m), 0)

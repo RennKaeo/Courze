@@ -46,10 +46,11 @@ export const initCommand = new Command('init')
       }
 
       const configPath = join(cwd(), '.courzerc.jsonc');
-      const content = JSON.stringify(config, null, 2);
+      const content = JSON.stringify(config, null, 2) + '\n';
 
       writeFileSync(configPath, content, 'utf-8');
       success(`Configuration written to ${configPath}`);
+      info('You can add comments (// or /* */) to this file since it uses .jsonc format.');
     } catch (err) {
       error(
         `Failed to create config: ${err instanceof Error ? err.message : String(err)}`,

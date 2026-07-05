@@ -7,7 +7,14 @@ const GLOBAL_CONFIG_KEYS = ['provider', 'model', 'mode', 'temperature', 'maxToke
 
 function parseJSON5(text: string): Record<string, unknown> {
   const stripped = text.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
-  return JSON.parse(stripped)
+  try {
+    return JSON.parse(stripped)
+  } catch {
+    return JSON.parse(stripped
+      .replace(/,(\s*[}\]])/g, '$1')
+      .replace(/(['"])?([a-zA-Z_$][\w$]*)(['"])?\s*:/g, '"$2":')
+    )
+  }
 }
 
 async function tryReadJSON(path: string): Promise<Record<string, unknown> | null> {

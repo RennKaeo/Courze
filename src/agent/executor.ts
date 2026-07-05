@@ -246,22 +246,25 @@ export class Executor {
       })
       .join('\n')
 
-    return new Promise((resolve) => {
-      rl.question(
-        `\n${'='.repeat(60)}\nTool: ${name}\nArguments:\n${argsStr}\n${'='.repeat(60)}\nApprove? (y)es / (n)o / (a)ll: `,
-        (answer) => {
-          rl.close()
-          const trimmed = answer.trim().toLowerCase()
-          if (trimmed === 'a' || trimmed === 'all') {
-            resolve('approve-all')
-          } else if (trimmed === 'y' || trimmed === 'yes' || trimmed === '') {
-            resolve('approve')
-          } else {
-            resolve('reject')
-          }
-        },
-      )
-    })
+    try {
+      return await new Promise((resolve) => {
+        rl.question(
+          `\n${'='.repeat(60)}\nTool: ${name}\nArguments:\n${argsStr}\n${'='.repeat(60)}\nApprove? (y)es / (n)o / (a)ll: `,
+          (answer) => {
+            const trimmed = answer.trim().toLowerCase()
+            if (trimmed === 'a' || trimmed === 'all') {
+              resolve('approve-all')
+            } else if (trimmed === 'y' || trimmed === 'yes' || trimmed === '') {
+              resolve('approve')
+            } else {
+              resolve('reject')
+            }
+          },
+        )
+      })
+    } finally {
+      rl.close()
+    }
   }
 
   private createResult(

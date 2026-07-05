@@ -33,7 +33,7 @@ const DANGEROUS_PATTERNS: RegExp[] = [
 function isDangerous(command: string): boolean {
   const trimmed = command.trim();
   if (trimmed.length > 2000) {
-    return false;
+    return true;
   }
 
   const normalized = trimmed.replace(/\\\n/g, ' ').replace(/\s+/g, ' ');

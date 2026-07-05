@@ -8,12 +8,14 @@ interface GlobArgs {
 }
 
 function globToRegex(pattern: string): RegExp {
-  const escaped = pattern.replace(/[.+^${}()|[\]\\]/g, '\\$&');
-  const regexStr = escaped
+  let regexStr = pattern
     .replace(/\*\*/g, '___GLOBSTAR___')
-    .replace(/\*/g, '[^/]*')
+    .replace(/\*/g, '___STAR___')
+    .replace(/\?/g, '___QMARK___')
+    .replace(/[.+^${}()|[\]\\]/g, '\\$&')
     .replace(/___GLOBSTAR___/g, '.*')
-    .replace(/\?/g, '[^/]');
+    .replace(/___STAR___/g, '[^/]*')
+    .replace(/___QMARK___/g, '[^/]');
   return new RegExp(`^${regexStr}$`);
 }
 
