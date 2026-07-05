@@ -1,94 +1,125 @@
 # Course Code
 
-Open-source AI coding agent — autonomous & assistive mode, multi-provider (OpenAI, Anthropic, Google, Ollama).
+Open-source AI coding agent — TUI + CLI, autonomous & assistive mode, multi-provider (OpenAI, Anthropic, Google, Ollama).
 
 ## Features
 
-- **Hybrid modes**: Autonomous agent (plan → execute → review) or assistive pair-programmer (you approve each step)
-- **Multi-provider LLM support**: OpenAI GPT-4o, Anthropic Claude 3.5/4, Google Gemini 2.5, Ollama local models
-- **Tool system**: File operations, shell execution, code search, web fetch/search
-- **Context management**: Token-aware window with automatic summarization
-- **Plugin architecture**: Extend with custom tools and hooks
-- **Config layering**: Global, project, and local config (JSONC)
+- **Full TUI** — Split-panel terminal UI with home/session views, toast notifications, dialogs
+- **Hybrid modes** — Autonomous (plan → execute → review) or assistive (approve each step)
+- **Multi-provider** — OpenAI GPT-4o, Anthropic Claude 3.5/4, Google Gemini 2.5, Ollama local
+- **Tool system** — File operations, shell execution, code search, web fetch
+- **Plugin architecture** — Extend with custom tools and lifecycle hooks
+- **Context management** — Token-aware window with automatic summarization
 
 ## Install
 
 ```bash
-# From npm (when published)
-npm install -g course-code
-
-# Or run directly from source
-git clone https://github.com/RennKaeo/Courze
+# From source
+git clone https://github.com/RennKaeo/Courze.git
 cd Courze
 npm install
 npm run build
 npm link
+
+# Verify installation
+course --version
 ```
 
 ## Quick Start
 
 ```bash
-# Set your API keys
+# Set your API key
 export OPENAI_API_KEY=sk-...
 # or
 export ANTHROPIC_API_KEY=sk-ant-...
 # or
 export GOOGLE_API_KEY=...
 
-# Start interactive session
+# Start TUI interactive session
 course start
+
+# Basic CLI mode (no TUI)
+course start --no-tui
 
 # Or run a one-shot task
 course run "Add a README to this project"
+
+# Create config file
+course init
 ```
+
+## TUI Controls
+
+| Key | Action |
+|-----|--------|
+| `Enter` | Submit task |
+| `Esc` / `q` | Go home / quit |
+| `Ctrl-C` | Abort running task |
+| `h` | Go to home view |
+| `y` / `n` / `a` | Approve / reject / always (assist mode) |
 
 ## Commands
 
 | Command | Description |
 |---------|-------------|
-| `course start` | Start interactive coding session |
+| `course start` | Start TUI interactive session |
+| `course start --no-tui` | Start basic CLI session |
 | `course run <task>` | Run a single task autonomously |
-| `course init` | Create config file in current project |
-| `course config` | View/edit configuration |
+| `course init` | Create `.courzerc.jsonc` config |
+| `course --help` | Show help |
+| `course --version` | Show version |
 
 ## Configuration
 
-Create `.course/config.jsonc` in your project:
+Create `.courzerc.jsonc` in your project:
 
 ```jsonc
 {
   "provider": "anthropic",      // openai | anthropic | google | ollama
-  "model": "claude-3-5-sonnet-20241022",
-  "mode": "hybrid",             // autonomous | assistive | hybrid
-  "maxTokens": 128000,
-  "temperature": 0.1,
-  "tools": {
-    "bash": true,
-    "webSearch": false,
-    "webFetch": true
-  },
-  "approvals": {
-    "bash": "ask",              // auto | ask | deny
-    "write": "ask",
-    "delete": "ask"
-  }
+  "model": "claude-sonnet-4-20250514",
+  "mode": "auto",                // auto | assist
+  "maxIterations": 25,
+  "temperature": 0.7,
+  "maxTokens": 4096
 }
 ```
 
-Environment variables override config:
+Environment variables:
 - `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `GOOGLE_API_KEY`
-- `OLLAMA_HOST` (default: http://localhost:11434)
+- `OLLAMA_BASE_URL` (default: http://localhost:11434)
 
 ## Architecture
 
 ```
-CLI → Session Manager → Agent (Planner + Executor)
-                        ↓
-                   Tool Registry
-                   (read, write, edit, bash, glob, grep, web)
-                        ↓
-              LLM Provider Layer
-              (OpenAI / Anthropic / Google / Ollama)
+┌─ CLI ─────────────────────────────────┐
+│  course start / run / init             │
+├─ TUI (blessed) ───────────────────────┤
+│  Home View → Session View              │
+│  Toast / Dialog / Theme system         │
+├─ Agent ───────────────────────────────┤
+│  Planner → Executor → Tool Loop        │
+├─ Tools ───────────────────────────────┤
+│  read, write, edit, glob, bash, grep   │
+├─ LLM Providers ───────────────────────┤
+│  OpenAI / Anthropic / Google / Ollama  │
+└────────────────────────────────────────┘
+```
+
+## Project Structure
+
+```
+src/
+├── index.ts              # Entry point
+├── cli/                  # CLI commands (start, run, init)
+├── agent/                # Agent orchestrator, planner, executor
+├── tools/                # File ops, shell, search tools
+├── llm/                  # Provider interface + 4 providers
+├── tui/                  # Full TUI with components/
+│   └── components/       # Toast, Dialog, Theme
+├── context/              # Token-aware context manager
+├── config/               # Schema + loader (global/project)
+├── plugins/              # Plugin lifecycle hooks
+└── utils/                # Logger, errors, helpers
 ```
 
 ## License
