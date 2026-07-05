@@ -1,6 +1,6 @@
 import { Command } from 'commander'
 import { loadConfig } from '../../config/loader.js'
-import { createProvider } from '../../llm/provider.js'
+import { createProvider } from '../../llm/factory.js'
 import { ToolRegistry } from '../../tools/registry.js'
 import { Agent } from '../../agent/index.js'
 import { startSession, stopSession } from '../ui/spinner.js'

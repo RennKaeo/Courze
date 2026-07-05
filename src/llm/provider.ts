@@ -1,8 +1,3 @@
-import { OpenAIProvider } from './openai.js'
-import { AnthropicProvider } from './anthropic.js'
-import { GoogleProvider } from './google.js'
-import { OllamaProvider } from './ollama.js'
-
 export interface Message {
   role: 'system' | 'user' | 'assistant' | 'tool'
   content: string | ContentPart[]
@@ -61,19 +56,4 @@ export abstract class LLMProvider {
   abstract chat(messages: Message[], options?: ChatOptions): Promise<ChatResponse>
   abstract chatStream(messages: Message[], options?: ChatOptions): AsyncIterable<ChatStreamChunk>
   abstract countTokens(messages: Message[]): Promise<number>
-}
-
-export function createProvider(type: string, config: { apiKey?: string; model?: string; baseUrl?: string }): LLMProvider {
-  switch (type) {
-    case 'openai':
-      return new OpenAIProvider(config)
-    case 'anthropic':
-      return new AnthropicProvider(config)
-    case 'google':
-      return new GoogleProvider(config)
-    case 'ollama':
-      return new OllamaProvider(config)
-    default:
-      throw new Error(`Unknown provider: ${type}`)
-  }
 }

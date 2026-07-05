@@ -3,7 +3,7 @@
 import { program } from './cli/index.js'
 import { loadConfig, getDefaultConfig } from './config/loader.js'
 import { ToolRegistry } from './tools/registry.js'
-import { createProvider } from './llm/provider.js'
+import { createProvider } from './llm/factory.js'
 import { Agent } from './agent/index.js'
 import { logger } from './utils/logger.js'
 
