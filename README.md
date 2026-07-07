@@ -62,26 +62,29 @@ Use OpenAI-compatible APIs, Gemini, GitHub Models, Ollama, and other backends wh
 
 ### Install
 
-Course Code requires Node.js `>=22.0.0` for npm installs and runtime. Bun is
-only needed for source builds and local development.
+**Prerequisites:** Node.js `>=22.0.0` and Bun `1.3.13` or newer.
 
 ```bash
-npm install -g @renskaeo/courze@latest
+git clone https://github.com/RennKaeo/Courze.git
+cd Courze
+bun install
+bun run build
+npm link
 ```
 
-If you're on Arch Linux, you can install Course Code from the community-maintained [AUR package](https://aur.archlinux.org/packages/course):
+After linking, `course` is available globally.
+
+If you're on Arch Linux, you can install from the community-maintained [AUR package](https://aur.archlinux.org/packages/course):
 ```bash
 paru -S course
 ```
 
 If the install later reports `ripgrep not found`, install ripgrep system-wide and confirm `rg --version` works in the same terminal before starting Course Code.
 
-**Verify / troubleshoot installed version:**
+**Verify installed version:**
 
 ```bash
 course --version
-npm view @renskaeo/courze dist-tags
-npm install -g @renskaeo/courze@latest
 ```
 
 ### Start
