@@ -18,7 +18,7 @@ import {
   createPermissionRequestMessage,
   getRuleByContentsForToolName,
 } from '../../utils/permissions/permissions.js'
-import { isCourse CodeCommitMessagePath } from '../../utils/permissions/filesystem.js'
+import { isCourseCodeCommitMessagePath } from '../../utils/permissions/filesystem.js'
 import {
   matchWildcardPattern,
   parsePermissionRule,
@@ -98,7 +98,7 @@ export function isUnsafeDotGitWritePathForPowerShell(
       toolPermissionContext.mode === 'fullAccess') &&
     // Keep this aligned with the shared filesystem permission exception:
     // /commit's temp file is scoped to the project root .git directory.
-    isCourse CodeCommitMessagePath(resolve(getOriginalCwd(), path))
+    isCourseCodeCommitMessagePath(resolve(getOriginalCwd(), path))
   ) {
     return false
   }

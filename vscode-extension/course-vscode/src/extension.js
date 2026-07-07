@@ -12,7 +12,7 @@ const {
   resolveCommandCheckPath,
 } = require('./state');
 const { buildControlCenterViewModel } = require('./presentation');
-const { ChatController, Course CodeChatViewProvider, Course CodeChatPanelManager } = require('./chat/chatProvider');
+const { ChatController, CourseCodeChatViewProvider, CourseCodeChatPanelManager } = require('./chat/chatProvider');
 const { SessionManager } = require('./chat/sessionManager');
 const { DiffContentProvider, SCHEME: DIFF_SCHEME } = require('./chat/diffController');
 
@@ -1090,7 +1090,7 @@ function renderControlCenterHtml(status, options = {}) {
 </html>`;
 }
 
-class Course CodeControlCenterProvider {
+class CourseCodeControlCenterProvider {
   constructor() {
     this.webviewView = null;
   }
@@ -1225,7 +1225,7 @@ function activate(context) {
   extensionContext = context;
 
   // ── Control Center (existing) ──
-  const provider = new Course CodeControlCenterProvider();
+  const provider = new CourseCodeControlCenterProvider();
   const refreshProvider = () => {
     void provider.refresh();
   };
@@ -1238,8 +1238,8 @@ function activate(context) {
   }
 
   const chatController = new ChatController(sessionManager);
-  const chatViewProvider = new Course CodeChatViewProvider(chatController);
-  const chatPanelManager = new Course CodeChatPanelManager(chatController);
+  const chatViewProvider = new CourseCodeChatViewProvider(chatController);
+  const chatPanelManager = new CourseCodeChatPanelManager(chatController);
 
   // ── Diff content provider ──
   const diffProvider = new DiffContentProvider();
@@ -1428,10 +1428,10 @@ function deactivate() {
 module.exports = {
   activate,
   deactivate,
-  Course CodeControlCenterProvider,
+  CourseCodeControlCenterProvider,
   renderControlCenterHtml,
   resolveLaunchTargets,
   ChatController,
-  Course CodeChatViewProvider,
-  Course CodeChatPanelManager,
+  CourseCodeChatViewProvider,
+  CourseCodeChatPanelManager,
 };

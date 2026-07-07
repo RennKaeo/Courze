@@ -13,7 +13,7 @@ const dictionaries: Record<string, I18nDictionary> = {
 }
 
 export { detectLocale }
-export { getCourse CodeCommandDescriptionKey } from './commandDescriptions.js'
+export { getCourseCodeCommandDescriptionKey } from './commandDescriptions.js'
 export type { InterpolationValues, Locale, LocalizationKey } from './types.js'
 
 export function localize(

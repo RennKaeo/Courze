@@ -465,7 +465,7 @@ class ChatController {
   }
 }
 
-class Course CodeChatViewProvider {
+class CourseCodeChatViewProvider {
   constructor(chatController) {
     this._chatController = chatController;
     this._webviewView = null;
@@ -560,7 +560,7 @@ class Course CodeChatViewProvider {
   }
 }
 
-class Course CodeChatPanelManager {
+class CourseCodeChatPanelManager {
   constructor(chatController) {
     this._chatController = chatController;
     this._panel = null;
@@ -678,6 +678,6 @@ class Course CodeChatPanelManager {
 
 module.exports = {
   ChatController,
-  Course CodeChatViewProvider,
-  Course CodeChatPanelManager,
+  CourseCodeChatViewProvider,
+  CourseCodeChatPanelManager,
 };

@@ -492,7 +492,7 @@ function pathsEqualForPermission(a: string, b: string): boolean {
     normalizeCaseForComparison(normalize(b))
 }
 
-export function isCourse CodeCommitMessagePath(absolutePath: string): boolean {
+export function isCourseCodeCommitMessagePath(absolutePath: string): boolean {
   const expectedPath = join(getOriginalCwd(), '.git', 'COURSE_COMMIT_MSG')
   const expectedForms = getPathsForPermissionCheck(expectedPath)
   const targetForms = getPathsForPermissionCheck(absolutePath)
@@ -1695,7 +1695,7 @@ export function checkEditableInternalPath(
   if (
     (toolPermissionContext?.mode === 'bypassPermissions' ||
       toolPermissionContext?.mode === 'fullAccess') &&
-    isCourse CodeCommitMessagePath(normalizedPath)
+    isCourseCodeCommitMessagePath(normalizedPath)
   ) {
     return {
       behavior: 'allow',

@@ -117,9 +117,9 @@ test('renderControlCenterHtml shows explicit disabled and empty states when work
   assert.doesNotMatch(html, /id="openProfile"/);
 });
 
-test('Course CodeControlCenterProvider.getHtml supplies a nonce to the redesigned renderer', () => {
-  const { Course CodeControlCenterProvider } = loadExtension();
-  const provider = new Course CodeControlCenterProvider();
+test('CourseCodeControlCenterProvider.getHtml supplies a nonce to the redesigned renderer', () => {
+  const { CourseCodeControlCenterProvider } = loadExtension();
+  const provider = new CourseCodeControlCenterProvider();
 
   assert.doesNotThrow(() => provider.getHtml(createStatus()));
 

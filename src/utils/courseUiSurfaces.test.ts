@@ -16,7 +16,7 @@ import {
 import { getValidationTip } from './settings/validationTips.ts'
 
 const originalConfigDir = process.env.COURSE_CONFIG_DIR
-const originalCourse CodeConfigDir = process.env.COURSE_CONFIG_DIR
+const originalCourseCodeConfigDir = process.env.COURSE_CONFIG_DIR
 
 beforeEach(async () => {
   await acquireSharedMutationLock('courseUiSurfaces.test.ts')
@@ -32,10 +32,10 @@ afterEach(() => {
     } else {
       process.env.COURSE_CONFIG_DIR = originalConfigDir
     }
-    if (originalCourse CodeConfigDir === undefined) {
+    if (originalCourseCodeConfigDir === undefined) {
       delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.COURSE_CONFIG_DIR = originalCourse CodeConfigDir
+      process.env.COURSE_CONFIG_DIR = originalCourseCodeConfigDir
     }
   } finally {
     releaseSharedMutationLock()

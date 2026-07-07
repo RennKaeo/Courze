@@ -177,7 +177,7 @@ import {
 } from './skills/loadSkillsDir.js'
 import { getBundledSkills } from './skills/bundledSkills.js'
 import {
-  getCourse CodeCommandDescriptionKey,
+  getCourseCodeCommandDescriptionKey,
   localize,
 } from './i18n/index.js'
 import { getBuiltinPluginSkillCommands } from './plugins/builtinPlugins.js'
@@ -386,10 +386,10 @@ const COMMANDS = memoize((): Command[] => [
   ...(process.env.USER_TYPE === 'ant' && !process.env.IS_DEMO
     ? INTERNAL_ONLY_COMMANDS
     : []),
-].filter(isCommand).map(withCourse CodeCommandLocalizationKey))
+].filter(isCommand).map(withCourseCodeCommandLocalizationKey))
 
-function withCourse CodeCommandLocalizationKey(cmd: Command): Command {
-  cmd.localizationKey ??= getCourse CodeCommandDescriptionKey(cmd.name)
+function withCourseCodeCommandLocalizationKey(cmd: Command): Command {
+  cmd.localizationKey ??= getCourseCodeCommandDescriptionKey(cmd.name)
   return cmd
 }
 
@@ -782,7 +782,7 @@ export function getCommand(commandName: string, commands: Command[]): Command {
  */
 export function formatDescriptionWithSource(cmd: Command): string {
   if (cmd.type !== 'prompt') {
-    return formatCourse CodeOwnedDescription(cmd)
+    return formatCourseCodeOwnedDescription(cmd)
   }
 
   const desc = cmd.description ?? ''
@@ -801,18 +801,18 @@ export function formatDescriptionWithSource(cmd: Command): string {
 
   if (cmd.source === 'builtin' || cmd.source === 'mcp') {
     return cmd.source === 'builtin'
-      ? formatCourse CodeOwnedDescription(cmd)
+      ? formatCourseCodeOwnedDescription(cmd)
       : desc
   }
 
   if (cmd.source === 'bundled') {
-    return `${formatCourse CodeOwnedDescription(cmd)} (bundled)`
+    return `${formatCourseCodeOwnedDescription(cmd)} (bundled)`
   }
 
   return `${desc} (${getSettingSourceName(cmd.source)})`
 }
 
-function formatCourse CodeOwnedDescription(cmd: Command): string {
+function formatCourseCodeOwnedDescription(cmd: Command): string {
   const desc = cmd.description ?? ''
   if (cmd.localizationKey) {
     return localize(cmd.localizationKey, desc)

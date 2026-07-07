@@ -63,7 +63,7 @@ const openClaudeCommandDescriptionKeys: Record<string, LocalizationKey> = {
   wiki: 'commands.wiki.description',
 }
 
-export function getCourse CodeCommandDescriptionKey(
+export function getCourseCodeCommandDescriptionKey(
   commandName: string,
 ): LocalizationKey | undefined {
   return openClaudeCommandDescriptionKeys[commandName]
