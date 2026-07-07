@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 
 /**
- * Course Code — Claude Code with any LLM
+ * Course Code — open source AI coding agent CLI
  *
  * If dist/cli.mjs exists (built), run that.
  * Otherwise, tell the user to build first or use `bun run dev`.
