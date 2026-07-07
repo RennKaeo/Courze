@@ -1,0 +1,5 @@
+blank_issues_enabled: true
+contact_links:
+  - name: Course Code Discussions
+    url: https://github.com/RennKaeo/Courze/discussions
+    about: Use Discussions for setup help, questions, ideas, and community conversation.

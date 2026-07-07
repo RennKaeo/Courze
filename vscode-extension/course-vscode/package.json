@@ -1,0 +1,235 @@
+{
+  "name": "course-vscode",
+  "displayName": "Course Code",
+  "description": "Practical VS Code companion for Course Code with project-aware launch, Control Center, optional Microsoft Foundry / Azure OpenAI terminal env, and chat.",
+  "version": "0.2.0",
+  "publisher": "devnull-bootloader",
+  "engines": {
+    "vscode": "^1.95.0"
+  },
+  "categories": [
+    "Themes",
+    "Other"
+  ],
+  "activationEvents": [
+    "onStartupFinished",
+    "onCommand:course.start",
+    "onCommand:course.startInWorkspaceRoot",
+    "onCommand:course.openDocs",
+    "onCommand:course.openSetupDocs",
+    "onCommand:course.openWorkspaceProfile",
+    "onCommand:course.openControlCenter",
+    "onCommand:course.newChat",
+    "onCommand:course.openChat",
+    "onCommand:course.resumeSession",
+    "onCommand:course.abortChat",
+    "onCommand:course.setAzureApiKey",
+    "onCommand:course.clearAzureApiKey",
+    "onCommand:course.configureAzureChat",
+    "onCommand:course.openAzureSettings",
+    "onView:course.controlCenter",
+    "onView:course.chat"
+  ],
+  "main": "./src/extension.js",
+  "files": [
+    "README.md",
+    "media/**",
+    "src/extension.js",
+    "src/presentation.js",
+    "src/state.js",
+    "src/chat/**",
+    "themes/**"
+  ],
+  "contributes": {
+    "commands": [
+      {
+        "command": "course.start",
+        "title": "Course Code: Launch in Terminal",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.startInWorkspaceRoot",
+        "title": "Course Code: Launch in Workspace Root",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.openDocs",
+        "title": "Course Code: Open Repository",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.openSetupDocs",
+        "title": "Course Code: Open Setup Guide",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.openWorkspaceProfile",
+        "title": "Course Code: Open Workspace Profile",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.openControlCenter",
+        "title": "Course Code: Open Control Center",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.newChat",
+        "title": "Course Code: New Chat",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.openChat",
+        "title": "Course Code: Open Chat Panel",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.resumeSession",
+        "title": "Course Code: Resume Session",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.abortChat",
+        "title": "Course Code: Abort Generation",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.setAzureApiKey",
+        "title": "Course Code: Set Azure / Foundry API Key (Secret Storage)",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.clearAzureApiKey",
+        "title": "Course Code: Clear Azure / Foundry API Key",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.configureAzureChat",
+        "title": "Course Code: Configure Azure / Foundry Chat (wizard)",
+        "category": "Course Code"
+      },
+      {
+        "command": "course.openAzureSettings",
+        "title": "Course Code: Open Azure / Foundry Settings",
+        "category": "Course Code"
+      }
+    ],
+    "viewsContainers": {
+      "activitybar": [
+        {
+          "id": "course",
+          "title": "Course Code",
+          "icon": "media/course.svg"
+        }
+      ]
+    },
+    "views": {
+      "course": [
+        {
+          "id": "course.chat",
+          "name": "Chat",
+          "type": "webview"
+        },
+        {
+          "id": "course.controlCenter",
+          "name": "Control Center",
+          "type": "webview"
+        }
+      ]
+    },
+    "keybindings": [
+      {
+        "command": "course.openChat",
+        "key": "ctrl+shift+l",
+        "mac": "cmd+shift+l"
+      }
+    ],
+    "configuration": {
+      "title": "Course Code",
+      "properties": {
+        "course.launchCommand": {
+          "type": "string",
+          "default": "course",
+          "description": "Command run in the integrated terminal when launching Course Code."
+        },
+        "course.terminalName": {
+          "type": "string",
+          "default": "Course Code",
+          "description": "Integrated terminal tab name for Course Code sessions."
+        },
+        "course.useOpenAIShim": {
+          "type": "boolean",
+          "default": false,
+          "description": "Optionally set CLAUDE_CODE_USE_OPENAI=1 in launched Course Code terminals when Azure injection is off or incomplete."
+        },
+        "course.azure.enabled": {
+          "type": "boolean",
+          "default": false,
+          "description": "When true, launch injects Microsoft Foundry / Azure OpenAI-compatible chat env (OPENAI_* + AZURE_OPENAI_API_VERSION) into the Course Code terminal."
+        },
+        "course.azure.endpoint": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Azure resource base URL for OpenAI-compatible chat (example: `https://YOUR_RESOURCE.openai.azure.com`). Do not put `api-version` here; use **Course Code: Azure API Version**."
+        },
+        "course.azure.apiVersion": {
+          "type": "string",
+          "default": "2024-12-01-preview",
+          "description": "Azure API version for chat completions (AZURE_OPENAI_API_VERSION)."
+        },
+        "course.azure.deployment": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Azure deployment name (maps to `OPENAI_MODEL` for the OpenAI shim)."
+        },
+        "course.azure.forceAzureUrlStyle": {
+          "type": "boolean",
+          "default": true,
+          "description": "Sets OPENAI_AZURE_STYLE=1 so deployment URLs and api-key header work on Foundry and non-standard Azure hosts."
+        },
+        "course.azure.apiKey": {
+          "type": "string",
+          "default": "",
+          "markdownDescription": "Optional API key in settings (not recommended). Prefer **Course Code: Set Azure / Foundry API Key**. Secret wins if both are set."
+        },
+        "course.permissionMode": {
+          "type": "string",
+          "default": "acceptEdits",
+          "enum": ["default", "acceptEdits", "bypassPermissions", "plan"],
+          "enumDescriptions": [
+            "Prompt for permission on each tool use (requires manual approval)",
+            "Auto-approve file edits, prompt for other operations (recommended)",
+            "Auto-approve all operations without prompting",
+            "Read-only mode — no file modifications allowed"
+          ],
+          "description": "Permission mode for chat sessions. Controls which tool operations are auto-approved."
+        }
+      }
+    },
+    "themes": [
+      {
+        "label": "Course Code Terminal Black",
+        "uiTheme": "vs-dark",
+        "path": "./themes/Course Code-Terminal-Black.json"
+      }
+    ]
+  },
+  "scripts": {
+    "test": "bun test src",
+    "lint": "node scripts/lint.js",
+    "package": "npx @vscode/vsce package --no-dependencies"
+  },
+  "keywords": [
+    "course",
+    "terminal",
+    "theme",
+    "cli",
+    "llm",
+    "azure",
+    "foundry"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/RennKaeo/Courze"
+  },
+  "license": "MIT"
+}
