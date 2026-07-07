@@ -62,7 +62,15 @@ Use OpenAI-compatible APIs, Gemini, GitHub Models, Ollama, and other backends wh
 
 ### Install
 
-**Prerequisites:** Node.js `>=22.0.0` and Bun `1.3.13` or newer.
+**Automatic install (recommended):**
+
+```bash
+curl -fsSL https://raw.githubusercontent.com/RennKaeo/Courze/main/install.sh | bash
+```
+
+This installs Bun if needed, clones the repo, builds, and adds `course` to your PATH.
+
+**Manual source build:**
 
 ```bash
 git clone https://github.com/RennKaeo/Courze.git
@@ -71,8 +79,6 @@ bun install
 bun run build
 npm link
 ```
-
-After linking, `course` is available globally.
 
 If you're on Arch Linux, you can install from the community-maintained [AUR package](https://aur.archlinux.org/packages/course):
 ```bash
