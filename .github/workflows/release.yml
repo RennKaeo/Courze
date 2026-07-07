@@ -4,13 +4,6 @@ on:
   push:
     branches:
       - main
-  release:
-    types: [published]
-  workflow_dispatch:
-    inputs:
-      tag_name:
-        description: 'Release tag to build assets for (e.g. v0.21.0)'
-        required: true
 
 concurrency:
   group: auto-release-${{ github.ref }}
@@ -47,13 +40,13 @@ jobs:
       id-token: write
     steps:
       - name: Checkout release tag
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.release-please.outputs.tag_name }}
           fetch-depth: 0
 
       - name: Set up Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
+        uses: actions/setup-node@v4
         with:
           node-version: 24
           registry-url: https://registry.npmjs.org
@@ -129,74 +122,6 @@ jobs:
             echo "- GitHub: https://github.com/RennKaeo/Courze/releases/tag/${{ needs.release-please.outputs.tag_name }}"
           } >> "$GITHUB_STEP_SUMMARY"
 
-  build-platforms:
-    name: Build ${{ matrix.target }}
-    needs: release-please
-    if: ${{ needs.release-please.outputs.release_created == 'true' || github.event_name == 'release' || github.event_name == 'workflow_dispatch' }}
-    runs-on: ${{ matrix.runner }}
-    strategy:
-      matrix:
-        include:
-          - target: linux-x64
-            runner: ubuntu-latest
-            arch: x64
-          - target: linux-arm64
-            runner: ubuntu-24.04-arm
-            arch: arm64
-          - target: darwin-x64
-            runner: macos-13
-            arch: x64
-          - target: darwin-arm64
-            runner: macos-latest
-            arch: arm64
-    permissions:
-      contents: write
-    steps:
-      - name: Checkout release tag
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          ref: ${{ needs.release-please.outputs.tag_name || github.event.release.tag_name || inputs.tag_name || '' }}
-
-      - name: Set up Node.js
-        uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        with:
-          node-version: 24
-
-      - name: Set up Bun
-        uses:   oven-sh/setup-bun@v2
-        with:
-          bun-version-file: .bun-version
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
-
-      - name: Build
-        run: bun run build
-
-      - name: Package tarball
-        run: |
-          PKG_NAME="course-${{ matrix.target }}"
-          mkdir -p "${PKG_NAME}"
-          cp -r dist bin package.json README.md LICENSE "${PKG_NAME}/"
-          bun install --production --frozen-lockfile --no-summary
-          cp -r node_modules "${PKG_NAME}/"
-          tar czf "${PKG_NAME}.tar.gz" "${PKG_NAME}"
-
-      - name: Upload release asset
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG: ${{ needs.release-please.outputs.tag_name || github.event.release.tag_name || inputs.tag_name }}
-        run: |
-          gh release upload "$TAG" \
-            "course-${{ matrix.target }}.tar.gz" \
-            --clobber
-
-      - name: Upload sdk tarball
-        run: |
-          tar czf "course-sdk-${{ matrix.target }}.tar.gz" \
-            dist/sdk.mjs dist/sdk.mjs.map package.json README.md LICENSE
-        continue-on-error: true
-
   docker:
     name: Build & Push Docker Image
     needs: release-please
@@ -207,7 +132,7 @@ jobs:
       packages: write
     steps:
       - name: Checkout release tag
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v4
         with:
           ref: ${{ needs.release-please.outputs.tag_name }}
 
