@@ -13,16 +13,50 @@ Open-source AI coding agent — TUI + CLI, autonomous & assistive mode, multi-pr
 
 ## Install
 
+### Via npm (recommended)
 ```bash
-# From source
+npm install -g @renskaeo/courze
+```
+
+### From source
+```bash
+# Clone repo
+git clone https://github.com/RennKaeo/Courze.git
+cd Courze
+
+# Install dependencies (including gpt-tokenizer, json5, turndown)
+npm install
+
+# Build TypeScript
+npm run build
+
+# Link globally
+npm link
+
+# Verify installation
+course --version
+```
+
+### On Termux / Android (proot-distro)
+```bash
+# Install Ubuntu in proot-distro
+pkg install proot-distro
+proot-distro install ubuntu
+proot-distro login ubuntu
+
+# Inside Ubuntu, install Node.js 20+
+curl -fsSL https://deb.nodesource.com/setup_20.x | bash
+apt install -y nodejs git
+
+# Clone and build
 git clone https://github.com/RennKaeo/Courze.git
 cd Courze
 npm install
 npm run build
 npm link
 
-# Verify installation
-course --version
+# Run
+course start
 ```
 
 ## Quick Start
