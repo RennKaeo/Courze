@@ -1,5 +1,13 @@
 # Changelog
 
+## [0.21.1](https://github.com/RennKaeo/Courze/compare/v0.21.0...v0.21.1) (2026-07-07)
+
+
+### Bug Fixes
+
+* broken function names from overly aggressive sed rename ([59e3d6d](https://github.com/RennKaeo/Courze/commit/59e3d6d4ea14d319f4876e5d37e84e8eefe65be4))
+* update setup-bun action to use v2 tag instead of commit SHA ([25bd67f](https://github.com/RennKaeo/Courze/commit/25bd67fbf324d72285e61da17cf5b68188c513e9))
+
 ## [0.21.0](https://github.com/RennKaeo/Courze/compare/v0.20.1...v0.21.0) (2026-06-30)
 
 

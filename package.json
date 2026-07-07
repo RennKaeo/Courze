@@ -1,6 +1,6 @@
 {
   "name": "@renskaeo/courze",
-  "version": "0.21.0",
+  "version": "0.21.1",
   "description": "Course Code - open source AI coding agent with TUI, multi-provider support",
   "type": "module",
   "bin": {
