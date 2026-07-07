@@ -94,6 +94,31 @@ fi
 
 echo -e "${GREEN}Installing Course Code v${requested_version}...${NC}"
 
+# ── PATH setup (defined early so both paths can call it) ─────────────────
+
+add_to_path() {
+  if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
+    echo -e "${MUTED}Adding ${INSTALL_DIR} to PATH...${NC}"
+
+    SHELL_NAME=$(basename "${SHELL:-bash}")
+    case "$SHELL_NAME" in
+      fish)
+        mkdir -p "${HOME}/.config/fish"
+        echo "fish_add_path ${INSTALL_DIR}" >> "${HOME}/.config/fish/config.fish"
+        ;;
+      zsh)
+        echo "export PATH=\"${INSTALL_DIR}:\$PATH\"" >> "${ZDOTDIR:-$HOME}/.zshrc"
+        ;;
+      bash|*)
+        echo "export PATH=\"${INSTALL_DIR}:\$PATH\"" >> "${HOME}/.bashrc"
+        ;;
+    esac
+
+    export PATH="${INSTALL_DIR}:${PATH}"
+    echo -e "${MUTED}Restart your shell or run: export PATH=\"${INSTALL_DIR}:\$PATH\"${NC}"
+  fi
+}
+
 # ── Try pre-built tarball ──────────────────────────────────────────────────
 
 if [ "$USE_SOURCE" = "false" ]; then
@@ -191,31 +216,6 @@ cp -r dist "${DATA_DIR}/dist"
 echo -e ""
 echo -e "${GREEN}✓ Course Code v${requested_version} installed to ${INSTALL_DIR}${NC}"
 echo -e ""
-
-# ── PATH setup ─────────────────────────────────────────────────────
-
-add_to_path() {
-  if [[ ":$PATH:" != *":$INSTALL_DIR:"* ]]; then
-    echo -e "${MUTED}Adding ${INSTALL_DIR} to PATH...${NC}"
-
-    SHELL_NAME=$(basename "${SHELL:-bash}")
-    case "$SHELL_NAME" in
-      fish)
-        mkdir -p "${HOME}/.config/fish"
-        echo "fish_add_path ${INSTALL_DIR}" >> "${HOME}/.config/fish/config.fish"
-        ;;
-      zsh)
-        echo "export PATH=\"${INSTALL_DIR}:\$PATH\"" >> "${ZDOTDIR:-$HOME}/.zshrc"
-        ;;
-      bash|*)
-        echo "export PATH=\"${INSTALL_DIR}:\$PATH\"" >> "${HOME}/.bashrc"
-        ;;
-    esac
-
-    export PATH="${INSTALL_DIR}:${PATH}"
-    echo -e "${MUTED}Restart your shell or run: export PATH=\"${INSTALL_DIR}:\$PATH\"${NC}"
-  fi
-}
 
 add_to_path
 
