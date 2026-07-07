@@ -32,17 +32,18 @@ function toGeminiContents(messages: Message[]): Content[] {
       continue
     }
 
-    if (isTextContent(msg.content)) {
-      if (msg.tool_calls && msg.tool_calls.length > 0) {
-        for (const tc of msg.tool_calls) {
-          parts.push({
-            functionCall: {
-              name: tc.function.name,
-              args: JSON.parse(tc.function.arguments),
-            },
-          })
-        }
+    if (msg.tool_calls && msg.tool_calls.length > 0) {
+      for (const tc of msg.tool_calls) {
+        parts.push({
+          functionCall: {
+            name: tc.function.name,
+            args: JSON.parse(tc.function.arguments),
+          },
+        })
       }
+    }
+
+    if (isTextContent(msg.content)) {
       if (msg.content) {
         parts.push({ text: msg.content })
       }
@@ -61,17 +62,6 @@ function toGeminiContents(messages: Message[]): Content[] {
       }
     }
 
-    if (msg.tool_calls && isTextContent(msg.content) && parts.length === 0) {
-      for (const tc of msg.tool_calls) {
-        parts.push({
-          functionCall: {
-            name: tc.function.name,
-            args: JSON.parse(tc.function.arguments),
-          },
-        })
-      }
-    }
-
     contents.push({ role, parts })
   }
 
@@ -86,9 +76,12 @@ function extractSystemPrompt(messages: Message[]): string | undefined {
   ).join('\n')
 }
 
+let googleToolCallCounter = 0
+
 function fromGeminiResponse(response: any, finishReason?: string): ChatResponse {
   let content = ''
   const tool_calls: ToolCall[] = []
+  const baseId = Date.now().toString(36)
 
   try {
     const candidate = response.candidates?.[0]
@@ -98,8 +91,9 @@ function fromGeminiResponse(response: any, finishReason?: string): ChatResponse 
           content += part.text
         }
         if (part.functionCall) {
+          const id = 'call_' + baseId + '_' + (googleToolCallCounter++)
           tool_calls.push({
-            id: part.functionCall.name + '_' + Date.now(),
+            id,
             type: 'function',
             function: {
               name: part.functionCall.name,
@@ -180,10 +174,7 @@ export class GoogleProvider extends LLMProvider {
 
       return fromGeminiResponse(response)
     } catch (error: any) {
-      return {
-        content: `Google API error: ${error.message || error}`,
-        finishReason: 'error',
-      }
+      throw new Error(`Google API error: ${error.message || error}`)
     }
   }
 
@@ -222,20 +213,27 @@ export class GoogleProvider extends LLMProvider {
       const lastMsg = messages[messages.length - 1]
       const prompt = isTextContent(lastMsg.content) ? lastMsg.content : lastMsg.content.filter(c => c.type === 'text').map(c => (c as { type: 'text'; text: string }).text).join('')
 
-      const result = await chat.sendMessageStream(prompt)
-      const response = await result.response
+      const streamResult = await chat.sendMessageStream(prompt)
 
+      let fullText = ''
+      for await (const chunk of streamResult.stream) {
+        const text = chunk.text()
+        if (text) {
+          fullText += text
+          yield { type: 'text', content: text }
+        }
+      }
+
+      const response = await streamResult.response
       const candidate = response.candidates?.[0]
       if (candidate?.content?.parts) {
         for (const part of candidate.content.parts) {
-          if (part.text) {
-            yield { type: 'text', content: part.text }
-          }
           if (part.functionCall) {
+            const fcId = 'call_' + Date.now().toString(36) + '_' + (googleToolCallCounter++)
             yield {
               type: 'tool_call',
               tool_call: {
-                id: part.functionCall.name + '_' + Date.now(),
+                id: fcId,
                 type: 'function',
                 function: {
                   name: part.functionCall.name,

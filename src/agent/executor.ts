@@ -3,7 +3,8 @@ import type { LLMProvider, Message, ContentPart } from '../llm/provider.js'
 import type { ToolRegistry } from '../tools/registry.js'
 import type { Message as TokenizerMessage } from '../context/tokenizer.js'
 import { ContextManager } from '../context/manager.js'
-import type { Plan, AgentResult, AgentConfig } from './types.js'
+import { PluginManager } from '../plugins/index.js'
+import type { Plan, AgentResult, AgentConfig, ExecutorCallbacks } from './types.js'
 import { type Session } from './session.js'
 
 const DEFAULT_SYSTEM_PROMPT = `You are Course Code, an AI coding agent. You help users with software engineering tasks by using available tools.
@@ -29,13 +30,35 @@ export class Executor {
   private config: AgentConfig
   private maxIterations: number
   private autoApproved: boolean
+  private callbacks?: ExecutorCallbacks
+  private pluginManager?: PluginManager
 
-  constructor(provider: LLMProvider, toolRegistry: ToolRegistry, config: AgentConfig) {
+  constructor(provider: LLMProvider, toolRegistry: ToolRegistry, config: AgentConfig, callbacks?: ExecutorCallbacks, pluginManager?: PluginManager) {
     this.provider = provider
     this.toolRegistry = toolRegistry
     this.config = config
     this.maxIterations = config.maxIterations
     this.autoApproved = false
+    this.callbacks = callbacks
+    this.pluginManager = pluginManager
+  }
+
+  private toPluginSession(session: Session): import('../plugins/hooks.js').Session {
+    return {
+      id: session.id,
+      messages: session.messages.map(m => ({
+        role: m.role,
+        content: typeof m.content === 'string' ? m.content : JSON.stringify(m.content),
+        tool_call_id: m.tool_call_id,
+        name: m.name,
+        tool_calls: m.tool_calls?.map(tc => ({
+          id: tc.id,
+          name: tc.function.name,
+          arguments: tc.function.arguments,
+        })),
+      })),
+      config: { mode: session.mode, iteration: session.iteration },
+    }
   }
 
   async execute(plan: Plan, session: Session): Promise<AgentResult> {
@@ -67,6 +90,7 @@ export class Executor {
     while (iterations < this.maxIterations) {
       iterations++
       session.iteration = iterations
+      this.callbacks?.onIteration?.(iterations, this.maxIterations)
 
       let response
       try {
@@ -87,6 +111,10 @@ export class Executor {
       }
       session.addMessage(assistantMsg)
       contextManager.addMessage(this.toTokenizerMessage(assistantMsg))
+
+      if (response.content) {
+        this.callbacks?.onAssistantMessage?.(response.content)
+      }
 
       if (!response.tool_calls || response.tool_calls.length === 0) {
         return this.createResult(true, response.content || 'Task completed', iterations, startTime, filesChanged)
@@ -125,8 +153,12 @@ export class Executor {
           continue
         }
 
+        this.callbacks?.onToolCall?.(toolName, args)
+
         if (session.mode === 'assist' && !this.autoApproved) {
-          const approved = await this.promptForApproval(toolName, args)
+          const approved = this.callbacks?.onRequestApproval
+            ? await this.callbacks.onRequestApproval(toolName, args)
+            : await this.promptForApproval(toolName, args)
           if (approved === 'reject') {
             const toolMsg: Message = {
               role: 'tool',
@@ -144,13 +176,52 @@ export class Executor {
         }
 
         try {
+          if (this.pluginManager) {
+            const hooks = this.pluginManager.getHooks()
+            const pSession = this.toPluginSession(session)
+            const modifiedTc = await hooks.beforeToolCall(
+              { id: tc.id, name: toolName, arguments: tc.function.arguments },
+              pSession,
+            )
+            if (modifiedTc === null) {
+              session.addMessage({
+                role: 'tool',
+                content: `Tool call "${toolName}" rejected by plugin`,
+                tool_call_id: tc.id,
+                name: toolName,
+              })
+              contextManager.addMessage(this.toTokenizerMessage({
+                role: 'tool',
+                content: `Tool call "${toolName}" rejected by plugin`,
+                tool_call_id: tc.id,
+                name: toolName,
+              }))
+              continue
+            }
+          }
+
           const result = await tool.handler(args)
+          this.callbacks?.onToolResult?.(toolName, result)
           const toolMsg: Message = {
             role: 'tool',
             content: result,
             tool_call_id: tc.id,
             name: toolName,
           }
+
+          if (this.pluginManager) {
+            const hooks = this.pluginManager.getHooks()
+            const pSession = this.toPluginSession(session)
+            const modified = await hooks.afterToolCall(
+              { tool_call_id: tc.id, output: result },
+              pSession,
+            )
+            toolMsg.content = modified.output
+            if (modified.error) {
+              toolMsg.content = modified.error
+            }
+          }
+
           session.addMessage(toolMsg)
           contextManager.addMessage(this.toTokenizerMessage(toolMsg))
 
@@ -176,6 +247,12 @@ export class Executor {
           }
         } catch (err) {
           const errorMsg = err instanceof Error ? err.message : String(err)
+          if (this.pluginManager) {
+            await this.pluginManager.getHooks().onError(
+              err instanceof Error ? err : new Error(errorMsg),
+              this.toPluginSession(session),
+            )
+          }
           const toolMsg: Message = {
             role: 'tool',
             content: `Error executing "${toolName}": ${errorMsg}`,

@@ -3,9 +3,10 @@ import type { ToolRegistry } from '../tools/registry.js'
 import { Planner } from './planner.js'
 import { Executor } from './executor.js'
 import { Session } from './session.js'
-import type { AgentConfig, AgentResult, Plan } from './types.js'
+import { PluginManager } from '../plugins/index.js'
+import type { AgentConfig, AgentResult, Plan, ExecutorCallbacks } from './types.js'
 
-export type { AgentConfig, AgentResult, Plan }
+export type { AgentConfig, AgentResult, Plan, ExecutorCallbacks }
 export { Session } from './session.js'
 export { Planner } from './planner.js'
 export { Executor } from './executor.js'
@@ -22,13 +23,15 @@ export class Agent {
   private planner: Planner
   private executor: Executor
   private abortSignal: AbortController
+  private callbacks?: ExecutorCallbacks
 
-  constructor(provider: LLMProvider, toolRegistry: ToolRegistry, config: AgentConfig) {
+  constructor(provider: LLMProvider, toolRegistry: ToolRegistry, config: AgentConfig, callbacks?: ExecutorCallbacks, pluginManager?: PluginManager) {
     this.provider = provider
     this.toolRegistry = toolRegistry
     this.config = config
+    this.callbacks = callbacks
     this.planner = new Planner(provider, config)
-    this.executor = new Executor(provider, toolRegistry, config)
+    this.executor = new Executor(provider, toolRegistry, config, callbacks, pluginManager)
     this.abortSignal = new AbortController()
   }
 

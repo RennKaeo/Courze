@@ -124,10 +124,7 @@ export class OllamaProvider extends LLMProvider {
       const data = await response.json()
       return this.fromOllamaResponse(data)
     } catch (error: any) {
-      return {
-        content: `Ollama error: ${error.message || error}`,
-        finishReason: 'error',
-      }
+      throw new Error(`Ollama error: ${error.message || error}`)
     }
   }
 

@@ -42,3 +42,11 @@ export interface ToolResult {
   result: string
   error?: string
 }
+
+export interface ExecutorCallbacks {
+  onToolCall?: (toolName: string, args: Record<string, unknown>) => void
+  onToolResult?: (toolName: string, result: string) => void
+  onAssistantMessage?: (content: string) => void
+  onIteration?: (iter: number, maxIter: number) => void
+  onRequestApproval?: (toolName: string, args: Record<string, unknown>) => Promise<'approve' | 'reject' | 'approve-all'>
+}

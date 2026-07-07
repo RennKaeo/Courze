@@ -1,6 +1,7 @@
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import type { Tool } from '../types.js';
+import { validatePath } from '../../utils/helpers.js';
 
 interface EditArgs {
   filePath: string;
@@ -36,7 +37,12 @@ export const editTool: Tool<EditArgs> = {
   },
 
   async handler(args: EditArgs): Promise<string> {
-    const resolvedPath = path.resolve(args.filePath);
+    let resolvedPath: string;
+    try {
+      resolvedPath = validatePath(args.filePath);
+    } catch (err) {
+      return `Error: ${err instanceof Error ? err.message : String(err)}`;
+    }
 
     let content: string;
     try {

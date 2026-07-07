@@ -28,7 +28,14 @@ export class ToolRegistry {
   }
 
   register(tool: Tool<any>): void {
+    if (this.tools.has(tool.name)) {
+      throw new Error(`Tool '${tool.name}' is already registered`);
+    }
     this.tools.set(tool.name, tool as Tool);
+  }
+
+  list(): Tool[] {
+    return Array.from(this.tools.values());
   }
 
   get(name: string): Tool | undefined {

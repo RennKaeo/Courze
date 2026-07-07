@@ -23,19 +23,24 @@
   "dependencies": {
     "@anthropic-ai/sdk": "^0.39.0",
     "@google/generative-ai": "^0.24.0",
+    "@rollup/rollup-android-arm64": "^4.62.2",
     "blessed": "^0.1.81",
     "commander": "^13.1.0",
     "conf": "^14.0.0",
     "execa": "^9.5.0",
+    "gpt-tokenizer": "^3.4.0",
+    "json5": "^2.2.3",
     "openai": "^4.86.0",
     "ora": "^8.1.0",
     "picocolors": "^1.1.0",
+    "turndown": "^7.2.4",
     "zod": "^3.24.0"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.9.0",
     "@types/blessed": "^0.1.27",
     "@types/node": "^22.0.0",
+    "@types/turndown": "^5.0.6",
     "tsx": "^4.19.0",
     "typescript": "^5.9.3",
     "vitest": "^3.0.0"

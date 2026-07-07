@@ -1,20 +1,13 @@
 import Conf from 'conf'
 import { readFile, access, writeFile } from 'node:fs/promises'
 import { join, resolve, isAbsolute } from 'node:path'
+import JSON5 from 'json5'
 import { ConfigSchema, type CourseConfig } from './schema.js'
 
 const GLOBAL_CONFIG_KEYS = ['provider', 'model', 'mode', 'temperature', 'maxTokens', 'apiKeys', 'systemPrompt'] as const
 
 function parseJSON5(text: string): Record<string, unknown> {
-  const stripped = text.replace(/\/\/.*$/gm, '').replace(/\/\*[\s\S]*?\*\//g, '')
-  try {
-    return JSON.parse(stripped)
-  } catch {
-    return JSON.parse(stripped
-      .replace(/,(\s*[}\]])/g, '$1')
-      .replace(/(['"])?([a-zA-Z_$][\w$]*)(['"])?\s*:/g, '"$2":')
-    )
-  }
+  return JSON5.parse(text)
 }
 
 async function tryReadJSON(path: string): Promise<Record<string, unknown> | null> {

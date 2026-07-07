@@ -1,6 +1,7 @@
 import { readdir, stat } from 'node:fs/promises';
 import path from 'node:path';
 import type { Tool } from '../types.js';
+import { validatePath } from '../../utils/helpers.js';
 
 interface GlobArgs {
   pattern: string;
@@ -19,14 +20,18 @@ function globToRegex(pattern: string): RegExp {
   return new RegExp(`^${regexStr}$`);
 }
 
+const DEFAULT_SKIP_DIRS = new Set(['node_modules', '.git', '.svn', '.hg', '.DS_Store'])
+
 async function recursiveFind(
   dirPath: string,
   regex: RegExp,
   basePath: string,
   maxResults: number,
+  skipDirs?: string[],
 ): Promise<string[]> {
   const results: string[] = [];
   let entries: string[];
+  const skip = skipDirs ? new Set(skipDirs) : DEFAULT_SKIP_DIRS
 
   try {
     entries = await readdir(dirPath);
@@ -36,10 +41,11 @@ async function recursiveFind(
 
   for (const entry of entries) {
     if (results.length >= maxResults) break;
+    if (skip.has(entry)) continue;
 
     const fullPath = path.join(dirPath, entry);
     const relativePath = path.relative(basePath, fullPath);
-    let entryStat: ReturnType<typeof stat> extends Promise<infer T> ? T : never;
+    let entryStat;
 
     try {
       entryStat = await stat(fullPath);
@@ -52,7 +58,7 @@ async function recursiveFind(
         results.push(fullPath);
       }
       if (results.length < maxResults) {
-        const subResults = await recursiveFind(fullPath, regex, basePath, maxResults - results.length);
+        const subResults = await recursiveFind(fullPath, regex, basePath, maxResults - results.length, skipDirs);
         results.push(...subResults);
       }
     } else if (entryStat.isFile()) {
@@ -84,7 +90,12 @@ export const globTool: Tool<GlobArgs> = {
   },
 
   async handler(args: GlobArgs): Promise<string> {
-    const rootPath = args.path ? path.resolve(args.path) : process.cwd();
+    let rootPath: string;
+    try {
+      rootPath = validatePath(args.path || process.cwd());
+    } catch (err) {
+      return `Error: ${err instanceof Error ? err.message : String(err)}`;
+    }
     const regex = globToRegex(args.pattern);
 
     let results: string[];

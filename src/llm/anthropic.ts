@@ -153,10 +153,7 @@ export class AnthropicProvider extends LLMProvider {
 
       return fromAnthropicResponse(response)
     } catch (error: any) {
-      return {
-        content: `Anthropic API error: ${error.message || error}`,
-        finishReason: 'error',
-      }
+      throw new Error(`Anthropic API error: ${error.message || error}`)
     }
   }
 

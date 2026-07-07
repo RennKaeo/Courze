@@ -1,4 +1,5 @@
 import { open } from 'node:fs/promises'
+import { resolve, relative } from 'node:path'
 
 export function sleep(ms: number): Promise<void> {
   return new Promise(resolve => setTimeout(resolve, ms))
@@ -39,6 +40,16 @@ const BINARY_EXTENSIONS = new Set([
   '.class', '.jar',
   '.DS_Store', '.gitkeep',
 ])
+
+export function validatePath(targetPath: string, allowedBase?: string): string {
+  const resolved = resolve(targetPath)
+  const base = allowedBase ? resolve(allowedBase) : process.cwd()
+  const rel = relative(base, resolved)
+  if (rel.startsWith('..') || (rel === resolved && base !== resolved)) {
+    throw new Error(`Path "${targetPath}" is outside the allowed directory "${base}"`)
+  }
+  return resolved
+}
 
 export async function isBinaryFile(filePath: string): Promise<boolean> {
   const ext = filePath.slice(filePath.lastIndexOf('.')).toLowerCase()

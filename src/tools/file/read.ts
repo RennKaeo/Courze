@@ -2,6 +2,7 @@ import { readFile, access } from 'node:fs/promises';
 import { constants } from 'node:fs';
 import path from 'node:path';
 import type { Tool } from '../types.js';
+import { validatePath } from '../../utils/helpers.js';
 
 const MAX_LINES = 2000;
 
@@ -34,7 +35,12 @@ export const readTool: Tool<ReadArgs> = {
   },
 
   async handler(args: ReadArgs): Promise<string> {
-    const resolvedPath = path.resolve(args.filePath);
+    let resolvedPath: string;
+    try {
+      resolvedPath = validatePath(args.filePath);
+    } catch (err) {
+      return `Error: ${err instanceof Error ? err.message : String(err)}`;
+    }
 
     try {
       await access(resolvedPath, constants.R_OK);

@@ -1,6 +1,7 @@
 import { writeFile, mkdir } from 'node:fs/promises';
 import path from 'node:path';
 import type { Tool } from '../types.js';
+import { validatePath } from '../../utils/helpers.js';
 
 const MAX_CONTENT_SIZE = 5 * 1024 * 1024; // 5MB
 
@@ -28,7 +29,12 @@ export const writeTool: Tool<WriteArgs> = {
   },
 
   async handler(args: WriteArgs): Promise<string> {
-    const resolvedPath = path.resolve(args.filePath);
+    let resolvedPath: string;
+    try {
+      resolvedPath = validatePath(args.filePath);
+    } catch (err) {
+      return `Error: ${err instanceof Error ? err.message : String(err)}`;
+    }
 
     if (args.content.length > MAX_CONTENT_SIZE) {
       return `Error: Content exceeds maximum size of ${MAX_CONTENT_SIZE / (1024 * 1024)}MB (${args.content.length} bytes)`;

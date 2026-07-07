@@ -1,3 +1,5 @@
+import { encode } from 'gpt-tokenizer'
+
 export interface Message {
   role: 'system' | 'user' | 'assistant' | 'tool'
   content: string
@@ -8,17 +10,7 @@ export interface Message {
 
 export function countTokens(text: string): number {
   if (!text) return 0
-  const tokens = text
-    .trim()
-    .split(/[\s,.;:!?(){}[\]"'@#$%^&*+=<>/\\|~`\-_]+/)
-    .filter(Boolean)
-  let count = tokens.length
-  for (const token of tokens) {
-    if (token.length > 4) {
-      count += Math.floor((token.length - 4) / 4)
-    }
-  }
-  return Math.max(1, count)
+  return encode(text).length
 }
 
 export function countMessageTokens(msg: Message): number {

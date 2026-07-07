@@ -120,10 +120,7 @@ export class OpenAIProvider extends LLMProvider {
 
       return fromOpenAIResponse(completion)
     } catch (error: any) {
-      return {
-        content: `OpenAI API error: ${error.message || error}`,
-        finishReason: 'error',
-      }
+      throw new Error(`OpenAI API error: ${error.message || error}`)
     }
   }
 
