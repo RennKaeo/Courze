@@ -54,7 +54,7 @@ function setupConsumerProject(name: string): string {
   )
 
   // Simulate node_modules/@renskaeo/courze structure
-  const pkgDir = join(tmpDir, 'node_modules', '@gitlawb', 'course')
+  const pkgDir = join(tmpDir, 'node_modules', '@renskaeo', 'course')
   mkdirSync(pkgDir, { recursive: true })
   mkdirSync(join(pkgDir, 'src', 'entrypoints', 'sdk'), { recursive: true })
   mkdirSync(join(pkgDir, 'dist'), { recursive: true })

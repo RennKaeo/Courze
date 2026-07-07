@@ -24,14 +24,14 @@ import {
 // Works under Bun (native fetch respects keepalive:false for pooling).
 // Under Node/undici, keepalive is a no-op for pooling, but undici
 // naturally evicts dead sockets from the pool on ECONNRESET.
-let keepAliveDisabled = isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_KEEPALIVE)
+let keepAliveDisabled = isEnvTruthy(process.env.COURSE_CODE_DISABLE_KEEPALIVE)
 
 export function disableKeepAlive(): void {
   keepAliveDisabled = true
 }
 
 export function _resetKeepAliveForTesting(): void {
-  keepAliveDisabled = isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_KEEPALIVE)
+  keepAliveDisabled = isEnvTruthy(process.env.COURSE_CODE_DISABLE_KEEPALIVE)
 }
 
 /**
@@ -150,7 +150,7 @@ function createHttpsProxyAgent(
     ...(caCerts && { ca: caCerts }),
   }
 
-  if (isEnvTruthy(process.env.CLAUDE_CODE_PROXY_RESOLVES_HOSTS)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_PROXY_RESOLVES_HOSTS)) {
     // Skip local DNS resolution - let the proxy resolve hostnames
     // This is needed for environments where DNS is not configured locally
     // and instead handled by the proxy (as in sandboxes)

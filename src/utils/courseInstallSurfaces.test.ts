@@ -148,7 +148,7 @@ test('native installer uses course launcher for Course Code package', async () =
 
 test('native installer preserves claude launcher for Anthropic package', async () => {
   ;(globalThis as Record<string, unknown>).MACRO = {
-    PACKAGE_URL: '@anthropic-ai/claude-code',
+    PACKAGE_URL: '@anthropic-ai/course-code',
   }
 
   const { getExecutableName } = await importFreshInstaller()
@@ -253,7 +253,7 @@ test('cleanupNpmInstallations removes both course and legacy claude local instal
   ;(globalThis as Record<string, unknown>).MACRO = {
     PACKAGE_URL: '@renskaeo/courze',
   }
-  process.env.CLAUDE_CONFIG_DIR = join(homedir(), '.course')
+  process.env.COURSE_CONFIG_DIR = join(homedir(), '.course')
 
   mock.module('fs/promises', () => ({
     ...fsPromises,
@@ -287,7 +287,7 @@ test('cleanupNpmInstallations manual fallback removes course npm shim', async ()
   }
   process.env.HOME = testHome
   process.env.USERPROFILE = testHome
-  process.env.CLAUDE_CONFIG_DIR = join(testHome, '.course')
+  process.env.COURSE_CONFIG_DIR = join(testHome, '.course')
   fakeNpmPrefix = npmPrefix
   simulateNpmUninstallEnotempty = true
 

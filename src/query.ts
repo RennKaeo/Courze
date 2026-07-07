@@ -705,7 +705,7 @@ async function* queryLoop(
       querySource !== 'compact' && querySource !== 'session_memory'
     if (canForceCompact) {
       const configSetting = maxMessagesCompactionThreshold
-      const envSetting = process.env.OPENCLAUDE_MAX_ACTIVE_MESSAGES
+      const envSetting = process.env.COURSE_MAX_ACTIVE_MESSAGES
       const maxActiveMessages = configSetting !== 'off'
         ? Number.parseInt(configSetting, 10)
         : envSetting
@@ -1639,7 +1639,7 @@ async function* queryLoop(
         if (
           capEnabled &&
           effectiveMaxOutputTokensOverride === undefined &&
-          !process.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS
+          !process.env.COURSE_CODE_MAX_OUTPUT_TOKENS
         ) {
           logEvent('tengu_max_tokens_escalate', {
             escalatedTo: ESCALATED_MAX_TOKENS,

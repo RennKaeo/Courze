@@ -84,7 +84,7 @@ describe('onboarding auth precedence cleanup', () => {
 
   test('clears preexisting OpenAI auth when switching to GitHub', () => {
     const env: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_MODEL: 'gpt-4o',
       OPENAI_API_KEYS: 'sk-stale-pool-a,sk-stale-pool-b',
       OPENAI_API_KEY: 'sk-stale-openai-key',
@@ -101,7 +101,7 @@ describe('onboarding auth precedence cleanup', () => {
 
     applyGithubOnboardingProcessEnv('github:copilot', undefined, env)
 
-    expect(env.CLAUDE_CODE_USE_GITHUB).toBe('1')
+    expect(env.COURSE_CODE_USE_GITHUB).toBe('1')
     expect(env.OPENAI_MODEL).toBe('github:copilot')
 
     expect(env.OPENAI_API_KEYS).toBeUndefined()
@@ -114,12 +114,12 @@ describe('onboarding auth precedence cleanup', () => {
     expect(env.GITHUB_COPILOT_KEY).toBeUndefined()
     expect(env.GITHUB_ENTERPRISE_URL).toBeUndefined()
 
-    expect(env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+    expect(env.COURSE_CODE_USE_OPENAI).toBeUndefined()
     expect(env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED).toBeUndefined()
     expect(env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID).toBeUndefined()
 
     const settingsEnv = buildGithubOnboardingSettingsEnv('github:copilot')
-    expect(settingsEnv.CLAUDE_CODE_USE_GITHUB).toBe('1')
+    expect(settingsEnv.COURSE_CODE_USE_GITHUB).toBe('1')
     expect(settingsEnv.OPENAI_MODEL).toBe('github:copilot')
     expect(settingsEnv.OPENAI_API_KEYS).toBeUndefined()
     expect(settingsEnv.OPENAI_API_KEY).toBeUndefined()
@@ -131,7 +131,7 @@ describe('onboarding auth precedence cleanup', () => {
 
   test('persists Enterprise URL when switching to GitHub Enterprise', () => {
     const env: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       GITHUB_ENTERPRISE_URL: 'https://github.old.example.com',
     }
 
@@ -141,7 +141,7 @@ describe('onboarding auth precedence cleanup', () => {
       env,
     )
 
-    expect(env.CLAUDE_CODE_USE_GITHUB).toBe('1')
+    expect(env.COURSE_CODE_USE_GITHUB).toBe('1')
     expect(env.GITHUB_ENTERPRISE_URL).toBe('https://github.mycompany.com')
 
     const settingsEnv = buildGithubOnboardingSettingsEnv(

@@ -392,7 +392,7 @@ export function mergeHookInstructions(
 /**
  * Whether the active provider can share the main conversation's prompt cache
  * during compaction. True for Anthropic-capable providers (firstParty/Bedrock/
- * Vertex/Foundry) AND GitHub Native Anthropic mode (CLAUDE_CODE_USE_GITHUB=1
+ * Vertex/Foundry) AND GitHub Native Anthropic mode (COURSE_CODE_USE_GITHUB=1
  * with a Claude model): the latter routes through the native Anthropic client
  * where cache_control / prompt caching works. Mirrors the beta-header gate in
  * betas.ts so compaction cache-sharing and request shaping stay aligned —

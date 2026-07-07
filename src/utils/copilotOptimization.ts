@@ -10,7 +10,7 @@ import { getAPIProvider } from './model/providers.js'
  * (one per agent per turn), rapidly depleting the quota.
  *
  * This module provides opt-out optimizations to reduce Premium Request usage.
- * In GitHub Copilot mode (CLAUDE_CODE_USE_GITHUB=1), optimization is enabled by
+ * In GitHub Copilot mode (COURSE_CODE_USE_GITHUB=1), optimization is enabled by
  * default with a max sub-agent concurrency of 1. To customize behavior:
  *
  *   GITHUB_COPILOT_MAX_SUBAGENTS=N       Max concurrent sub-agents (default: 1).

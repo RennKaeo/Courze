@@ -54,7 +54,7 @@ export type RouteReadinessResult =
 function shouldSkipNonessentialDiscoveryTraffic(): boolean {
   return (
     isEssentialTrafficOnly() ||
-    Boolean(process.env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC)
+    Boolean(process.env.COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC)
   )
 }
 

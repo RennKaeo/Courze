@@ -41,11 +41,11 @@ type UpdateState =
 function packageManagerHint(manager: PackageManager): string | null {
   switch (manager) {
     case 'homebrew':
-      return 'brew upgrade claude-code'
+      return 'brew upgrade course-code'
     case 'winget':
       return 'winget upgrade Anthropic.ClaudeCode'
     case 'apk':
-      return 'apk upgrade claude-code'
+      return 'apk upgrade course-code'
     default:
       return null
   }

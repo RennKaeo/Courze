@@ -47,10 +47,10 @@ describe('Course Code commit message temp file permissions', () => {
     await rm(projectDir, { recursive: true, force: true })
   })
 
-  test('allows the project-local OPENCLAUDE_COMMIT_MSG file without a safety prompt', () => {
+  test('allows the project-local COURSE_COMMIT_MSG file without a safety prompt', () => {
     const result = checkWritePermissionForTool(
       writeTool,
-      { file_path: join(projectDir, '.git', 'OPENCLAUDE_COMMIT_MSG') },
+      { file_path: join(projectDir, '.git', 'COURSE_COMMIT_MSG') },
       permissionContext('bypassPermissions'),
     )
 
@@ -61,10 +61,10 @@ describe('Course Code commit message temp file permissions', () => {
     })
   })
 
-  test('allows the project-local OPENCLAUDE_COMMIT_MSG file in fullAccess mode', () => {
+  test('allows the project-local COURSE_COMMIT_MSG file in fullAccess mode', () => {
     const result = checkWritePermissionForTool(
       writeTool,
-      { file_path: join(projectDir, '.git', 'OPENCLAUDE_COMMIT_MSG') },
+      { file_path: join(projectDir, '.git', 'COURSE_COMMIT_MSG') },
       permissionContext('fullAccess'),
     )
 
@@ -78,7 +78,7 @@ describe('Course Code commit message temp file permissions', () => {
   test('still prompts for the commit message file in default mode', () => {
     const result = checkWritePermissionForTool(
       writeTool,
-      { file_path: join(projectDir, '.git', 'OPENCLAUDE_COMMIT_MSG') },
+      { file_path: join(projectDir, '.git', 'COURSE_COMMIT_MSG') },
       permissionContext('default'),
     )
 
@@ -101,7 +101,7 @@ describe('Course Code commit message temp file permissions', () => {
     const otherDir = join(projectDir, 'other')
     const result = checkWritePermissionForTool(
       writeTool,
-      { file_path: join(otherDir, '.git', 'OPENCLAUDE_COMMIT_MSG') },
+      { file_path: join(otherDir, '.git', 'COURSE_COMMIT_MSG') },
       permissionContext('bypassPermissions'),
     )
 

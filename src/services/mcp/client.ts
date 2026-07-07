@@ -984,7 +984,7 @@ export const connectToServer = memoize(
         const { command: finalCommand, args: finalArgs } = buildMcpStdioCommand(
           serverRef.command,
           serverRef.args ?? [],
-          process.env.CLAUDE_CODE_SHELL_PREFIX,
+          process.env.COURSE_CODE_SHELL_PREFIX,
         )
         transport = new StdioClientTransport({
           command: finalCommand,
@@ -1023,9 +1023,9 @@ export const connectToServer = memoize(
 
       const client = new Client(
         {
-          // name stays 'claude-code' for compatibility with MCP servers that
+          // name stays 'course-code' for compatibility with MCP servers that
           // gate features on the upstream client identifier.
-          name: 'claude-code',
+          name: 'course-code',
           title: 'Course Code',
           version: MACRO.VERSION ?? 'unknown',
           description: 'Course Code — coding-agent CLI for any LLM provider',
@@ -3334,7 +3334,7 @@ function extractToolUseId(message: AssistantMessage): string | undefined {
 
 /**
  * Build the command and args for a stdio MCP transport, applying the
- * CLAUDE_CODE_SHELL_PREFIX split into separate argv entries. This
+ * COURSE_CODE_SHELL_PREFIX split into separate argv entries. This
  * ensures the MCP SDK receives a proper command + args[] instead of
  * a shell-joined string, preventing shell metacharacter injection
  * from serverRef.args.
@@ -3420,9 +3420,9 @@ export async function setupSdkMcpClients(
 
       const client = new Client(
         {
-          // name stays 'claude-code' for compatibility with MCP servers that
+          // name stays 'course-code' for compatibility with MCP servers that
           // gate features on the upstream client identifier.
-          name: 'claude-code',
+          name: 'course-code',
           title: 'Course Code',
           version: MACRO.VERSION ?? 'unknown',
           description: 'Course Code — coding-agent CLI for any LLM provider',

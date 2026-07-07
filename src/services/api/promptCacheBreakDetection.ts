@@ -65,7 +65,7 @@ type PreviousState = {
   /** Resolved effort (env → options → model default). Goes into output_config
    *  or anthropic_internal.effort_override. */
   effortValue: string
-  /** Hash of getExtraBodyParams() — catches CLAUDE_CODE_EXTRA_BODY and
+  /** Hash of getExtraBodyParams() — catches COURSE_CODE_EXTRA_BODY and
    *  anthropic_internal changes. */
   extraBodyHash: number
   callCount: number
@@ -423,7 +423,7 @@ function resolvePromptCacheBreakAPIProvider(
   activeRouteId: string | null,
   model: string,
 ): APIProvider {
-  if (isCacheBreakEnvTruthy(env.CLAUDE_CODE_USE_FOUNDRY)) {
+  if (isCacheBreakEnvTruthy(env.COURSE_CODE_USE_FOUNDRY)) {
     return 'foundry'
   }
 
@@ -466,7 +466,7 @@ function isGithubNativeAnthropicModeForCacheBreak(
   env: NodeJS.ProcessEnv,
   model: string,
 ): boolean {
-  if (!isCacheBreakEnvTruthy(env.CLAUDE_CODE_USE_GITHUB)) return false
+  if (!isCacheBreakEnvTruthy(env.COURSE_CODE_USE_GITHUB)) return false
   const resolvedModel = model.trim() || env.OPENAI_MODEL?.trim() || ''
   return resolvedModel.toLowerCase().includes('claude-')
 }

@@ -49,7 +49,7 @@ test('resolveCacheProbeRequestApiKey prefers GitHub credentials in GitHub mode',
   expect(
     resolveCacheProbeRequestApiKey(
       {
-        CLAUDE_CODE_USE_GITHUB: '1',
+        COURSE_CODE_USE_GITHUB: '1',
         OPENAI_API_KEYS: 'openai-key-a,openai-key-b',
         GITHUB_TOKEN: 'github-token',
       } as NodeJS.ProcessEnv,
@@ -65,7 +65,7 @@ test('cache-probe no-key guidance mentions pooled OpenAI credentials', async () 
     for (const key of Object.keys(process.env)) {
       delete process.env[key]
     }
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
     process.env.OPENAI_MODEL = 'gpt-5.5'
 

@@ -11,7 +11,7 @@ import {
 } from './providerValidation.js'
 
 const ENV_KEYS = [
-  'CLAUDE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_OPENAI',
   'OPENAI_API_KEYS',
   'OPENAI_API_KEY',
   'OPENAI_BASE_URL',
@@ -21,14 +21,14 @@ const ENV_KEYS = [
   'CODEX_HOME',
   'CHATGPT_ACCOUNT_ID',
   'CODEX_ACCOUNT_ID',
-  'CLAUDE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_GITHUB',
   'GITHUB_COPILOT_KEY',
   'GITHUB_ENTERPRISE_URL',
   'GITHUB_TOKEN',
   'GH_TOKEN',
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_MISTRAL',
-  'CLAUDE_CODE_SIMPLE',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_MISTRAL',
+  'COURSE_CODE_SIMPLE',
   'MISTRAL_API_KEY',
   'MINIMAX_API_KEY',
   'NVIDIA_API_KEY',
@@ -78,7 +78,7 @@ afterEach(() => {
 })
 
 test('accepts GEMINI_ACCESS_TOKEN as valid Gemini auth', async () => {
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.GEMINI_AUTH_MODE = 'access-token'
   delete process.env.GEMINI_API_KEY
   delete process.env.GOOGLE_API_KEY
@@ -88,7 +88,7 @@ test('accepts GEMINI_ACCESS_TOKEN as valid Gemini auth', async () => {
 })
 
 test('accepts ADC credentials for Gemini auth', async () => {
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.GEMINI_AUTH_MODE = 'adc'
   delete process.env.GEMINI_API_KEY
   delete process.env.GOOGLE_API_KEY
@@ -106,7 +106,7 @@ test('accepts ADC credentials for Gemini auth', async () => {
 })
 
 test('still errors when no Gemini credential source is available', async () => {
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.GEMINI_AUTH_MODE = 'access-token'
   delete process.env.GEMINI_API_KEY
   delete process.env.GOOGLE_API_KEY
@@ -114,16 +114,16 @@ test('still errors when no Gemini credential source is available', async () => {
   delete process.env.GOOGLE_APPLICATION_CREDENTIALS
 
   await expect(getProviderValidationError(process.env)).resolves.toBe(
-    'GEMINI_API_KEY, GOOGLE_API_KEY, GEMINI_ACCESS_TOKEN, or Google ADC credentials are required when CLAUDE_CODE_USE_GEMINI=1.',
+    'GEMINI_API_KEY, GOOGLE_API_KEY, GEMINI_ACCESS_TOKEN, or Google ADC credentials are required when COURSE_CODE_USE_GEMINI=1.',
   )
 })
 
 test('openai missing key error includes recovery guidance and config locations', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENAI_MODEL
-  delete process.env.CLAUDE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_GITHUB
   delete process.env.CODEX_API_KEY
   delete process.env.CHATGPT_ACCOUNT_ID
   delete process.env.CODEX_ACCOUNT_ID
@@ -131,18 +131,18 @@ test('openai missing key error includes recovery guidance and config locations',
   const message = await getProviderValidationError(process.env)
   expect(message).not.toBeNull()
   expect(message!).toContain(
-    'OPENAI_API_KEYS or OPENAI_API_KEY is required when CLAUDE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
+    'OPENAI_API_KEYS or OPENAI_API_KEY is required when COURSE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
   )
   expect(message!).toContain(
-    'set CLAUDE_CODE_USE_OPENAI=0 in your shell environment',
+    'set COURSE_CODE_USE_OPENAI=0 in your shell environment',
   )
   expect(message!).toContain('Saved startup settings can come from')
 })
 
 test('codex auth error redacts descriptor-declared provider secret values used as model text', async () => {
   const providerSecret = 'ogw-provider-secret'
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   process.env.CODEX_AUTH_JSON_PATH = `/tmp/course-provider-validation-missing-auth-${process.pid}.json`
   process.env.OPENAI_BASE_URL = 'https://chatgpt.com/backend-api/codex'
   process.env.OPENAI_MODEL = providerSecret
@@ -158,27 +158,27 @@ test('codex auth error redacts descriptor-declared provider secret values used a
 })
 
 test('mistral validation is descriptor-backed and requires MISTRAL_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_MISTRAL = '1'
+  process.env.COURSE_CODE_USE_MISTRAL = '1'
   delete process.env.MISTRAL_API_KEY
 
   await expect(getProviderValidationError(process.env)).resolves.toBe(
-    'MISTRAL_API_KEY is required when CLAUDE_CODE_USE_MISTRAL=1.',
+    'MISTRAL_API_KEY is required when COURSE_CODE_USE_MISTRAL=1.',
   )
 })
 
 test('mistral validation still wins when stale openai mode is also set', async () => {
-  process.env.CLAUDE_CODE_USE_MISTRAL = '1'
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_MISTRAL = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   delete process.env.MISTRAL_API_KEY
   delete process.env.OPENAI_API_KEY
 
   await expect(getProviderValidationError(process.env)).resolves.toBe(
-    'MISTRAL_API_KEY is required when CLAUDE_CODE_USE_MISTRAL=1.',
+    'MISTRAL_API_KEY is required when COURSE_CODE_USE_MISTRAL=1.',
   )
 })
 
 test('minimax validation accepts MINIMAX_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.minimax.io/v1'
   process.env.MINIMAX_API_KEY = 'minimax-live-key'
   delete process.env.OPENAI_API_KEY
@@ -187,7 +187,7 @@ test('minimax validation accepts MINIMAX_API_KEY without OPENAI_API_KEY', async 
 })
 
 test('minimax validation accepts MINIMAX_API_KEY on minimax chat host alias', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.minimax.chat/v1'
   process.env.MINIMAX_API_KEY = 'minimax-live-key'
   delete process.env.OPENAI_API_KEY
@@ -196,7 +196,7 @@ test('minimax validation accepts MINIMAX_API_KEY on minimax chat host alias', as
 })
 
 test('nvidia nim validation accepts NVIDIA_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://integrate.api.nvidia.com/v1'
   process.env.NVIDIA_API_KEY = 'nvidia-live-key'
   delete process.env.OPENAI_API_KEY
@@ -205,7 +205,7 @@ test('nvidia nim validation accepts NVIDIA_API_KEY without OPENAI_API_KEY', asyn
 })
 
 test('nvidia nim validation accepts NVIDIA_API_KEY for custom NIM endpoints when NVIDIA_NIM is set', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.NVIDIA_NIM = '1'
   process.env.OPENAI_BASE_URL = 'https://nim.example.com/v1'
   process.env.NVIDIA_API_KEY = 'nvidia-live-key'
@@ -215,7 +215,7 @@ test('nvidia nim validation accepts NVIDIA_API_KEY for custom NIM endpoints when
 })
 
 test('bankr validation accepts BNKR_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://llm.bankr.bot/v1'
   process.env.BNKR_API_KEY = 'bankr-live-key'
   delete process.env.OPENAI_API_KEY
@@ -228,7 +228,7 @@ test('bankr validation accepts BNKR_API_KEY without OPENAI_API_KEY', async () =>
 // XAI_CREDENTIAL_SOURCE=oauth in process.env, so validation must not
 // require XAI_API_KEY when that marker is present.
 test('xai validation accepts XAI_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.x.ai/v1'
   process.env.OPENAI_MODEL = 'grok-4.3'
   process.env.XAI_API_KEY = 'xai-live-key'
@@ -238,7 +238,7 @@ test('xai validation accepts XAI_API_KEY without OPENAI_API_KEY', async () => {
 })
 
 test('xai validation accepts XAI_CREDENTIAL_SOURCE=oauth without an API key', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.x.ai/v1'
   process.env.OPENAI_MODEL = 'grok-4.3'
   process.env.XAI_CREDENTIAL_SOURCE = 'oauth'
@@ -249,7 +249,7 @@ test('xai validation accepts XAI_CREDENTIAL_SOURCE=oauth without an API key', as
 })
 
 test('xai validation surfaces sign-in guidance when no credential source is set', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.x.ai/v1'
   process.env.OPENAI_MODEL = 'grok-4.3'
   delete process.env.XAI_API_KEY
@@ -267,7 +267,7 @@ test('xai validation surfaces sign-in guidance when no credential source is set'
 })
 
 test('xai validation accepts stored OAuth credentials even without an env marker', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.x.ai/v1'
   process.env.OPENAI_MODEL = 'grok-4.3'
   delete process.env.XAI_API_KEY
@@ -282,7 +282,7 @@ test('xai validation accepts stored OAuth credentials even without an env marker
 })
 
 test('xai validation ignores unrelated XAI_CREDENTIAL_SOURCE values', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.x.ai/v1'
   process.env.OPENAI_MODEL = 'grok-4.3'
   process.env.XAI_CREDENTIAL_SOURCE = 'something-else'
@@ -296,7 +296,7 @@ test('xai validation ignores unrelated XAI_CREDENTIAL_SOURCE values', async () =
 })
 
 test('openai validation does not accept unrelated minimax credentials', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.MINIMAX_API_KEY = 'minimax-live-key'
   delete process.env.OPENAI_API_KEY
@@ -304,12 +304,12 @@ test('openai validation does not accept unrelated minimax credentials', async ()
   const error = await getProviderValidationError(process.env)
   expect(error).not.toBeNull()
   expect(error!).toContain(
-    'OPENAI_API_KEYS or OPENAI_API_KEY is required when CLAUDE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
+    'OPENAI_API_KEYS or OPENAI_API_KEY is required when COURSE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
   )
 })
 
 test('openai validation accepts OPENAI_API_KEYS without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_API_KEYS = 'sk-openai-a,sk-openai-b'
   delete process.env.OPENAI_API_KEY
@@ -318,7 +318,7 @@ test('openai validation accepts OPENAI_API_KEYS without OPENAI_API_KEY', async (
 })
 
 test('openai validation accepts valid OPENAI_API_KEYS before placeholder OPENAI_API_KEY fallback', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_API_KEYS = 'sk-openai-a,sk-openai-b'
   process.env.OPENAI_API_KEY = 'SUA_CHAVE'
@@ -327,7 +327,7 @@ test('openai validation accepts valid OPENAI_API_KEYS before placeholder OPENAI_
 })
 
 test('openai validation rejects placeholder values in OPENAI_API_KEYS', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_API_KEYS = 'sk-openai-a,SUA_CHAVE'
   delete process.env.OPENAI_API_KEY
@@ -339,7 +339,7 @@ test('openai validation rejects placeholder values in OPENAI_API_KEYS', async ()
 })
 
 test('openai validation rejects delimiter-only OPENAI_API_KEYS', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_API_KEYS = ', ,'
   delete process.env.OPENAI_API_KEY
@@ -347,12 +347,12 @@ test('openai validation rejects delimiter-only OPENAI_API_KEYS', async () => {
   const error = await getProviderValidationError(process.env)
   expect(error).not.toBeNull()
   expect(error!).toContain(
-    'OPENAI_API_KEYS or OPENAI_API_KEY is required when CLAUDE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
+    'OPENAI_API_KEYS or OPENAI_API_KEY is required when COURSE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
   )
 })
 
 test('openai validation accepts OPENAI_API_KEY when OPENAI_API_KEYS is delimiter-only', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_API_KEYS = ', ,'
   process.env.OPENAI_API_KEY = 'sk-openai-single'
@@ -361,7 +361,7 @@ test('openai validation accepts OPENAI_API_KEY when OPENAI_API_KEYS is delimiter
 })
 
 test('openrouter validation accepts OPENROUTER_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'
   process.env.OPENROUTER_API_KEY = 'or-live-key'
   delete process.env.OPENAI_API_KEY
@@ -370,7 +370,7 @@ test('openrouter validation accepts OPENROUTER_API_KEY without OPENAI_API_KEY', 
 })
 
 test('deepseek validation accepts DEEPSEEK_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.deepseek.com/v1'
   process.env.DEEPSEEK_API_KEY = 'deepseek-live-key'
   delete process.env.OPENAI_API_KEY
@@ -379,7 +379,7 @@ test('deepseek validation accepts DEEPSEEK_API_KEY without OPENAI_API_KEY', asyn
 })
 
 test('moonshot validation accepts MOONSHOT_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.moonshot.ai/v1'
   process.env.MOONSHOT_API_KEY = 'moonshot-live-key'
   delete process.env.OPENAI_API_KEY
@@ -388,7 +388,7 @@ test('moonshot validation accepts MOONSHOT_API_KEY without OPENAI_API_KEY', asyn
 })
 
 test('xiaomi mimo validation accepts MIMO_API_KEY without OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.xiaomimimo.com/v1'
   process.env.MIMO_API_KEY = 'mimo-live-key'
   delete process.env.OPENAI_API_KEY
@@ -397,7 +397,7 @@ test('xiaomi mimo validation accepts MIMO_API_KEY without OPENAI_API_KEY', async
 })
 
 test('nearai validation accepts NEARAI_API_KEY for cloud-api base URL', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://cloud-api.near.ai/v1'
   process.env.NEARAI_API_KEY = 'nearai-live-key'
   delete process.env.OPENAI_API_KEY
@@ -406,7 +406,7 @@ test('nearai validation accepts NEARAI_API_KEY for cloud-api base URL', async ()
 })
 
 test('nearai validation accepts NEARAI_API_KEY for wildcard TEE completions endpoint', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://qwen35-122b.completions.near.ai/v1'
   process.env.NEARAI_API_KEY = 'nearai-tee-key'
   delete process.env.OPENAI_API_KEY
@@ -415,8 +415,8 @@ test('nearai validation accepts NEARAI_API_KEY for wildcard TEE completions endp
 })
 
 test('opengateway validation fails without OPENGATEWAY_API_KEY or OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENGATEWAY_API_KEY
 
@@ -426,8 +426,8 @@ test('opengateway validation fails without OPENGATEWAY_API_KEY or OPENAI_API_KEY
 })
 
 test('opengateway validation passes when OPENGATEWAY_API_KEY is set', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
   process.env.OPENGATEWAY_API_KEY = 'ogw_live_test_0000000000000000'
   delete process.env.OPENAI_API_KEY
 
@@ -435,8 +435,8 @@ test('opengateway validation passes when OPENGATEWAY_API_KEY is set', async () =
 })
 
 test('opengateway validation accepts OPENAI_API_KEY as fallback', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
   process.env.OPENAI_API_KEY = 'ogw_live_test_0000000000000000'
   delete process.env.OPENGATEWAY_API_KEY
 
@@ -444,14 +444,14 @@ test('opengateway validation accepts OPENAI_API_KEY as fallback', async () => {
 })
 
 test.each([
-  ['opengateway', 'https://opengateway.gitlawb.com/v1', 'mimo-v2.5-pro'],
+  ['opengateway', 'https://opengateway.courze.ai/v1', 'mimo-v2.5-pro'],
   ['hicap', 'https://api.hicap.ai/v1', 'claude-opus-4.8'],
   ['venice', 'https://api.venice.ai/api/v1', 'venice-uncensored'],
   ['xiaomi mimo', 'https://api.xiaomimimo.com/v1', 'mimo-v2.5-pro'],
   ['opencode', 'https://opencode.ai/zen/v1', 'gpt-5.4'],
   ['opencode go', 'https://opencode.ai/zen/go/v1', 'glm-5.1'],
 ])('%s validation accepts OPENAI_API_KEYS fallback', async (_name, baseUrl, model) => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = baseUrl
   process.env.OPENAI_MODEL = model
   process.env.OPENAI_API_KEYS = 'key-a,key-b'
@@ -466,8 +466,8 @@ test.each([
 })
 
 test('opengateway validation still requires a key on the model-specific path', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1/xiaomi-mimo'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1/xiaomi-mimo'
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENGATEWAY_API_KEY
 
@@ -477,8 +477,8 @@ test('opengateway validation still requires a key on the model-specific path', a
 })
 
 test('github validation stays descriptor-selected and reports missing auth', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
-  delete process.env.CLAUDE_CODE_USE_OPENAI
+  process.env.COURSE_CODE_USE_GITHUB = '1'
+  delete process.env.COURSE_CODE_USE_OPENAI
   delete process.env.GITHUB_ENTERPRISE_URL
   delete process.env.OPENAI_BASE_URL
   delete process.env.GITHUB_TOKEN
@@ -492,9 +492,9 @@ test('github validation stays descriptor-selected and reports missing auth', asy
 })
 
 test('github enterprise validation reports Enterprise auth guidance when Enterprise URL is set', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.GITHUB_ENTERPRISE_URL = 'https://github.mycompany.com'
-  delete process.env.CLAUDE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_OPENAI
   delete process.env.GITHUB_COPILOT_KEY
   delete process.env.GITHUB_TOKEN
   delete process.env.GH_TOKEN
@@ -507,10 +507,10 @@ test('github enterprise validation reports Enterprise auth guidance when Enterpr
 })
 
 test('github enterprise validation accepts PAT when Enterprise URL is set without OPENAI_BASE_URL', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.GITHUB_ENTERPRISE_URL = 'https://github.mycompany.com'
   process.env.GITHUB_TOKEN = 'ghp_enterprisepat'
-  delete process.env.CLAUDE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_OPENAI
   delete process.env.OPENAI_BASE_URL
   delete process.env.GH_TOKEN
 
@@ -518,10 +518,10 @@ test('github enterprise validation accepts PAT when Enterprise URL is set withou
 })
 
 test('github enterprise validation accepts a direct Copilot key without token validation', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.GITHUB_ENTERPRISE_URL = 'https://github.mycompany.com'
   process.env.GITHUB_COPILOT_KEY = 'enterprise-direct-key'
-  delete process.env.CLAUDE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_OPENAI
   delete process.env.GITHUB_TOKEN
   delete process.env.GH_TOKEN
 
@@ -529,8 +529,8 @@ test('github enterprise validation accepts a direct Copilot key without token va
 })
 
 test('github validation is skipped when openai mode is also active', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   delete process.env.GITHUB_TOKEN
   delete process.env.GH_TOKEN
@@ -539,12 +539,12 @@ test('github validation is skipped when openai mode is also active', async () =>
   const error = await getProviderValidationError(process.env)
   expect(error).not.toBeNull()
   expect(error!).toContain(
-    'OPENAI_API_KEYS or OPENAI_API_KEY is required when CLAUDE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
+    'OPENAI_API_KEYS or OPENAI_API_KEY is required when COURSE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
   )
 })
 
 test('remote Ollama by hostname does not require OPENAI_API_KEY (#369)', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'http://my-ollama-server.example.com:11434/v1'
   delete process.env.OPENAI_API_KEY
 
@@ -552,7 +552,7 @@ test('remote Ollama by hostname does not require OPENAI_API_KEY (#369)', async (
 })
 
 test('remote Ollama on default port without API key is allowed (#369)', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'http://203.0.113.5:11434/v1'
   delete process.env.OPENAI_API_KEY
 
@@ -560,7 +560,7 @@ test('remote Ollama on default port without API key is allowed (#369)', async ()
 })
 
 test('remote Ollama identified by "ollama" in hostname is allowed without key (#369)', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://ollama.corp.example.com/v1'
   delete process.env.OPENAI_API_KEY
 
@@ -568,13 +568,13 @@ test('remote Ollama identified by "ollama" in hostname is allowed without key (#
 })
 
 test('non-Ollama remote provider still requires OPENAI_API_KEY', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   delete process.env.OPENAI_API_KEY
 
   const message = await getProviderValidationError(process.env)
   expect(message).toContain(
-    'OPENAI_API_KEYS or OPENAI_API_KEY is required when CLAUDE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
+    'OPENAI_API_KEYS or OPENAI_API_KEY is required when COURSE_CODE_USE_OPENAI=1 and OPENAI_BASE_URL is not local.',
   )
 })
 

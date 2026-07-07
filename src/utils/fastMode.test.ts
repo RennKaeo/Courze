@@ -94,7 +94,7 @@ async function installCommonMocks(options?: {
     CONSOLE_OAUTH_SCOPES: ['org:create_api_key', 'user:profile'],
     CLAUDE_AI_OAUTH_SCOPES: ['user:profile', 'user:inference'],
     ALL_OAUTH_SCOPES: ['org:create_api_key', 'user:profile', 'user:inference'],
-    MCP_CLIENT_METADATA_URL: 'https://claude.ai/oauth/claude-code-client-metadata',
+    MCP_CLIENT_METADATA_URL: 'https://claude.ai/oauth/course-code-client-metadata',
     getOauthConfig: () => ({
       BASE_API_URL: 'https://api.anthropic.com',
       CONSOLE_AUTHORIZE_URL: 'https://platform.claude.com/oauth/authorize',
@@ -203,13 +203,13 @@ async function prepareFastModeTestState(): Promise<void> {
 }
 
 function forceFirstPartyProviderEnv(): void {
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
-  delete process.env.CLAUDE_CODE_USE_MISTRAL
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_USE_MISTRAL
   delete process.env.NVIDIA_NIM
   delete process.env.MINIMAX_API_KEY
   delete process.env.XAI_API_KEY

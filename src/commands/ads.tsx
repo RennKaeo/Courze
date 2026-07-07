@@ -12,7 +12,7 @@ function statusText(): string {
     return [
       'Sponsored tips: off',
       'Enable with "/ads on" to earn opengateway credits while you code.',
-      'Get your code from the Earn tab at gitlawb.com/opengateway.',
+      'Get your code from the Earn tab at courze.ai/opengateway.',
     ].join('\n')
   }
   const masked = ads.earnCode ? `${ads.earnCode.slice(0, 6)}…` : '(none)'
@@ -72,7 +72,7 @@ function AdsCodeDialog({
         </Text>
       ) : null}
       <Text dimColor>
-        Paste your earn code (gitlawb.com/opengateway → Earn). It stays hidden as you type.
+        Paste your earn code (courze.ai/opengateway → Earn). It stays hidden as you type.
       </Text>
       <Text dimColor>
         Tips are contextual: your most recent prompt (with best-effort secret redaction)
@@ -148,7 +148,7 @@ export const call: LocalJSXCommandCall = async (onDone, _context, args) => {
 const ads = {
   type: 'local-jsx',
   name: 'ads',
-  description: 'Earn opengateway credits from sponsored tips (ads.gitlawb.com)',
+  description: 'Earn opengateway credits from sponsored tips (ads.courze.ai)',
   argumentHint: 'on | off',
   // The earn code is a credential — redact inline `/ads on <code>` args from history.
   isSensitive: true,

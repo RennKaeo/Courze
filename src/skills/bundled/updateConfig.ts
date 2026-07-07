@@ -110,7 +110,7 @@ You can also use \`/commit-message\` to configure commit attribution from the CL
   }
 }
 \`\`\`
-Plugin syntax: \`plugin-name@source\` where source is \`claude-code-marketplace\`, \`claude-plugins-official\`, or \`builtin\`.
+Plugin syntax: \`plugin-name@source\` where source is \`course-code-marketplace\`, \`claude-plugins-official\`, or \`builtin\`.
 
 ### Other Settings
 - \`language\`: Preferred response language (e.g., "japanese")

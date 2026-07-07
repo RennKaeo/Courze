@@ -93,8 +93,8 @@ describe('loadAndCacheMarketplace — Windows cache finalization (#1500)', () =>
     tempDir = mkdtempSync(join(tmpdir(), 'mp-cache-'))
     // getPluginsDirectory() honours this env var, so getMarketplacesCacheDir()
     // resolves to <tempDir>/marketplaces.
-    originalCacheDir = process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR
-    process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR = tempDir
+    originalCacheDir = process.env.COURSE_CODE_PLUGIN_CACHE_DIR
+    process.env.COURSE_CODE_PLUGIN_CACHE_DIR = tempDir
 
     // Wrap the real filesystem so all operations actually happen, but rm and
     // rename are observable. The guard is a pure string comparison, so its
@@ -121,9 +121,9 @@ describe('loadAndCacheMarketplace — Windows cache finalization (#1500)', () =>
   afterEach(() => {
     setFsImplementation(originalFs)
     if (originalCacheDir === undefined) {
-      delete process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR
+      delete process.env.COURSE_CODE_PLUGIN_CACHE_DIR
     } else {
-      process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR = originalCacheDir
+      process.env.COURSE_CODE_PLUGIN_CACHE_DIR = originalCacheDir
     }
     if (originalPlatform) {
       Object.defineProperty(process, 'platform', originalPlatform)
@@ -302,8 +302,8 @@ describe('loadAndCacheMarketplace — rename failure fallback (EXDEV)', () => {
 
   beforeEach(() => {
     tempDir = mkdtempSync(join(tmpdir(), 'mp-cache-'))
-    originalCacheDir = process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR
-    process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR = tempDir
+    originalCacheDir = process.env.COURSE_CODE_PLUGIN_CACHE_DIR
+    process.env.COURSE_CODE_PLUGIN_CACHE_DIR = tempDir
 
     originalFs = getFsImplementation()
     rmCallCount = 0
@@ -335,9 +335,9 @@ describe('loadAndCacheMarketplace — rename failure fallback (EXDEV)', () => {
   afterEach(() => {
     setFsImplementation(originalFs)
     if (originalCacheDir === undefined) {
-      delete process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR
+      delete process.env.COURSE_CODE_PLUGIN_CACHE_DIR
     } else {
-      process.env.CLAUDE_CODE_PLUGIN_CACHE_DIR = originalCacheDir
+      process.env.COURSE_CODE_PLUGIN_CACHE_DIR = originalCacheDir
     }
     rmSync(tempDir, { recursive: true, force: true })
   })

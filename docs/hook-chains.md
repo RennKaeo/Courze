@@ -14,7 +14,7 @@ When a matching hook event occurs, Course Code evaluates declarative rules and c
 > - Set top-level config to `"enabled": false` initially.
 > - Enable per environment when ready.
 > - Dispatch is gated by `feature('HOOK_CHAINS')`.
-> - Env gate defaults to off unless `CLAUDE_CODE_ENABLE_HOOK_CHAINS=1` is set.
+> - Env gate defaults to off unless `COURSE_CODE_ENABLE_HOOK_CHAINS=1` is set.
 
 This keeps existing workflows unchanged while you tune guard windows and action behavior.
 
@@ -35,12 +35,12 @@ Default config path:
 
 Override path:
 
-- `CLAUDE_CODE_HOOK_CHAINS_CONFIG_PATH=/abs/or/relative/path/to/hook-chains.json`
+- `COURSE_CODE_HOOK_CHAINS_CONFIG_PATH=/abs/or/relative/path/to/hook-chains.json`
 
 Global gate:
 
 - `feature('HOOK_CHAINS')` must be enabled in the build
-- `CLAUDE_CODE_ENABLE_HOOK_CHAINS=0|1` (defaults to disabled when unset)
+- `COURSE_CODE_ENABLE_HOOK_CHAINS=0|1` (defaults to disabled when unset)
 
 ## Safety Guarantees
 
@@ -329,5 +329,5 @@ Common skip reasons:
 ### Existing workflows changed unexpectedly
 
 - Set `"enabled": false` at top-level.
-- Or globally disable with `CLAUDE_CODE_ENABLE_HOOK_CHAINS=0`.
+- Or globally disable with `COURSE_CODE_ENABLE_HOOK_CHAINS=0`.
 - Re-enable gradually after validating one rule at a time.

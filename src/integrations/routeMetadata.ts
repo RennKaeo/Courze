@@ -496,13 +496,13 @@ function hasNoExplicitNonOpenAICompatibleProvider(
   processEnv: NodeJS.ProcessEnv,
 ): boolean {
   return (
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_OPENAI) &&
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB) &&
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI) &&
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL) &&
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_BEDROCK) &&
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_VERTEX) &&
-    !isEnvTruthy(processEnv.CLAUDE_CODE_USE_FOUNDRY)
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_OPENAI) &&
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB) &&
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI) &&
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL) &&
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_BEDROCK) &&
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_VERTEX) &&
+    !isEnvTruthy(processEnv.COURSE_CODE_USE_FOUNDRY)
   )
 }
 
@@ -851,26 +851,26 @@ export function resolveActiveRouteIdFromEnv(
     activeProfileBaseUrl?: string
   },
 ): string | null {
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI)) {
     return 'gemini'
   }
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL)) {
     return 'mistral'
   }
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB)) {
     return 'github'
   }
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_BEDROCK)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_BEDROCK)) {
     return 'bedrock'
   }
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_VERTEX)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_VERTEX)) {
     return 'vertex'
   }
 
   const envOnlyRouteId = resolveEnvOnlyProviderRouteId(processEnv)
   if (envOnlyRouteId) return envOnlyRouteId
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_OPENAI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_OPENAI)) {
     const baseUrl =
       processEnv.OPENAI_BASE_URL ?? processEnv.OPENAI_API_BASE
     const matchedRoute = resolveRouteIdFromBaseUrl(baseUrl)

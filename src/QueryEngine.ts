@@ -465,8 +465,8 @@ export class QueryEngine {
       } else {
         await transcriptPromise
         if (
-          isEnvTruthy(process.env.CLAUDE_CODE_EAGER_FLUSH) ||
-          isEnvTruthy(process.env.CLAUDE_CODE_IS_COWORK)
+          isEnvTruthy(process.env.COURSE_CODE_EAGER_FLUSH) ||
+          isEnvTruthy(process.env.COURSE_CODE_IS_COWORK)
         ) {
           await flushSessionStorage()
         }
@@ -539,8 +539,8 @@ export class QueryEngine {
 
     headlessProfilerCheckpoint('before_skills_plugins')
     // Cache-only: headless/SDK/CCR startup must not block on network for
-    // ref-tracked plugins. CCR populates the cache via CLAUDE_CODE_SYNC_PLUGIN_INSTALL
-    // (headlessPluginInstall) or CLAUDE_CODE_PLUGIN_SEED_DIR before this runs;
+    // ref-tracked plugins. CCR populates the cache via COURSE_CODE_SYNC_PLUGIN_INSTALL
+    // (headlessPluginInstall) or COURSE_CODE_PLUGIN_SEED_DIR before this runs;
     // SDK callers that need fresh source can call /reload-plugins.
     const [skills, { enabled: enabledPlugins }] = await Promise.all([
       getSlashCommandToolSkills(getCwd()),
@@ -625,8 +625,8 @@ export class QueryEngine {
       if (persistSession) {
         await recordTranscript(messages)
         if (
-          isEnvTruthy(process.env.CLAUDE_CODE_EAGER_FLUSH) ||
-          isEnvTruthy(process.env.CLAUDE_CODE_IS_COWORK)
+          isEnvTruthy(process.env.COURSE_CODE_EAGER_FLUSH) ||
+          isEnvTruthy(process.env.COURSE_CODE_IS_COWORK)
         ) {
           await flushSessionStorage()
         }
@@ -880,8 +880,8 @@ export class QueryEngine {
           else if (message.attachment.type === 'max_turns_reached') {
             if (persistSession) {
               if (
-                isEnvTruthy(process.env.CLAUDE_CODE_EAGER_FLUSH) ||
-                isEnvTruthy(process.env.CLAUDE_CODE_IS_COWORK)
+                isEnvTruthy(process.env.COURSE_CODE_EAGER_FLUSH) ||
+                isEnvTruthy(process.env.COURSE_CODE_IS_COWORK)
               ) {
                 await flushSessionStorage()
               }
@@ -1028,8 +1028,8 @@ export class QueryEngine {
       if (maxBudgetUsd !== undefined && getTotalCost() >= maxBudgetUsd) {
         if (persistSession) {
           if (
-            isEnvTruthy(process.env.CLAUDE_CODE_EAGER_FLUSH) ||
-            isEnvTruthy(process.env.CLAUDE_CODE_IS_COWORK)
+            isEnvTruthy(process.env.COURSE_CODE_EAGER_FLUSH) ||
+            isEnvTruthy(process.env.COURSE_CODE_IS_COWORK)
           ) {
             await flushSessionStorage()
           }
@@ -1072,8 +1072,8 @@ export class QueryEngine {
         if (callsThisQuery >= maxRetries) {
           if (persistSession) {
             if (
-              isEnvTruthy(process.env.CLAUDE_CODE_EAGER_FLUSH) ||
-              isEnvTruthy(process.env.CLAUDE_CODE_IS_COWORK)
+              isEnvTruthy(process.env.COURSE_CODE_EAGER_FLUSH) ||
+              isEnvTruthy(process.env.COURSE_CODE_IS_COWORK)
             ) {
               await flushSessionStorage()
             }
@@ -1129,8 +1129,8 @@ export class QueryEngine {
     // result message, so any unflushed writes would be lost.
     if (persistSession) {
       if (
-        isEnvTruthy(process.env.CLAUDE_CODE_EAGER_FLUSH) ||
-        isEnvTruthy(process.env.CLAUDE_CODE_IS_COWORK)
+        isEnvTruthy(process.env.COURSE_CODE_EAGER_FLUSH) ||
+        isEnvTruthy(process.env.COURSE_CODE_IS_COWORK)
       ) {
         await flushSessionStorage()
       }

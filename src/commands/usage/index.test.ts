@@ -50,7 +50,7 @@ describe('getUsageDescriptor', () => {
     expect(
       resolveActiveUsageId(
         {
-          CLAUDE_CODE_USE_OPENAI: '1',
+          COURSE_CODE_USE_OPENAI: '1',
           OPENAI_BASE_URL: 'https://openrouter.ai/api/v1',
         } as NodeJS.ProcessEnv,
         { providerCategory: 'openai' },

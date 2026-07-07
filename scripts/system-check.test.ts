@@ -11,11 +11,11 @@ import {
 } from './system-check.ts'
 
 const ENV_KEYS = [
-  'CLAUDE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_GITHUB',
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_MISTRAL',
-  'CLAUDE_CODE_SIMPLE',
+  'COURSE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_MISTRAL',
+  'COURSE_CODE_SIMPLE',
   'GEMINI_API_KEY',
   'GOOGLE_API_KEY',
   'GEMINI_MODEL',
@@ -149,8 +149,8 @@ describe('formatReachabilityFailureDetail', () => {
 describe('system-check provider diagnostics', () => {
   test('redacts descriptor-declared provider secret values in displayed model fields', () => {
     const providerSecret = 'ogw-provider-secret'
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
-    process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
+    process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
     process.env.OPENAI_MODEL = providerSecret
     process.env.OPENGATEWAY_API_KEY = providerSecret
 
@@ -163,8 +163,8 @@ describe('system-check provider diagnostics', () => {
 
   test('summarizes descriptor-declared provider credentials without exposing values', () => {
     const providerSecret = 'ogw-provider-secret'
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
-    process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
+    process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
     process.env.OPENAI_MODEL = providerSecret
     process.env.OPENGATEWAY_API_KEY = providerSecret
 
@@ -176,8 +176,8 @@ describe('system-check provider diagnostics', () => {
   })
 
   test('does not use active GitHub credentials for a default OpenAI base URL', () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
     process.env.GITHUB_TOKEN = 'ghp_FAKEgithubToken0123456789'
     delete process.env.OPENAI_API_KEY
@@ -198,7 +198,7 @@ describe('system-check provider diagnostics', () => {
   })
 
   test('falls back to OPENAI_API_KEY when OPENAI_API_KEYS is delimiter-only', () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
     process.env.OPENAI_MODEL = 'gpt-4o'
     process.env.OPENAI_API_KEYS = ', ,'
@@ -219,7 +219,7 @@ describe('system-check provider diagnostics', () => {
   })
 
   test('accepts valid OPENAI_API_KEYS before placeholder OPENAI_API_KEY fallback', () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
     process.env.OPENAI_MODEL = 'gpt-4o'
     process.env.OPENAI_API_KEYS = 'sk-openai-a,sk-openai-b'
@@ -240,7 +240,7 @@ describe('system-check provider diagnostics', () => {
   })
 
   test('rejects placeholder values inside OPENAI_API_KEYS pools', () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
     process.env.OPENAI_MODEL = 'gpt-4o'
     process.env.OPENAI_API_KEYS = 'sk-openai-a,SUA_CHAVE'

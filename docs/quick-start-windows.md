@@ -28,7 +28,7 @@ npm install -g @renskaeo/courze@latest
 Replace `sk-your-key-here` with your real key.
 
 ```powershell
-$env:CLAUDE_CODE_USE_OPENAI="1"
+$env:COURSE_CODE_USE_OPENAI="1"
 $env:OPENAI_API_KEY="sk-your-key-here"
 $env:OPENAI_MODEL="gpt-4o"
 
@@ -38,7 +38,7 @@ course
 ### Option B: DeepSeek
 
 ```powershell
-$env:CLAUDE_CODE_USE_OPENAI="1"
+$env:COURSE_CODE_USE_OPENAI="1"
 $env:OPENAI_API_KEY="sk-your-key-here"
 $env:OPENAI_BASE_URL="https://api.deepseek.com/v1"
 $env:OPENAI_MODEL="deepseek-v4-flash"
@@ -59,7 +59,7 @@ Then run:
 ```powershell
 ollama pull llama3.1:8b
 
-$env:CLAUDE_CODE_USE_OPENAI="1"
+$env:COURSE_CODE_USE_OPENAI="1"
 $env:OPENAI_BASE_URL="http://localhost:11434/v1"
 $env:OPENAI_MODEL="llama3.1:8b"
 
@@ -69,7 +69,7 @@ course
 No API key is needed for Ollama local models.
 
 Course Code asks Ollama for a 32768-token context window on each chat request.
-If you need a different size, set `OPENCLAUDE_OLLAMA_NUM_CTX` before launching
+If you need a different size, set `COURSE_OLLAMA_NUM_CTX` before launching
 Course Code, or start Ollama with a global context setting:
 
 ```powershell
@@ -97,7 +97,7 @@ Then in LM Studio:
 Then run:
 
 ```powershell
-$env:CLAUDE_CODE_USE_OPENAI="1"
+$env:COURSE_CODE_USE_OPENAI="1"
 $env:OPENAI_BASE_URL="http://localhost:1234/v1"
 $env:OPENAI_MODEL="your-model-name"
 # $env:OPENAI_API_KEY="lmstudio"  # optional: some users need a dummy key

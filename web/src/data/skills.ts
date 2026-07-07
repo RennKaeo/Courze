@@ -40,6 +40,6 @@ export const skills: Skill[] = [
     name: 'keybindings-help',
     invocation: '/keybindings-help',
     description:
-      'Customize keyboard shortcuts: rebind keys, add chord bindings, or modify your keybindings file (default: ~/.course/keybindings.json; override via OPENCLAUDE_CONFIG_DIR).',
+      'Customize keyboard shortcuts: rebind keys, add chord bindings, or modify your keybindings file (default: ~/.course/keybindings.json; override via COURSE_CONFIG_DIR).',
   },
 ]

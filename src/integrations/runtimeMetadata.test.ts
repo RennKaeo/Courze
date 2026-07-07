@@ -14,21 +14,21 @@ import {
 import { setCachedModels } from './discoveryCache'
 import { getDiscoveryCacheKey } from './discoveryService'
 
-const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+const originalConfigDir = process.env.COURSE_CONFIG_DIR
 
 async function withTempConfigDir<T>(fn: () => Promise<T>): Promise<T> {
   await acquireSharedMutationLock('integrations/runtimeMetadata.test.ts')
   let tempDir: string | null = null
   try {
     tempDir = mkdtempSync(join(tmpdir(), 'course-runtime-metadata-test-'))
-    process.env.CLAUDE_CONFIG_DIR = tempDir
+    process.env.COURSE_CONFIG_DIR = tempDir
     return await fn()
   } finally {
     try {
       if (originalConfigDir === undefined) {
-        delete process.env.CLAUDE_CONFIG_DIR
+        delete process.env.COURSE_CONFIG_DIR
       } else {
-        process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+        process.env.COURSE_CONFIG_DIR = originalConfigDir
       }
       if (tempDir) {
         rmSync(tempDir, { recursive: true, force: true })
@@ -63,7 +63,7 @@ describe('resolveModelRuntimeLimits', () => {
         resolveModelRuntimeLimits({
           model: 'litellm-proxy',
           processEnv: {
-            CLAUDE_CODE_USE_OPENAI: '1',
+            COURSE_CODE_USE_OPENAI: '1',
             OPENAI_BASE_URL: baseUrl,
           },
         }).contextWindow,
@@ -86,8 +86,8 @@ describe('resolveModelRuntimeLimits', () => {
       model: 'kimi-k2.6',
       activeProfileProvider: 'opencode',
       processEnv: {
-        CLAUDE_CODE_USE_OPENAI: '1',
-        CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
+        COURSE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
         OPENAI_BASE_URL: 'https://proxy.example.test/v1',
       },
     })
@@ -105,7 +105,7 @@ describe('resolveModelRuntimeLimits', () => {
         resolveModelRuntimeLimits({
           model,
           processEnv: {
-            CLAUDE_CODE_USE_OPENAI: '1',
+            COURSE_CODE_USE_OPENAI: '1',
             OPENAI_BASE_URL: 'https://openrouter.ai/api/v1',
           },
         }).maxOutputTokens,
@@ -120,7 +120,7 @@ describe('resolveModelRuntimeLimits', () => {
         resolveModelRuntimeLimits({
           model,
           processEnv: {
-            CLAUDE_CODE_USE_OPENAI: '1',
+            COURSE_CODE_USE_OPENAI: '1',
             OPENAI_BASE_URL: 'https://openrouter.ai/api/v1',
           },
         }).contextWindow,
@@ -153,7 +153,7 @@ describe('resolveModelRuntimeLimits', () => {
         resolveModelRuntimeLimits({
           model: 'pooled-litellm-proxy',
           processEnv: {
-            CLAUDE_CODE_USE_OPENAI: '1',
+            COURSE_CODE_USE_OPENAI: '1',
             OPENAI_BASE_URL: baseUrl,
             OPENAI_API_KEYS: 'key-a,key-b',
           },
@@ -190,7 +190,7 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
       resolveModelRuntimeLimits({
         model: 'kimi-k2.7-code',
         baseUrl: 'https://api.moonshot.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 262_144, maxOutputTokens: 32_768 })
 
@@ -198,7 +198,7 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
       resolveModelRuntimeLimits({
         model: 'kimi-k2.6',
         baseUrl: 'https://api.moonshot.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 262_144, maxOutputTokens: 262_144 })
 
@@ -206,14 +206,14 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
       resolveModelRuntimeLimits({
         model: 'kimi-k2.5',
         baseUrl: 'https://api.moonshot.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 262_144, maxOutputTokens: 262_144 })
 
     const result = resolveOpenAIShimRuntimeContext({
       model: 'kimi-k2.7-code',
       baseUrl: 'https://api.moonshot.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
 
     expect(result.routeId).toBe('moonshot')
@@ -232,7 +232,7 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
     const qualified = resolveOpenAIShimRuntimeContext({
       model: 'moonshotai/kimi-k2.7-code',
       baseUrl: 'https://api.moonshot.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(qualified.routeId).toBe('moonshot')
     expect(qualified.catalogEntry?.id).toBe('kimi-k2.7-code')
@@ -244,14 +244,14 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
       resolveModelRuntimeLimits({
         model: 'kimi-for-coding',
         baseUrl: 'https://api.kimi.com/coding/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 262_144, maxOutputTokens: 32_768 })
 
     const result = resolveOpenAIShimRuntimeContext({
       model: 'kimi-for-coding',
       baseUrl: 'https://api.kimi.com/coding/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
 
     expect(result.routeId).toBe('kimi-code')
@@ -268,7 +268,7 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
     const k27 = resolveOpenAIShimRuntimeContext({
       model: 'kimi-k2.7-code',
       baseUrl: 'https://api.kimi.com/coding/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(k27.routeId).toBe('kimi-code')
     expect(k27.catalogEntry?.id).toBe('kimi-k2.7-code')
@@ -277,7 +277,7 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
     const qualified = resolveOpenAIShimRuntimeContext({
       model: 'moonshotai/kimi-k2.7-code',
       baseUrl: 'https://api.kimi.com/coding/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(qualified.routeId).toBe('kimi-code')
     expect(qualified.catalogEntry?.id).toBe('kimi-k2.7-code')
@@ -289,14 +289,14 @@ describe('resolveOpenAIShimRuntimeContext - Moonshot and Kimi Code catalog metad
       resolveModelRuntimeLimits({
         model: 'moonshotai/kimi-k2.7-code',
         baseUrl: 'https://api.atlascloud.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 262_144, maxOutputTokens: 32_768 })
 
     const result = resolveOpenAIShimRuntimeContext({
       model: 'moonshotai/kimi-k2.7-code',
       baseUrl: 'https://api.atlascloud.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
 
     expect(result.routeId).toBe('atlas-cloud')
@@ -311,7 +311,7 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
       resolveModelRuntimeLimits({
         model: 'claude-opus-4.8',
         baseUrl: 'https://api.hicap.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 1_000_000, maxOutputTokens: 128_000 })
 
@@ -319,7 +319,7 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
       resolveModelRuntimeLimits({
         model: 'kimi-k2.7-code',
         baseUrl: 'https://api.hicap.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 262_144, maxOutputTokens: 262_144 })
 
@@ -327,14 +327,14 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
       resolveModelRuntimeLimits({
         model: 'gpt-5.4',
         baseUrl: 'https://api.hicap.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 1_050_000, maxOutputTokens: 128_000 })
 
     const glm = resolveOpenAIShimRuntimeContext({
       model: 'glm-5.2',
       baseUrl: 'https://api.hicap.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(glm.catalogEntry?.id).toBe('hicap-glm-5.2')
     expect(glm.catalogEntry?.reasoning?.levels).toEqual(['low', 'medium', 'high', 'xhigh'])
@@ -346,7 +346,7 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
     const discoveredGlm = resolveOpenAIShimRuntimeContext({
       model: 'zai-org/GLM-5.2',
       baseUrl: 'https://api.hicap.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(discoveredGlm.catalogEntry?.id).toBe('hicap-glm-5.2')
     expect(discoveredGlm.openaiShimConfig.thinkingRequestFormat).toBe('zai-compatible')
@@ -355,7 +355,7 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
     const gpt54 = resolveOpenAIShimRuntimeContext({
       model: 'gpt-5.4',
       baseUrl: 'https://api.hicap.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(gpt54.routeId).toBe('hicap')
     expect(gpt54.catalogEntry?.id).toBe('hicap-gpt-5.4')
@@ -371,7 +371,7 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
     const gpt55 = resolveOpenAIShimRuntimeContext({
       model: 'gpt-5.5',
       baseUrl: 'https://api.hicap.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(gpt55.catalogEntry?.id).toBe('hicap-gpt-5.5')
     expect(gpt55.openaiShimConfig.requiredApiFormat).toBe('responses')
@@ -380,7 +380,7 @@ describe('resolveOpenAIShimRuntimeContext - Hicap catalog metadata', () => {
     const grok = resolveOpenAIShimRuntimeContext({
       model: 'grok-4.3',
       baseUrl: 'https://api.hicap.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(grok.catalogEntry?.reasoning?.levels).toEqual([
       'low',
@@ -396,14 +396,14 @@ describe('resolveOpenAIShimRuntimeContext - xAI catalog metadata', () => {
       resolveModelRuntimeLimits({
         model: 'grok-4.20-0309-reasoning',
         baseUrl: 'https://api.x.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 1_000_000, maxOutputTokens: 32_768 })
 
     const grok420Reasoning = resolveOpenAIShimRuntimeContext({
       model: 'grok-4.20',
       baseUrl: 'https://api.x.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(grok420Reasoning.catalogEntry?.id).toBe('grok-4.20-0309-reasoning')
     expect(grok420Reasoning.openaiShimConfig.endpointPath).toBe('/responses')
@@ -413,14 +413,14 @@ describe('resolveOpenAIShimRuntimeContext - xAI catalog metadata', () => {
       resolveModelRuntimeLimits({
         model: 'grok-build-0.1',
         baseUrl: 'https://api.x.ai/v1',
-        processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+        processEnv: { COURSE_CODE_USE_OPENAI: '1' },
       }),
     ).toEqual({ contextWindow: 256_000, maxOutputTokens: 64_000 })
 
     const grok43 = resolveOpenAIShimRuntimeContext({
       model: 'grok-4',
       baseUrl: 'https://api.x.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(grok43.routeId).toBe('xai')
     expect(grok43.catalogEntry?.id).toBe('grok-4.3')
@@ -433,7 +433,7 @@ describe('resolveOpenAIShimRuntimeContext - xAI catalog metadata', () => {
     const build = resolveOpenAIShimRuntimeContext({
       model: 'grok-code-fast-1',
       baseUrl: 'https://api.x.ai/v1',
-      processEnv: { CLAUDE_CODE_USE_OPENAI: '1' },
+      processEnv: { COURSE_CODE_USE_OPENAI: '1' },
     })
     expect(build.routeId).toBe('xai')
     expect(build.catalogEntry?.id).toBe('grok-build-0.1')
@@ -451,7 +451,7 @@ describe('resolveOpenAIShimRuntimeContext - provider override route preference',
       baseUrl: 'https://custom.example.test/v1',
       preferBaseUrlRoute: true,
       processEnv: {
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_BASE_URL: 'https://api.groq.com/openai/v1',
       },
     })
@@ -566,7 +566,7 @@ describe('resolveOpenAIShimRuntimeContext - segment-boundary heuristic', () => {
         model: 'google/gemini-3.1-pro',
         activeProfileProvider: 'custom',
         processEnv: {
-          CLAUDE_CODE_USE_OPENAI: '1',
+          COURSE_CODE_USE_OPENAI: '1',
           OPENAI_BASE_URL: 'https://example-gateway.test/v1',
         },
       }).contextWindow,
@@ -577,7 +577,7 @@ describe('resolveOpenAIShimRuntimeContext - segment-boundary heuristic', () => {
         model: 'moonshotai/kimi-k2.6',
         activeProfileProvider: 'nvidia-nim',
         processEnv: {
-          CLAUDE_CODE_USE_OPENAI: '1',
+          COURSE_CODE_USE_OPENAI: '1',
           OPENAI_BASE_URL: 'https://integrate.api.nvidia.com/v1',
         },
       }).contextWindow,

@@ -36,12 +36,12 @@ import {
 
 const ENV_KEYS = [
   'CI',
-  'CLAUDE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_GITHUB',
-  'CLAUDE_CODE_USE_BEDROCK',
-  'CLAUDE_CODE_USE_VERTEX',
-  'CLAUDE_CODE_USE_MISTRAL',
+  'COURSE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_BEDROCK',
+  'COURSE_CODE_USE_VERTEX',
+  'COURSE_CODE_USE_MISTRAL',
   'OPENAI_BASE_URL',
   'OPENAI_API_KEY',
   'OPENAI_MODEL',
@@ -100,7 +100,7 @@ afterEach(() => {
 })
 
 function setupOpenAIMode(baseUrl: string, model: string): void {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = baseUrl
   process.env.OPENAI_MODEL = model
   process.env.OPENAI_API_KEY = 'test-key'
@@ -313,7 +313,7 @@ describe('detectProvider — modelOverride from --model flag', () => {
   })
 
   test('modelOverride works for OpenAI provider', () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_API_KEY = 'test-key'
     process.env.OPENAI_MODEL = 'gpt-4o'
     const result = detectProvider('gpt-4-turbo')
@@ -321,19 +321,19 @@ describe('detectProvider — modelOverride from --model flag', () => {
   })
 
   test('modelOverride works for Gemini provider', () => {
-    process.env.CLAUDE_CODE_USE_GEMINI = '1'
+    process.env.COURSE_CODE_USE_GEMINI = '1'
     const result = detectProvider('gemini-2.5-pro')
     expect(result.model).toBe('gemini-2.5-pro')
   })
 
   test('modelOverride works for Mistral provider', () => {
-    process.env.CLAUDE_CODE_USE_MISTRAL = '1'
+    process.env.COURSE_CODE_USE_MISTRAL = '1'
     const result = detectProvider('mistral-large-latest')
     expect(result.model).toBe('mistral-large-latest')
   })
 
   test('modelOverride works for GitHub provider', () => {
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     const result = detectProvider('gpt-4o')
     expect(result.model).toContain('gpt-4o')
   })

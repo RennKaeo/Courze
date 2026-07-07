@@ -27,24 +27,24 @@ const envKeys = [
   'ANTHROPIC_API_KEY',
   'ANTHROPIC_BASE_URL',
   'ANTHROPIC_MODEL',
-  'CLAUDE_CODE_TEST_FIXTURES_ROOT',
-  'CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED',
-  'CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID',
-  'CLAUDE_CODE_USE_BEDROCK',
-  'CLAUDE_CODE_USE_FOUNDRY',
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_GITHUB',
-  'CLAUDE_CODE_USE_MISTRAL',
-  'CLAUDE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_VERTEX',
-  'CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK',
+  'COURSE_CODE_TEST_FIXTURES_ROOT',
+  'COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED',
+  'COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID',
+  'COURSE_CODE_USE_BEDROCK',
+  'COURSE_CODE_USE_FOUNDRY',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_MISTRAL',
+  'COURSE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_VERTEX',
+  'COURSE_CODE_DISABLE_NONSTREAMING_FALLBACK',
   'CLAUDE_FEATURE_FLAGS_FILE',
   'CLAUDE_STREAM_IDLE_TIMEOUT_MS',
   'GEMINI_API_KEY',
   'OPENAI_API_KEY',
   'OPENAI_BASE_URL',
   'OPENAI_MODEL',
-  'OPENCLAUDE_MAX_RETRIES',
+  'COURSE_MAX_RETRIES',
   'VCR_RECORD',
 ] as const
 const originalEnv = { ...process.env }
@@ -296,7 +296,7 @@ function setClientTestEnv(): void {
     delete process.env[key]
   }
   process.env.ANTHROPIC_API_KEY = 'sk-test-lifecycle'
-  process.env.CLAUDE_CODE_TEST_FIXTURES_ROOT = fixturesRoot
+  process.env.COURSE_CODE_TEST_FIXTURES_ROOT = fixturesRoot
   process.env.CLAUDE_FEATURE_FLAGS_FILE = join(
     fixturesRoot,
     'feature-flags.json',
@@ -337,7 +337,7 @@ afterEach(() => {
 describe('Claude API lifecycle tracking', () => {
   test('ends a failed streaming dispatch before retry backoff is reported', async () => {
     setClientTestEnv()
-    process.env.OPENCLAUDE_MAX_RETRIES = '1'
+    process.env.COURSE_MAX_RETRIES = '1'
     const queryLifecycle = new QueryLifecycleOperationTracker()
     const dispatchSnapshots: ReturnType<
       QueryLifecycleOperationTracker['snapshot']
@@ -383,7 +383,7 @@ describe('Claude API lifecycle tracking', () => {
 
   test('preserves provider override and query source during 404 non-streaming fallback', async () => {
     setClientTestEnv()
-    process.env.OPENCLAUDE_MAX_RETRIES = '0'
+    process.env.COURSE_MAX_RETRIES = '0'
     const queryLifecycle = new QueryLifecycleOperationTracker()
     const providerBaseURL = 'https://provider.example/v1'
     const requests: {
@@ -460,7 +460,7 @@ describe('Claude API lifecycle tracking', () => {
 
   test('parent abort during OpenAI-compatible stream does not start non-streaming fallback', async () => {
     setClientTestEnv()
-    process.env.OPENCLAUDE_MAX_RETRIES = '0'
+    process.env.COURSE_MAX_RETRIES = '0'
     process.env.CLAUDE_STREAM_IDLE_TIMEOUT_MS = '1000'
     const queryLifecycle = new QueryLifecycleOperationTracker()
     const parent = new AbortController()
@@ -552,9 +552,9 @@ describe('Claude API lifecycle tracking', () => {
 
   test('stream idle timeout respects disabled non-streaming fallback guard', async () => {
     setClientTestEnv()
-    process.env.OPENCLAUDE_MAX_RETRIES = '0'
+    process.env.COURSE_MAX_RETRIES = '0'
     process.env.CLAUDE_STREAM_IDLE_TIMEOUT_MS = String(TEST_STREAM_IDLE_TIMEOUT_MS)
-    process.env.CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK = '1'
+    process.env.COURSE_CODE_DISABLE_NONSTREAMING_FALLBACK = '1'
     const queryLifecycle = new QueryLifecycleOperationTracker()
     const parent = new AbortController()
     let fallbackRequests = 0
@@ -662,7 +662,7 @@ describe('Claude API lifecycle tracking', () => {
 
   test('clears non-streaming fallback lifecycle entries after request errors', async () => {
     setClientTestEnv()
-    process.env.OPENCLAUDE_MAX_RETRIES = '0'
+    process.env.COURSE_MAX_RETRIES = '0'
     const queryLifecycle = new QueryLifecycleOperationTracker()
     const requestSnapshots: ReturnType<
       QueryLifecycleOperationTracker['snapshot']

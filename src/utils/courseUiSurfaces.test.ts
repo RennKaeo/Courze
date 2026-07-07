@@ -15,27 +15,27 @@ import {
 } from './permissions/filesystem.ts'
 import { getValidationTip } from './settings/validationTips.ts'
 
-const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
-const originalCourse CodeConfigDir = process.env.OPENCLAUDE_CONFIG_DIR
+const originalConfigDir = process.env.COURSE_CONFIG_DIR
+const originalCourse CodeConfigDir = process.env.COURSE_CONFIG_DIR
 
 beforeEach(async () => {
   await acquireSharedMutationLock('courseUiSurfaces.test.ts')
   mock.restore()
-  delete process.env.CLAUDE_CONFIG_DIR
-  delete process.env.OPENCLAUDE_CONFIG_DIR
+  delete process.env.COURSE_CONFIG_DIR
+  delete process.env.COURSE_CONFIG_DIR
 })
 
 afterEach(() => {
   try {
     if (originalConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+      process.env.COURSE_CONFIG_DIR = originalConfigDir
     }
     if (originalCourse CodeConfigDir === undefined) {
-      delete process.env.OPENCLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.OPENCLAUDE_CONFIG_DIR = originalCourse CodeConfigDir
+      process.env.COURSE_CONFIG_DIR = originalCourse CodeConfigDir
     }
   } finally {
     releaseSharedMutationLock()
@@ -57,10 +57,10 @@ describe('Course Code settings path surfaces', () => {
     ).toBe(true)
   })
 
-  test('permission save destinations point user settings to configured OPENCLAUDE_CONFIG_DIR', async () => {
+  test('permission save destinations point user settings to configured COURSE_CONFIG_DIR', async () => {
     const customConfigDir = join(homedir(), 'custom-course')
-    process.env.OPENCLAUDE_CONFIG_DIR = customConfigDir
-    delete process.env.CLAUDE_CONFIG_DIR
+    process.env.COURSE_CONFIG_DIR = customConfigDir
+    delete process.env.COURSE_CONFIG_DIR
     const { optionForPermissionSaveDestination } = await import(
       '../components/permissions/rules/AddPermissionRules.tsx'
     )
@@ -72,10 +72,10 @@ describe('Course Code settings path surfaces', () => {
     })
   })
 
-  test('skills help surfaces point user skills to configured OPENCLAUDE_CONFIG_DIR', async () => {
+  test('skills help surfaces point user skills to configured COURSE_CONFIG_DIR', async () => {
     const customConfigDir = join(homedir(), 'custom-course')
-    process.env.OPENCLAUDE_CONFIG_DIR = customConfigDir
-    delete process.env.CLAUDE_CONFIG_DIR
+    process.env.COURSE_CONFIG_DIR = customConfigDir
+    delete process.env.COURSE_CONFIG_DIR
     const { getEmptySkillsMenuMessage } = await import(
       '../components/skills/SkillsMenu.tsx'
     )
@@ -109,7 +109,7 @@ describe('Course Code settings path surfaces', () => {
   })
 
   test('permission dialog treats ~/.course as the global Claude folder', () => {
-    process.env.CLAUDE_CONFIG_DIR = join(homedir(), '.course')
+    process.env.COURSE_CONFIG_DIR = join(homedir(), '.course')
 
     expect(
       isInGlobalClaudeFolder(
@@ -121,8 +121,8 @@ describe('Course Code settings path surfaces', () => {
     ).toBe(true)
   })
 
-  test('permission dialog does not treat arbitrary CLAUDE_CONFIG_DIR as the global Claude folder', () => {
-    process.env.CLAUDE_CONFIG_DIR = join(homedir(), 'custom-course')
+  test('permission dialog does not treat arbitrary COURSE_CONFIG_DIR as the global Claude folder', () => {
+    process.env.COURSE_CONFIG_DIR = join(homedir(), 'custom-course')
 
     expect(
       isInGlobalClaudeFolder(
@@ -132,7 +132,7 @@ describe('Course Code settings path surfaces', () => {
   })
 
   test('global skill scope recognizes ~/.course and legacy ~/.claude skills', () => {
-    process.env.CLAUDE_CONFIG_DIR = join(homedir(), '.course')
+    process.env.COURSE_CONFIG_DIR = join(homedir(), '.course')
 
     expect(
       getClaudeSkillScope(
@@ -153,8 +153,8 @@ describe('Course Code settings path surfaces', () => {
     })
   })
 
-  test('global skill scope does not emit fixed rules for arbitrary CLAUDE_CONFIG_DIR skills', () => {
-    process.env.CLAUDE_CONFIG_DIR = join(homedir(), 'custom-course')
+  test('global skill scope does not emit fixed rules for arbitrary COURSE_CONFIG_DIR skills', () => {
+    process.env.COURSE_CONFIG_DIR = join(homedir(), 'custom-course')
 
     expect(
       getClaudeSkillScope(

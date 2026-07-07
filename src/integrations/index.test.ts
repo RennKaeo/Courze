@@ -65,7 +65,7 @@ describe('loaded registry validation', () => {
       'azure-openai:azure-deployment',
       // Virtual model — the gateway's smart router resolves it server-side,
       // so there is no concrete model descriptor to reference.
-      'gitlawb-opengateway:opengateway-auto',
+      'course-gateway:opengateway-auto',
     ])
     const missingDescriptors = getAllGateways().flatMap(gateway =>
       (gateway.catalog?.models ?? [])

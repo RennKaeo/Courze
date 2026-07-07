@@ -16,8 +16,8 @@ const { ChatController, Course CodeChatViewProvider, Course CodeChatPanelManager
 const { SessionManager } = require('./chat/sessionManager');
 const { DiffContentProvider, SCHEME: DIFF_SCHEME } = require('./chat/diffController');
 
-const OPENCLAUDE_REPO_URL = 'https://github.com/RennKaeo/Courze';
-const OPENCLAUDE_SETUP_URL = 'https://github.com/RennKaeo/Courze/blob/main/README.md#quick-start';
+const COURSE_REPO_URL = 'https://github.com/RennKaeo/Courze';
+const COURSE_SETUP_URL = 'https://github.com/RennKaeo/Courze/blob/main/README.md#quick-start';
 const PROFILE_FILE_NAME = '.courzerc.json';
 const SECRET_AZURE_API_KEY = 'course.azure.apiKey';
 
@@ -122,7 +122,7 @@ async function buildLaunchAzureEnv(configured) {
     return env;
   }
 
-  env.CLAUDE_CODE_USE_OPENAI = '1';
+  env.COURSE_CODE_USE_OPENAI = '1';
   env.OPENAI_BASE_URL = endpoint;
   env.OPENAI_API_KEY = apiKey;
   env.OPENAI_MODEL = deployment;
@@ -467,17 +467,17 @@ async function launchCourse Code(options = {}) {
     );
 
     if (action === 'Open Setup Guide') {
-      await vscode.env.openExternal(vscode.Uri.parse(OPENCLAUDE_SETUP_URL));
+      await vscode.env.openExternal(vscode.Uri.parse(COURSE_SETUP_URL));
     } else if (action === 'Open Repository') {
-      await vscode.env.openExternal(vscode.Uri.parse(OPENCLAUDE_REPO_URL));
+      await vscode.env.openExternal(vscode.Uri.parse(COURSE_REPO_URL));
     }
 
     return;
   }
 
   const env = await buildLaunchAzureEnv(configured);
-  if (shimEnabled && !env.CLAUDE_CODE_USE_OPENAI) {
-    env.CLAUDE_CODE_USE_OPENAI = '1';
+  if (shimEnabled && !env.COURSE_CODE_USE_OPENAI) {
+    env.COURSE_CODE_USE_OPENAI = '1';
   }
 
   const terminalOptions = {
@@ -1117,10 +1117,10 @@ class Course CodeControlCenterProvider {
           await openWorkspaceProfile();
           break;
         case 'repo':
-          await vscode.env.openExternal(vscode.Uri.parse(OPENCLAUDE_REPO_URL));
+          await vscode.env.openExternal(vscode.Uri.parse(COURSE_REPO_URL));
           break;
         case 'setup':
-          await vscode.env.openExternal(vscode.Uri.parse(OPENCLAUDE_SETUP_URL));
+          await vscode.env.openExternal(vscode.Uri.parse(COURSE_SETUP_URL));
           break;
         case 'commands':
           await vscode.commands.executeCommand('workbench.action.showCommands');
@@ -1288,13 +1288,13 @@ function activate(context) {
   );
 
   const openDocsCommand = vscode.commands.registerCommand('course.openDocs', async () => {
-    await vscode.env.openExternal(vscode.Uri.parse(OPENCLAUDE_REPO_URL));
+    await vscode.env.openExternal(vscode.Uri.parse(COURSE_REPO_URL));
   });
 
   const openSetupDocsCommand = vscode.commands.registerCommand(
     'course.openSetupDocs',
     async () => {
-      await vscode.env.openExternal(vscode.Uri.parse(OPENCLAUDE_SETUP_URL));
+      await vscode.env.openExternal(vscode.Uri.parse(COURSE_SETUP_URL));
     },
   );
 

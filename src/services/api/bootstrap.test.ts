@@ -33,7 +33,7 @@ test('falls back to raw discovery when route discovery has no usable models', ()
 test('local OpenAI bootstrap canonicalizes errored discovery model options', async () => {
   const envKeys = [
     'ANTHROPIC_CUSTOM_HEADERS',
-    'CLAUDE_CODE_USE_OPENAI',
+    'COURSE_CODE_USE_OPENAI',
     'HICAP_API_KEY',
     'OPENAI_API_KEY',
     'OPENAI_API_KEYS',
@@ -45,7 +45,7 @@ test('local OpenAI bootstrap canonicalizes errored discovery model options', asy
   )
 
   try {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.hicap.ai/v1'
     process.env.OPENAI_MODEL = 'claude-opus-4.8'
     process.env.HICAP_API_KEY = 'sk-hicap-test'

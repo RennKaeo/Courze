@@ -82,7 +82,7 @@ You should see:
 Still inside Ubuntu, add your OpenRouter config to `.bashrc`:
 
 ```bash
-echo 'export CLAUDE_CODE_USE_OPENAI=1' >> ~/.bashrc
+echo 'export COURSE_CODE_USE_OPENAI=1' >> ~/.bashrc
 echo 'export OPENAI_API_KEY=your_openrouter_key_here' >> ~/.bashrc
 echo 'export OPENAI_BASE_URL=https://openrouter.ai/api/v1' >> ~/.bashrc
 echo 'export OPENAI_MODEL=qwen/qwen3.6-plus-preview:free' >> ~/.bashrc

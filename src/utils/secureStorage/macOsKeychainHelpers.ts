@@ -27,7 +27,7 @@ import type { SecureStorageData } from './index.js'
 export const CREDENTIALS_SERVICE_SUFFIX = '-credentials'
 
 /**
- * Get the service/resource name for secure storage, scoped by CLAUDE_CONFIG_DIR
+ * Get the service/resource name for secure storage, scoped by COURSE_CONFIG_DIR
  * if it's set to a non-default location.
  */
 export function getSecureStorageServiceName(
@@ -35,7 +35,7 @@ export function getSecureStorageServiceName(
 ): string {
   const configDir = getClaudeConfigHomeDir()
   const isDefaultDir =
-    !process.env.OPENCLAUDE_CONFIG_DIR && !process.env.CLAUDE_CONFIG_DIR
+    !process.env.COURSE_CONFIG_DIR && !process.env.COURSE_CONFIG_DIR
 
   // Use a hash of the config dir path to create a unique but stable suffix
   // Only add suffix for non-default directories to maintain backwards compatibility
@@ -55,7 +55,7 @@ export function getUsername(): string {
   try {
     return process.env.USER || userInfo().username
   } catch {
-    return 'claude-code-user'
+    return 'course-code-user'
   }
 }
 

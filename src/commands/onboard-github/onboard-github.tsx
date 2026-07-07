@@ -37,10 +37,10 @@ const FORCE_RELOGIN_ARGS = new Set([
 type Step = 'menu' | 'ghe-url' | 'copilot-key' | 'device-busy' | 'error'
 
 const PROVIDER_SPECIFIC_KEYS = new Set([
-  'CLAUDE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_OPENAI',
   'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_BEDROCK',
-  'CLAUDE_CODE_USE_VERTEX',
+  'COURSE_CODE_USE_BEDROCK',
+  'COURSE_CODE_USE_VERTEX',
   'CLAUDE_CODE_USE_FOUNDRY',
   'OPENAI_BASE_URL',
   'OPENAI_API_BASE',
@@ -101,7 +101,7 @@ export function buildGithubOnboardingSettingsEnv(
   gheUrl?: string,
 ): Record<string, string | undefined> {
   return {
-    CLAUDE_CODE_USE_GITHUB: '1',
+    COURSE_CODE_USE_GITHUB: '1',
     OPENAI_MODEL: model,
     GITHUB_ENTERPRISE_URL: gheUrl,
     OPENAI_API_KEYS: undefined,
@@ -111,10 +111,10 @@ export function buildGithubOnboardingSettingsEnv(
     OPENAI_ORGANIZATION: undefined,
     OPENAI_BASE_URL: undefined,
     OPENAI_API_BASE: undefined,
-    CLAUDE_CODE_USE_OPENAI: undefined,
+    COURSE_CODE_USE_OPENAI: undefined,
     CLAUDE_CODE_USE_GEMINI: undefined,
-    CLAUDE_CODE_USE_BEDROCK: undefined,
-    CLAUDE_CODE_USE_VERTEX: undefined,
+    COURSE_CODE_USE_BEDROCK: undefined,
+    COURSE_CODE_USE_VERTEX: undefined,
     CLAUDE_CODE_USE_FOUNDRY: undefined,
   }
 }
@@ -124,7 +124,7 @@ export function applyGithubOnboardingProcessEnv(
   gheUrl?: string,
   env: NodeJS.ProcessEnv = process.env,
 ): void {
-  env.CLAUDE_CODE_USE_GITHUB = '1'
+  env.COURSE_CODE_USE_GITHUB = '1'
   env.OPENAI_MODEL = model
   if (gheUrl) {
     env.GITHUB_ENTERPRISE_URL = gheUrl
@@ -141,10 +141,10 @@ export function applyGithubOnboardingProcessEnv(
   delete env.OPENAI_API_BASE
   delete env.GITHUB_COPILOT_KEY
 
-  delete env.CLAUDE_CODE_USE_OPENAI
+  delete env.COURSE_CODE_USE_OPENAI
   delete env.CLAUDE_CODE_USE_GEMINI
-  delete env.CLAUDE_CODE_USE_BEDROCK
-  delete env.CLAUDE_CODE_USE_VERTEX
+  delete env.COURSE_CODE_USE_BEDROCK
+  delete env.COURSE_CODE_USE_VERTEX
   delete env.CLAUDE_CODE_USE_FOUNDRY
   delete env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
   delete env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
@@ -164,7 +164,7 @@ function mergeUserSettingsEnv(
     }
   }
 
-  newEnv.CLAUDE_CODE_USE_GITHUB = '1'
+  newEnv.COURSE_CODE_USE_GITHUB = '1'
   newEnv.OPENAI_MODEL = model
   if (gheUrl) {
     newEnv.GITHUB_ENTERPRISE_URL = gheUrl
@@ -383,7 +383,7 @@ function OnboardGithub(props: {
       if (!activated.ok) {
         setErrorMsg(
           `Token saved, but settings were not updated: ${activated.detail ?? 'unknown error'}. ` +
-            `Add env CLAUDE_CODE_USE_GITHUB=1 and OPENAI_MODEL=${DEFAULT_MODEL} to ${getUserSettingsDisplayPath()} manually.`,
+            `Add env COURSE_CODE_USE_GITHUB=1 and OPENAI_MODEL=${DEFAULT_MODEL} to ${getUserSettingsDisplayPath()} manually.`,
         )
         setStep('error')
         return
@@ -394,7 +394,7 @@ function OnboardGithub(props: {
       for (const envKey of PROVIDER_SPECIFIC_KEYS) {
         delete process.env[envKey]
       }
-      process.env.CLAUDE_CODE_USE_GITHUB = '1'
+      process.env.COURSE_CODE_USE_GITHUB = '1'
       process.env.OPENAI_MODEL = model.trim() || DEFAULT_MODEL
       // Set GITHUB_ENTERPRISE_URL if provided
       if (gheUrl) {
@@ -466,7 +466,7 @@ function OnboardGithub(props: {
       if (!activated.ok) {
         setErrorMsg(
           `Key saved, but settings were not updated: ${activated.detail ?? 'unknown error'}. ` +
-            `Add env CLAUDE_CODE_USE_GITHUB=1 and OPENAI_MODEL to ~/.claude/settings.json manually.`,
+            `Add env COURSE_CODE_USE_GITHUB=1 and OPENAI_MODEL to ~/.claude/settings.json manually.`,
         )
         setStep('error')
         return
@@ -474,7 +474,7 @@ function OnboardGithub(props: {
       for (const key of PROVIDER_SPECIFIC_KEYS) {
         delete process.env[key]
       }
-      process.env.CLAUDE_CODE_USE_GITHUB = '1'
+      process.env.COURSE_CODE_USE_GITHUB = '1'
       process.env.OPENAI_MODEL = DEFAULT_MODEL
       process.env.GITHUB_COPILOT_KEY = trimmed
       if (gheUrl) {
@@ -598,7 +598,7 @@ function OnboardGithub(props: {
       )}
       <Text dimColor>
         Stores your token in the OS credential store (macOS Keychain when available)
-        and enables CLAUDE_CODE_USE_GITHUB in your user settings - no export
+        and enables COURSE_CODE_USE_GITHUB in your user settings - no export
         GITHUB_TOKEN needed for future runs.
       </Text>
       <Select
@@ -634,7 +634,7 @@ export const call: LocalJSXCommandCall = async (onDone, context, args) => {
     if (!activated.ok) {
       onDone(
         `GitHub token detected, but settings activation failed: ${activated.detail ?? 'unknown error'}. ` +
-          `Set CLAUDE_CODE_USE_GITHUB=1 and OPENAI_MODEL=github:copilot in ${getUserSettingsDisplayPath()} manually.`,
+          `Set COURSE_CODE_USE_GITHUB=1 and OPENAI_MODEL=github:copilot in ${getUserSettingsDisplayPath()} manually.`,
         { display: 'system' },
       )
       return null

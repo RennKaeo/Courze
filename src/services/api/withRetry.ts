@@ -96,7 +96,7 @@ function shouldRetry529(querySource: QuerySource | undefined): boolean {
   )
 }
 
-// CLAUDE_CODE_UNATTENDED_RETRY: for unattended sessions (internal-only). Retries 429/529
+// COURSE_CODE_UNATTENDED_RETRY: for unattended sessions (internal-only). Retries 429/529
 // indefinitely with higher backoff and periodic keep-alive yields so the host
 // environment does not mark the session idle mid-wait.
 // TODO(ANT-344): the keep-alive via SystemAPIErrorMessage yields is a stopgap
@@ -108,12 +108,12 @@ const PERSISTENT_MAX_ATTEMPTS = 100
 // Exposed for unit-test assertion only. The persistent retry cap itself is
 // driven by isPersistentRetryEnabled() — there is no runtime override seam
 // (tests must enable UNATTENDED_RETRY via `bun test --feature=UNATTENDED_RETRY`
-// and set CLAUDE_CODE_UNATTENDED_RETRY to exercise this path).
+// and set COURSE_CODE_UNATTENDED_RETRY to exercise this path).
 export { PERSISTENT_MAX_ATTEMPTS as _PERSISTENT_MAX_ATTEMPTS_FOR_TEST, isPersistentRetryEnabled }
 
 function isPersistentRetryEnabled(): boolean {
   return feature('UNATTENDED_RETRY')
-    ? isEnvTruthy(process.env.CLAUDE_CODE_UNATTENDED_RETRY)
+    ? isEnvTruthy(process.env.COURSE_CODE_UNATTENDED_RETRY)
     : false
 }
 
@@ -742,7 +742,7 @@ function isOAuthTokenRevokedError(error: unknown): boolean {
 }
 
 function isBedrockAuthError(error: unknown): boolean {
-  if (isEnvTruthy(process.env.CLAUDE_CODE_USE_BEDROCK)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_USE_BEDROCK)) {
     // AWS libs reject without an API call if .aws holds a past Expiration value
     // otherwise, API calls that receive expired tokens give generic 403
     // "The security token included in the request is invalid"
@@ -781,7 +781,7 @@ function isGoogleAuthLibraryCredentialError(error: unknown): boolean {
 }
 
 function isVertexAuthError(error: unknown): boolean {
-  if (isEnvTruthy(process.env.CLAUDE_CODE_USE_VERTEX)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_USE_VERTEX)) {
     // SDK-level: google-auth-library fails in prepareOptions() before the HTTP call
     if (isGoogleAuthLibraryCredentialError(error)) {
       return true
@@ -842,7 +842,7 @@ function shouldRetry(error: APIError, persistentRetryEnabled: boolean): boolean 
   // credentials. Bypass x-should-retry:false — the server assumes we'd retry
   // the same bad key, but our key is fine.
   if (
-    isEnvTruthy(process.env.CLAUDE_CODE_REMOTE) &&
+    isEnvTruthy(process.env.COURSE_CODE_REMOTE) &&
     (error.status === 401 || error.status === 403)
   ) {
     return true
@@ -915,21 +915,21 @@ function shouldRetry(error: APIError, persistentRetryEnabled: boolean): boolean 
 }
 
 export function getDefaultMaxRetries(): number {
-  const openClaudeMaxRetries = process.env.OPENCLAUDE_MAX_RETRIES
+  const openClaudeMaxRetries = process.env.COURSE_MAX_RETRIES
   if (openClaudeMaxRetries) {
     return validateRetryAttemptsEnvVar(
-      'OPENCLAUDE_MAX_RETRIES',
+      'COURSE_MAX_RETRIES',
       openClaudeMaxRetries,
     )
   }
 
-  const legacyMaxRetries = process.env.CLAUDE_CODE_MAX_RETRIES
+  const legacyMaxRetries = process.env.COURSE_CODE_MAX_RETRIES
   if (legacyMaxRetries) {
     logForDebugging(
-      'CLAUDE_CODE_MAX_RETRIES is deprecated; use OPENCLAUDE_MAX_RETRIES instead',
+      'COURSE_CODE_MAX_RETRIES is deprecated; use COURSE_MAX_RETRIES instead',
     )
     return validateRetryAttemptsEnvVar(
-      'CLAUDE_CODE_MAX_RETRIES',
+      'COURSE_CODE_MAX_RETRIES',
       legacyMaxRetries,
     )
   }
@@ -939,8 +939,8 @@ export function getDefaultMaxRetries(): number {
 
 export function getDefaultRetryDelayMs(): number {
   return validateBoundedIntEnvVar(
-    'OPENCLAUDE_RETRY_DELAY_MS',
-    process.env.OPENCLAUDE_RETRY_DELAY_MS,
+    'COURSE_RETRY_DELAY_MS',
+    process.env.COURSE_RETRY_DELAY_MS,
     DEFAULT_RETRY_DELAY_MS,
     MAX_RETRY_DELAY_BASE_MS,
   ).effective

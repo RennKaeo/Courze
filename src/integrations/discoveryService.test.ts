@@ -10,7 +10,7 @@ import {
 
 const originalFetch = globalThis.fetch
 const originalEnv = {
-  CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
   OPENROUTER_API_KEY: process.env.OPENROUTER_API_KEY,
   OPENAI_BASE_URL: process.env.OPENAI_BASE_URL,
   OPENAI_API_BASE: process.env.OPENAI_API_BASE,
@@ -18,15 +18,15 @@ const originalEnv = {
   OPENAI_API_KEYS: process.env.OPENAI_API_KEYS,
   OPENAI_MODEL: process.env.OPENAI_MODEL,
   ANTHROPIC_CUSTOM_HEADERS: process.env.ANTHROPIC_CUSTOM_HEADERS,
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_MISTRAL: process.env.CLAUDE_CODE_USE_MISTRAL,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
-  CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:
-    process.env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_MISTRAL: process.env.COURSE_CODE_USE_MISTRAL,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
+  COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC:
+    process.env.COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC,
 }
 
 let tempDir: string
@@ -59,21 +59,21 @@ function clearProviderEnv(): void {
   delete process.env.OPENAI_API_KEYS
   delete process.env.OPENAI_MODEL
   delete process.env.ANTHROPIC_CUSTOM_HEADERS
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  delete process.env.CLAUDE_CODE_USE_MISTRAL
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
-  delete process.env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_MISTRAL
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC
 }
 
 beforeEach(async () => {
   await acquireSharedMutationLock('discoveryService.test.ts')
   mock.restore()
   tempDir = mkdtempSync(join(tmpdir(), 'course-discovery-service-test-'))
-  process.env.CLAUDE_CONFIG_DIR = tempDir
+  process.env.COURSE_CONFIG_DIR = tempDir
   delete process.env.OPENROUTER_API_KEY
   clearProviderEnv()
   globalThis.fetch = originalFetch
@@ -84,7 +84,7 @@ afterEach(() => {
     mock.restore()
     globalThis.fetch = originalFetch
     rmSync(tempDir, { recursive: true, force: true })
-    restoreEnvValue('CLAUDE_CONFIG_DIR')
+    restoreEnvValue('COURSE_CONFIG_DIR')
     restoreEnvValue('OPENROUTER_API_KEY')
     restoreEnvValue('OPENAI_BASE_URL')
     restoreEnvValue('OPENAI_API_BASE')
@@ -92,14 +92,14 @@ afterEach(() => {
     restoreEnvValue('OPENAI_API_KEYS')
     restoreEnvValue('OPENAI_MODEL')
     restoreEnvValue('ANTHROPIC_CUSTOM_HEADERS')
-    restoreEnvValue('CLAUDE_CODE_USE_OPENAI')
-    restoreEnvValue('CLAUDE_CODE_USE_GEMINI')
-    restoreEnvValue('CLAUDE_CODE_USE_MISTRAL')
-    restoreEnvValue('CLAUDE_CODE_USE_GITHUB')
-    restoreEnvValue('CLAUDE_CODE_USE_BEDROCK')
-    restoreEnvValue('CLAUDE_CODE_USE_VERTEX')
-    restoreEnvValue('CLAUDE_CODE_USE_FOUNDRY')
-    restoreEnvValue('CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC')
+    restoreEnvValue('COURSE_CODE_USE_OPENAI')
+    restoreEnvValue('COURSE_CODE_USE_GEMINI')
+    restoreEnvValue('COURSE_CODE_USE_MISTRAL')
+    restoreEnvValue('COURSE_CODE_USE_GITHUB')
+    restoreEnvValue('COURSE_CODE_USE_BEDROCK')
+    restoreEnvValue('COURSE_CODE_USE_VERTEX')
+    restoreEnvValue('COURSE_CODE_USE_FOUNDRY')
+    restoreEnvValue('COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC')
     _clearRegistryForTesting()
     ensureIntegrationsLoaded()
   } finally {
@@ -374,7 +374,7 @@ describe('discoverModelsForRoute', () => {
   })
 
   test('skips descriptor network discovery when nonessential traffic is disabled', async () => {
-    process.env.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = '1'
+    process.env.COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC = '1'
     process.env.OPENROUTER_API_KEY = 'or-key'
     const { discoverModelsForRoute } = await loadDiscoveryServiceModule()
 
@@ -427,7 +427,7 @@ describe('discoverModelsForRoute', () => {
       await loadDiscoveryServiceModule()
 
     const startupEnv: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_BASE_URL: 'http://127.0.0.1:1234/v1',
     }
 
@@ -498,7 +498,7 @@ describe('discoverModelsForRoute', () => {
       await loadDiscoveryServiceModule()
 
     const startupEnv: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_BASE_URL: 'https://custom.example/v1',
       OPENAI_API_KEYS: 'key-a,key-b',
     }
@@ -528,7 +528,7 @@ describe('discoverModelsForRoute', () => {
       await loadDiscoveryServiceModule()
 
     const startupEnv: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_BASE_URL: 'http://localhost:4000/v1',
       ANTHROPIC_CUSTOM_HEADERS: 'X-Test-Case: startup-context',
     }
@@ -565,7 +565,7 @@ describe('discoverModelsForRoute', () => {
     const { getCachedModels } = await import('./discoveryCache.js')
 
     const startupEnv: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_BASE_URL: 'http://localhost:4000/v1',
       ANTHROPIC_CUSTOM_HEADERS: 'X-Tenant: acme',
     }
@@ -615,7 +615,7 @@ describe('discoverModelsForRoute', () => {
       await loadDiscoveryServiceModule()
 
     const startupEnv: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_ANTHROPIC: '1',
+      COURSE_CODE_USE_ANTHROPIC: '1',
       ANTHROPIC_BASE_URL: 'https://api.anthropic.com',
     }
 

@@ -11,10 +11,10 @@ import {
 } from './compressToolHistory.js'
 
 const originalEnv = {
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_AUTO_COMPACT_WINDOW:
-    process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW,
-  CLAUDE_CODE_MAX_OUTPUT_TOKENS: process.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_AUTO_COMPACT_WINDOW:
+    process.env.COURSE_CODE_AUTO_COMPACT_WINDOW,
+  COURSE_CODE_MAX_OUTPUT_TOKENS: process.env.COURSE_CODE_MAX_OUTPUT_TOKENS,
 }
 
 const originalConfig = {
@@ -38,9 +38,9 @@ function restoreEnv(key: keyof typeof originalEnv): void {
 
 function setEffectiveWindowForTest(effectiveWindow: number): void {
   mockState.effectiveWindow = effectiveWindow
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS = '8000'
-  process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW = String(effectiveWindow + 8_000)
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_MAX_OUTPUT_TOKENS = '8000'
+  process.env.COURSE_CODE_AUTO_COMPACT_WINDOW = String(effectiveWindow + 8_000)
 }
 
 function setCompressionEnabledForTest(enabled: boolean): void {

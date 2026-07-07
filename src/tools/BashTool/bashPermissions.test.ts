@@ -96,7 +96,7 @@ test('sandbox auto-allow still enforces Bash path constraints', async () => {
 // The cap is gated on the LEGACY splitter path (astSubcommands === null),
 // mirroring the same gate in `bashToolHasPermission` — the fanout/ReDoS risk
 // is specific to legacy `splitCommand`. The test forces parse-unavailable via
-// CLAUDE_CODE_DISABLE_COMMAND_INJECTION_CHECK so the AST short-circuit cannot
+// COURSE_CODE_DISABLE_COMMAND_INJECTION_CHECK so the AST short-circuit cannot
 // hide the regression.
 test('sandbox auto-allow caps subcommand fanout when AST is unavailable', async () => {
   ;(globalThis as unknown as { MACRO: { VERSION: string } }).MACRO = {
@@ -104,8 +104,8 @@ test('sandbox auto-allow caps subcommand fanout when AST is unavailable', async 
   }
 
   const originalInjectionFlag =
-    process.env.CLAUDE_CODE_DISABLE_COMMAND_INJECTION_CHECK
-  process.env.CLAUDE_CODE_DISABLE_COMMAND_INJECTION_CHECK = '1'
+    process.env.COURSE_CODE_DISABLE_COMMAND_INJECTION_CHECK
+  process.env.COURSE_CODE_DISABLE_COMMAND_INJECTION_CHECK = '1'
   try {
     SandboxManager.isSandboxingEnabled = () => true
     SandboxManager.isAutoAllowBashIfSandboxedEnabled = () => true
@@ -127,9 +127,9 @@ test('sandbox auto-allow caps subcommand fanout when AST is unavailable', async 
     })
   } finally {
     if (originalInjectionFlag === undefined) {
-      delete process.env.CLAUDE_CODE_DISABLE_COMMAND_INJECTION_CHECK
+      delete process.env.COURSE_CODE_DISABLE_COMMAND_INJECTION_CHECK
     } else {
-      process.env.CLAUDE_CODE_DISABLE_COMMAND_INJECTION_CHECK =
+      process.env.COURSE_CODE_DISABLE_COMMAND_INJECTION_CHECK =
         originalInjectionFlag
     }
   }

@@ -3940,7 +3940,7 @@ Read the team config to discover your teammates' names. Check the task list peri
       ])
     }
     case 'todo_reminder': {
-      if (isEnvTruthy(process.env.OPENCLAUDE_DISABLE_TOOL_REMINDERS)) {
+      if (isEnvTruthy(process.env.COURSE_DISABLE_TOOL_REMINDERS)) {
         return []
       }
       const todoItems = attachment.content
@@ -3963,7 +3963,7 @@ Read the team config to discover your teammates' names. Check the task list peri
       if (!isTodoV2Enabled()) {
         return []
       }
-      if (isEnvTruthy(process.env.OPENCLAUDE_DISABLE_TOOL_REMINDERS)) {
+      if (isEnvTruthy(process.env.COURSE_DISABLE_TOOL_REMINDERS)) {
         return []
       }
       const taskItems = attachment.content
@@ -4523,10 +4523,10 @@ You have exited auto mode. The user may now want to interact more directly. You 
       ])
     }
     case 'verify_plan_reminder': {
-      // Dead code elimination: CLAUDE_CODE_VERIFY_PLAN='false' in external builds, so === 'true' check allows Bun to eliminate the string
+      // Dead code elimination: COURSE_CODE_VERIFY_PLAN='false' in external builds, so === 'true' check allows Bun to eliminate the string
       /* eslint-disable-next-line custom-rules/no-process-env-top-level */
       const toolName =
-        process.env.CLAUDE_CODE_VERIFY_PLAN === 'true'
+        process.env.COURSE_CODE_VERIFY_PLAN === 'true'
           ? 'VerifyPlanExecution'
           : ''
       const content = `You have completed implementing the plan. Please call the "${toolName}" tool directly (NOT the ${AGENT_TOOL_NAME} tool or an agent) to verify that all plan items were completed correctly.`

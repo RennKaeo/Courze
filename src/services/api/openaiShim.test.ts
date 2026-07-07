@@ -21,13 +21,13 @@ const originalEnv = {
   OPENAI_AUTH_HEADER: process.env.OPENAI_AUTH_HEADER,
   OPENAI_AUTH_SCHEME: process.env.OPENAI_AUTH_SCHEME,
   OPENAI_AUTH_HEADER_VALUE: process.env.OPENAI_AUTH_HEADER_VALUE,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
   GITHUB_COPILOT_KEY: process.env.GITHUB_COPILOT_KEY,
   GITHUB_ENTERPRISE_URL: process.env.GITHUB_ENTERPRISE_URL,
   GITHUB_TOKEN: process.env.GITHUB_TOKEN,
   GH_TOKEN: process.env.GH_TOKEN,
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
   GEMINI_ACCESS_TOKEN: process.env.GEMINI_ACCESS_TOKEN,
@@ -48,8 +48,8 @@ const originalEnv = {
   OPENGATEWAY_API_KEY: process.env.OPENGATEWAY_API_KEY,
   OPENGATEWAY_BASE_URL: process.env.OPENGATEWAY_BASE_URL,
   OPENCODE_API_KEY: process.env.OPENCODE_API_KEY,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED: process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED: process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
   CLAUDE_STREAM_IDLE_TIMEOUT_MS: process.env.CLAUDE_STREAM_IDLE_TIMEOUT_MS,
 }
 
@@ -436,13 +436,13 @@ beforeEach(async () => {
   delete process.env.OPENAI_AUTH_HEADER
   delete process.env.OPENAI_AUTH_SCHEME
   delete process.env.OPENAI_AUTH_HEADER_VALUE
-  delete process.env.CLAUDE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_GITHUB
   delete process.env.GITHUB_COPILOT_KEY
   delete process.env.GITHUB_ENTERPRISE_URL
   delete process.env.GITHUB_TOKEN
   delete process.env.GH_TOKEN
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GOOGLE_API_KEY
   delete process.env.GEMINI_ACCESS_TOKEN
@@ -463,8 +463,8 @@ beforeEach(async () => {
   delete process.env.OPENGATEWAY_API_KEY
   delete process.env.OPENGATEWAY_BASE_URL
   delete process.env.OPENCODE_API_KEY
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
   delete process.env.CLAUDE_STREAM_IDLE_TIMEOUT_MS
 })
 
@@ -479,13 +479,13 @@ afterEach(() => {
     restoreEnv('OPENAI_AUTH_HEADER', originalEnv.OPENAI_AUTH_HEADER)
     restoreEnv('OPENAI_AUTH_SCHEME', originalEnv.OPENAI_AUTH_SCHEME)
     restoreEnv('OPENAI_AUTH_HEADER_VALUE', originalEnv.OPENAI_AUTH_HEADER_VALUE)
-    restoreEnv('CLAUDE_CODE_USE_GITHUB', originalEnv.CLAUDE_CODE_USE_GITHUB)
+    restoreEnv('COURSE_CODE_USE_GITHUB', originalEnv.COURSE_CODE_USE_GITHUB)
     restoreEnv('GITHUB_COPILOT_KEY', originalEnv.GITHUB_COPILOT_KEY)
     restoreEnv('GITHUB_ENTERPRISE_URL', originalEnv.GITHUB_ENTERPRISE_URL)
     restoreEnv('GITHUB_TOKEN', originalEnv.GITHUB_TOKEN)
     restoreEnv('GH_TOKEN', originalEnv.GH_TOKEN)
-    restoreEnv('CLAUDE_CODE_USE_OPENAI', originalEnv.CLAUDE_CODE_USE_OPENAI)
-    restoreEnv('CLAUDE_CODE_USE_GEMINI', originalEnv.CLAUDE_CODE_USE_GEMINI)
+    restoreEnv('COURSE_CODE_USE_OPENAI', originalEnv.COURSE_CODE_USE_OPENAI)
+    restoreEnv('COURSE_CODE_USE_GEMINI', originalEnv.COURSE_CODE_USE_GEMINI)
     restoreEnv('GEMINI_API_KEY', originalEnv.GEMINI_API_KEY)
     restoreEnv('GOOGLE_API_KEY', originalEnv.GOOGLE_API_KEY)
     restoreEnv('GEMINI_ACCESS_TOKEN', originalEnv.GEMINI_ACCESS_TOKEN)
@@ -506,8 +506,8 @@ afterEach(() => {
     restoreEnv('OPENGATEWAY_API_KEY', originalEnv.OPENGATEWAY_API_KEY)
     restoreEnv('OPENGATEWAY_BASE_URL', originalEnv.OPENGATEWAY_BASE_URL)
     restoreEnv('OPENCODE_API_KEY', originalEnv.OPENCODE_API_KEY)
-    restoreEnv('CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED', originalEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED)
-    restoreEnv('CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID', originalEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID)
+    restoreEnv('COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED', originalEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED)
+    restoreEnv('COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID', originalEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID)
     restoreEnv('CLAUDE_STREAM_IDLE_TIMEOUT_MS', originalEnv.CLAUDE_STREAM_IDLE_TIMEOUT_MS)
     globalThis.fetch = originalFetch
     _clearRegistryForTesting()
@@ -1150,7 +1150,7 @@ test('applies descriptor static headers before client and request headers', asyn
     },
   })
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://shim-header-test.example/v1'
   process.env.OPENAI_MODEL = 'shim-test-model'
 
@@ -1213,10 +1213,10 @@ test('opengateway sends Accept-Encoding: identity header on chat requests', asyn
   let capturedHeaders: Headers | undefined
 
   registerGateway({
-    id: 'gitlawb-opengateway-test',
-    label: 'Gitlawb Opengateway',
+    id: 'course-gateway-test',
+    label: 'OpenGateway',
     category: 'aggregating',
-    defaultBaseUrl: 'https://opengateway.gitlawb.com/v1/xiaomi-mimo',
+    defaultBaseUrl: 'https://opengateway.courze.ai/v1/xiaomi-mimo',
     defaultModel: 'mimo-v2.5-pro',
     setup: {
       requiresAuth: false,
@@ -1242,8 +1242,8 @@ test('opengateway sends Accept-Encoding: identity header on chat requests', asyn
     },
   })
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1/xiaomi-mimo'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1/xiaomi-mimo'
   process.env.OPENAI_MODEL = 'mimo-v2.5-pro'
 
   globalThis.fetch = (async (_input, init) => {
@@ -1295,7 +1295,7 @@ test('opengateway sends Accept-Encoding: identity header on chat requests', asyn
 test('strips Anthropic-specific headers on GitHub Codex transport requests', async () => {
   let capturedHeaders: Headers | undefined
 
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_API_KEY = 'github-test-key'
   process.env.GITHUB_TOKEN = 'stored-secret'
   delete process.env.GITHUB_COPILOT_KEY
@@ -1342,7 +1342,7 @@ test('strips Anthropic-specific headers on GitHub Codex transport requests', asy
 })
 
 test('uses direct GitHub Copilot Enterprise key for shim authentication', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.GITHUB_COPILOT_KEY = 'enterprise-direct-key'
   process.env.GITHUB_ENTERPRISE_URL = 'https://github.mycompany.com'
   delete process.env.OPENAI_API_KEY
@@ -1357,7 +1357,7 @@ test('uses direct GitHub Copilot Enterprise key for shim authentication', async 
 })
 
 test('direct GitHub Copilot key wins over stale OpenAI key', async () => {
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.GITHUB_COPILOT_KEY = 'enterprise-direct-key'
   process.env.GITHUB_ENTERPRISE_URL = 'https://github.mycompany.com'
   process.env.OPENAI_API_KEY = 'stale-openai-key'
@@ -1373,7 +1373,7 @@ test('direct GitHub Copilot key wins over stale OpenAI key', async () => {
 test('strips Anthropic-specific headers on GitHub Codex transport with providerOverride API key', async () => {
   let capturedHeaders: Headers | undefined
 
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_API_KEY = 'env-should-not-win'
   delete process.env.OPENAI_BASE_URL
   delete process.env.OPENAI_MODEL
@@ -2514,7 +2514,7 @@ test('keeps max_completion_tokens for non-local non-github providers', async () 
 test('uses route-specific credential env vars for descriptor-backed openai-compatible routes', async () => {
   let capturedHeaders: Headers | undefined
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'
   process.env.OPENROUTER_API_KEY = 'or-route-key'
   delete process.env.OPENAI_API_KEY
@@ -2652,7 +2652,7 @@ test('preserves Gemini tool call extra_content in follow-up requests', async () 
 })
 
 test('replays Gemini tool signatures for OpenGateway Gemini models', async () => {
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
   let requestBody: Record<string, unknown> | undefined
 
   globalThis.fetch = (async (_input, init) => {
@@ -2733,7 +2733,7 @@ test('replays Gemini tool signatures for OpenGateway Gemini models', async () =>
 })
 
 test('OpenGateway MiMo replays real reasoning_content without adding empty fallback', async () => {
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
   process.env.OPENAI_MODEL = 'mimo-v2.5-pro'
   let requestBody: Record<string, unknown> | undefined
 
@@ -2897,7 +2897,7 @@ test('Xiaomi MiMo replays real reasoning_content without adding empty fallback',
 })
 
 test('OpenGateway MiMo does not synthesize empty reasoning_content when missing', async () => {
-  process.env.OPENAI_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+  process.env.OPENAI_BASE_URL = 'https://opengateway.courze.ai/v1'
   process.env.OPENAI_MODEL = 'mimo-v2.5-pro'
   let requestBody: Record<string, unknown> | undefined
 
@@ -3426,7 +3426,7 @@ test('uses GEMINI_ACCESS_TOKEN for Gemini OpenAI-compatible requests', async () 
   let capturedProject: string | null = null
   let requestUrl: string | undefined
 
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.GEMINI_AUTH_MODE = 'access-token'
   process.env.GEMINI_ACCESS_TOKEN = 'gemini-access-token'
   process.env.GOOGLE_CLOUD_PROJECT = 'gemini-project'
@@ -3496,7 +3496,7 @@ test('uses GEMINI_ACCESS_TOKEN for Gemini OpenAI-compatible requests', async () 
 test('uses NVIDIA_API_KEY for NVIDIA NIM requests without OPENAI_API_KEY', async () => {
   let capturedAuthorization: string | null = null
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.NVIDIA_NIM = '1'
   process.env.OPENAI_BASE_URL = 'https://integrate.api.nvidia.com/v1'
   process.env.OPENAI_MODEL = 'nvidia/llama-3.1-nemotron-70b-instruct'
@@ -3550,7 +3550,7 @@ test('uses NVIDIA_API_KEY for NVIDIA NIM requests without OPENAI_API_KEY', async
 test('does not use stale NVIDIA_API_KEY for non-NVIDIA OpenAI-compatible routes', async () => {
   let capturedAuthorization: string | null = null
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.NVIDIA_NIM = '1'
   process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'
   process.env.OPENAI_MODEL = 'openai/gpt-5-mini'
@@ -3600,7 +3600,7 @@ test('does not use stale NVIDIA_API_KEY for non-NVIDIA OpenAI-compatible routes'
 test('does not use MINIMAX_API_KEY for non-MiniMax OpenAI-compatible routes', async () => {
   let capturedAuthorization: string | null = null
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'
   process.env.OPENAI_MODEL = 'openai/gpt-5-mini'
   process.env.MINIMAX_API_KEY = 'minimax-live-key'
@@ -3650,7 +3650,7 @@ test('xiaomi mimo route uses api-key auth header and max_completion_tokens', asy
   let capturedHeaders: Record<string, string> | undefined
   let capturedBody: Record<string, unknown> | undefined
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.xiaomimimo.com/v1'
   process.env.OPENAI_MODEL = 'mimo-v2.5-pro'
   process.env.MIMO_API_KEY = 'mimo-live-key'
@@ -3700,7 +3700,7 @@ test('xiaomi mimo token plan uses raw api-key and OpenAI-compatible reasoning_ef
   let capturedHeaders: Record<string, string> | undefined
   let capturedBody: Record<string, unknown> | undefined
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://token-plan-sgp.xiaomimimo.com/v1'
   process.env.OPENAI_MODEL = 'mimo-v2.5-pro'
   process.env.MIMO_API_KEY = 'mimo-token-key'
@@ -3749,7 +3749,7 @@ test.each([
   process.env.OPENAI_BASE_URL = 'https://opencode.ai/zen/go/v1'
   delete process.env.OPENAI_API_KEY
   process.env.OPENAI_MODEL = model
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENCODE_API_KEY = 'fake-opencode-key'
   process.env.OPENAI_AUTH_HEADER = 'Authorization'
   process.env.OPENAI_AUTH_SCHEME = 'bearer'
@@ -3824,7 +3824,7 @@ test('opencode go messages endpoint rotates raw x-api-key credentials after rate
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENAI_API_KEYS
   process.env.OPENAI_MODEL = 'minimax-m3'
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENCODE_API_KEY = 'fake-opencode-a,fake-opencode-b'
 
   globalThis.fetch = (async (input, init) => {
@@ -3877,27 +3877,27 @@ test('opencode go messages endpoint rotates raw x-api-key credentials after rate
   expect(capturedKeys).toEqual(['fake-opencode-a', 'fake-opencode-b'])
 })
 
-test('gitlawb opengateway provider flag sends OPENGATEWAY_API_KEY as bearer auth despite stale generic base URL', async () => {
+test('courze opengateway provider flag sends OPENGATEWAY_API_KEY as bearer auth despite stale generic base URL', async () => {
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENGATEWAY_API_KEY = 'fake-ogw-key'
   delete process.env.OPENAI_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
 
-  expect(captured.url).toBe('https://opengateway.gitlawb.com/v1/chat/completions')
+  expect(captured.url).toBe('https://opengateway.courze.ai/v1/chat/completions')
   expect(captured.authorization).toBe('Bearer fake-ogw-key')
 })
 
-test('gitlawb opengateway provider flag accepts OPENAI_API_KEY compatibility fallback', async () => {
+test('courze opengateway provider flag accepts OPENAI_API_KEY compatibility fallback', async () => {
   delete process.env.OPENAI_BASE_URL
   delete process.env.OPENGATEWAY_API_KEY
   process.env.OPENAI_API_KEY = 'fake-openai-fallback'
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -3905,25 +3905,25 @@ test('gitlawb opengateway provider flag accepts OPENAI_API_KEY compatibility fal
   expect(captured.authorization).toBe('Bearer fake-openai-fallback')
 })
 
-test('gitlawb opengateway provider flag sends OPENAI_API_KEY fallback despite stale generic base URL', async () => {
+test('courze opengateway provider flag sends OPENAI_API_KEY fallback despite stale generic base URL', async () => {
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_API_KEY = 'fake-openai-fallback'
   delete process.env.OPENGATEWAY_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
 
-  expect(captured.url).toBe('https://opengateway.gitlawb.com/v1/chat/completions')
+  expect(captured.url).toBe('https://opengateway.courze.ai/v1/chat/completions')
   expect(captured.authorization).toBe('Bearer fake-openai-fallback')
 })
 
-test('gitlawb opengateway provider flag trims OPENGATEWAY_API_KEY before bearer auth', async () => {
+test('courze opengateway provider flag trims OPENGATEWAY_API_KEY before bearer auth', async () => {
   process.env.OPENGATEWAY_API_KEY = ' fake-ogw-key '
   delete process.env.OPENAI_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -3931,11 +3931,11 @@ test('gitlawb opengateway provider flag trims OPENGATEWAY_API_KEY before bearer 
   expect(captured.authorization).toBe('Bearer fake-ogw-key')
 })
 
-test('gitlawb opengateway provider flag ignores blank OPENGATEWAY_API_KEY and uses OPENAI_API_KEY fallback', async () => {
+test('courze opengateway provider flag ignores blank OPENGATEWAY_API_KEY and uses OPENAI_API_KEY fallback', async () => {
   process.env.OPENGATEWAY_API_KEY = '   '
   process.env.OPENAI_API_KEY = 'fake-openai-fallback'
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -3943,12 +3943,12 @@ test('gitlawb opengateway provider flag ignores blank OPENGATEWAY_API_KEY and us
   expect(captured.authorization).toBe('Bearer fake-openai-fallback')
 })
 
-test('gitlawb opengateway provider flag sends OPENGATEWAY_API_KEY to OPENGATEWAY_BASE_URL override', async () => {
+test('courze opengateway provider flag sends OPENGATEWAY_API_KEY to OPENGATEWAY_BASE_URL override', async () => {
   process.env.OPENGATEWAY_BASE_URL = 'http://localhost:8181/v1'
   process.env.OPENGATEWAY_API_KEY = 'fake-ogw-key'
   delete process.env.OPENAI_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -3957,13 +3957,13 @@ test('gitlawb opengateway provider flag sends OPENGATEWAY_API_KEY to OPENGATEWAY
   expect(captured.authorization).toBe('Bearer fake-ogw-key')
 })
 
-test('gitlawb opengateway provider flag sends OPENGATEWAY_API_KEY to custom OPENAI_BASE_URL fallback', async () => {
+test('courze opengateway provider flag sends OPENGATEWAY_API_KEY to custom OPENAI_BASE_URL fallback', async () => {
   process.env.OPENAI_BASE_URL = 'http://localhost:8181/v1'
   process.env.OPENGATEWAY_API_KEY = 'fake-ogw-key'
   delete process.env.OPENGATEWAY_BASE_URL
   delete process.env.OPENAI_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -3972,12 +3972,12 @@ test('gitlawb opengateway provider flag sends OPENGATEWAY_API_KEY to custom OPEN
   expect(captured.authorization).toBe('Bearer fake-ogw-key')
 })
 
-test('gitlawb opengateway provider flag prefers OPENGATEWAY_API_KEY over generic OPENAI_API_KEY for custom base URL', async () => {
+test('courze opengateway provider flag prefers OPENGATEWAY_API_KEY over generic OPENAI_API_KEY for custom base URL', async () => {
   process.env.OPENGATEWAY_BASE_URL = 'http://localhost:8181/v1'
   process.env.OPENGATEWAY_API_KEY = 'fake-ogw-key'
   process.env.OPENAI_API_KEY = 'fake-generic-openai-key'
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -3986,13 +3986,13 @@ test('gitlawb opengateway provider flag prefers OPENGATEWAY_API_KEY over generic
   expect(captured.authorization).toBe('Bearer fake-ogw-key')
 })
 
-test('gitlawb opengateway provider flag prefers OPENGATEWAY_API_KEY over generic OPENAI_API_KEYS pool', async () => {
+test('courze opengateway provider flag prefers OPENGATEWAY_API_KEY over generic OPENAI_API_KEYS pool', async () => {
   process.env.OPENGATEWAY_BASE_URL = 'http://localhost:8181/v1'
   process.env.OPENGATEWAY_API_KEY = 'fake-ogw-key'
   process.env.OPENAI_API_KEYS = 'fake-openai-pool-a,fake-openai-pool-b'
   delete process.env.OPENAI_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -4001,13 +4001,13 @@ test('gitlawb opengateway provider flag prefers OPENGATEWAY_API_KEY over generic
   expect(captured.authorization).toBe('Bearer fake-ogw-key')
 })
 
-test('gitlawb opengateway provider flag uses generic OPENAI_API_KEYS pool before generic OPENAI_API_KEY fallback', async () => {
+test('courze opengateway provider flag uses generic OPENAI_API_KEYS pool before generic OPENAI_API_KEY fallback', async () => {
   process.env.OPENGATEWAY_BASE_URL = 'http://localhost:8181/v1'
   process.env.OPENAI_API_KEYS = 'fake-openai-pool-a,fake-openai-pool-b'
   process.env.OPENAI_API_KEY = 'fake-generic-openai-key'
   delete process.env.OPENGATEWAY_API_KEY
 
-  const result = applyProviderFlag('gitlawb-opengateway', [])
+  const result = applyProviderFlag('course-gateway', [])
   expect(result.error).toBeUndefined()
 
   const captured = await captureChatCompletionRequest()
@@ -4016,15 +4016,15 @@ test('gitlawb opengateway provider flag uses generic OPENAI_API_KEYS pool before
   expect(captured.authorization).toBe('Bearer fake-openai-pool-a')
 })
 
-test('gitlawb opengateway stored provider profile key becomes bearer auth', async () => {
+test('courze opengateway stored provider profile key becomes bearer auth', async () => {
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENGATEWAY_API_KEY
 
   applyProviderProfileToProcessEnv({
     id: 'stored-opengateway',
-    provider: 'gitlawb-opengateway',
-    name: 'Gitlawb Opengateway',
-    baseUrl: 'https://opengateway.gitlawb.com/v1',
+    provider: 'course-gateway',
+    name: 'OpenGateway',
+    baseUrl: 'https://opengateway.courze.ai/v1',
     model: 'mimo-v2.5-pro',
     apiKey: 'fake-profile-key',
   })
@@ -4035,7 +4035,7 @@ test('gitlawb opengateway stored provider profile key becomes bearer auth', asyn
 })
 
 test('openai route still sends OPENAI_API_KEY as bearer auth', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEY = 'fake-openai-key'
@@ -4049,7 +4049,7 @@ test('openai route still sends OPENAI_API_KEY as bearer auth', async () => {
 test('OPENAI_API_KEYS rejects placeholder values before sending requests', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'key-a,SUA_CHAVE'
@@ -4076,7 +4076,7 @@ test('OPENAI_API_KEYS rejects placeholder values before sending requests', async
 test('OPENAI_API_KEYS rotates to the next key on rate-limit failure', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'key-a,key-b'
@@ -4110,7 +4110,7 @@ test('OPENAI_API_KEYS rotates to the next key on rate-limit failure', async () =
 test('comma-separated OPENAI_API_KEY rotates to the next key on rate-limit failure', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEY = 'key-a,key-b'
@@ -4144,7 +4144,7 @@ test('comma-separated OPENAI_API_KEY rotates to the next key on rate-limit failu
 test('OPENAI_API_KEYS does not rotate through pool on provider 5xx outage', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'key-a,key-b'
@@ -4175,7 +4175,7 @@ test('OPENAI_API_KEYS does not rotate through pool on provider 5xx outage', asyn
 test('OPENAI_API_KEYS preserves cooldown state across client requests', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'key-a,key-b'
@@ -4214,7 +4214,7 @@ test('OPENAI_API_KEYS preserves cooldown state across client requests', async ()
 test('OPENAI_API_KEYS rotates Azure api-key auth on auth failure', async () => {
   const apiKeys: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://example.openai.azure.com/openai/deployments/test/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'azure-key-a,azure-key-b'
@@ -4247,7 +4247,7 @@ test('OPENAI_API_KEYS rotates Azure api-key auth on auth failure', async () => {
 test('OPENAI_API_KEYS does not reuse auth-disabled credentials across client requests', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'key-a,key-b'
@@ -4288,7 +4288,7 @@ test('OPENAI_API_KEYS does not reuse auth-disabled credentials across client req
 test('OPENAI_API_KEYS permanently evicts 403 auth failures', async () => {
   const authorizations: Array<string | null> = []
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   process.env.OPENAI_API_KEYS = 'key-a,key-b'
@@ -4328,7 +4328,7 @@ test('OPENAI_API_KEYS permanently evicts 403 auth failures', async () => {
 test('does not use BNKR_API_KEY for non-Bankr OpenAI-compatible routes', async () => {
   let capturedAuthorization: string | null = null
 
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'
   process.env.OPENAI_MODEL = 'openai/gpt-5-mini'
   process.env.BNKR_API_KEY = 'bankr-live-key'
@@ -7751,7 +7751,7 @@ test('generic OpenAI-compatible providers do not echo reasoning_content on assis
 })
 
 test('gateway-routed DeepSeek models inherit descriptor-backed reasoning and token shaping', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://openrouter.ai/api/v1'
   process.env.OPENAI_API_KEY = 'sk-openrouter-test'
 
@@ -9209,7 +9209,7 @@ test('GitHub Copilot 401 chat_completions retries with refreshed token', async (
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'initial-token'
     process.env.GITHUB_TOKEN = 'initial-token'
@@ -9311,7 +9311,7 @@ test('GitHub Copilot 401 codex_responses retries with refreshed token', async ()
       }),
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'initial-token'
     process.env.GITHUB_TOKEN = 'initial-token'
@@ -9356,7 +9356,7 @@ test('GitHub Copilot 401 with credential pool uses refreshed token not pool key'
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     delete process.env.OPENAI_API_KEY
     process.env.OPENAI_API_KEYS = 'initial-token,second-key'
@@ -9418,7 +9418,7 @@ test('GitHub Copilot 401 with "token has expired" triggers refresh', async () =>
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'initial-token'
     process.env.GITHUB_TOKEN = 'initial-token'
@@ -9470,7 +9470,7 @@ test('GitHub Copilot 401 without expired-token message does not trigger refresh'
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'initial-token'
     process.env.GITHUB_TOKEN = 'initial-token'
@@ -9522,7 +9522,7 @@ test('GitHub Copilot 401 refresh returning same token does not update auth', asy
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'initial-token'
     process.env.GITHUB_TOKEN = 'initial-token'
@@ -9579,7 +9579,7 @@ test('GitHub Copilot 401 codex_responses with providerOverride does not trigger 
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'stored-copilot-token'
     process.env.GITHUB_TOKEN = 'stored-copilot-token'
@@ -9630,7 +9630,7 @@ test('GitHub Copilot 401 chat_completions with providerOverride does not trigger
       refreshCopilotTokenOn401: refreshSpy,
     }))
 
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.OPENAI_BASE_URL = 'https://api.githubcopilot.com'
     process.env.OPENAI_API_KEY = 'stored-copilot-token'
     process.env.GITHUB_TOKEN = 'stored-copilot-token'

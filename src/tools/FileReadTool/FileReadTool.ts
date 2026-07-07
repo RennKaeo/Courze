@@ -663,7 +663,7 @@ export const FileReadTool = buildTool({
     // Discover skills from this file's path (fire-and-forget, non-blocking)
     // Skip in simple mode - no skills available
     const cwd = getCwd()
-    if (!isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)) {
+    if (!isEnvTruthy(process.env.COURSE_CODE_SIMPLE)) {
       const newSkillDirs = await discoverSkillDirsForPaths([fullFilePath], cwd)
       if (newSkillDirs.length > 0) {
         // Store discovered dirs for attachment display
@@ -827,7 +827,7 @@ const MITIGATION_EXEMPT_MODELS = new Set([
 ])
 
 function shouldIncludeFileReadMitigation(): boolean {
-  if (isEnvTruthy(process.env.OPENCLAUDE_DISABLE_TOOL_REMINDERS)) {
+  if (isEnvTruthy(process.env.COURSE_DISABLE_TOOL_REMINDERS)) {
     return false
   }
   const shortName = getCanonicalName(getMainLoopModel())

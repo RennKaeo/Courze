@@ -34,7 +34,7 @@ export function createToolFailureLoopGuardState(): ToolFailureLoopGuardState {
 }
 
 export function getToolFailureLoopThreshold(
-  value = process.env.CLAUDE_CODE_TOOL_FAILURE_LOOP_THRESHOLD,
+  value = process.env.COURSE_CODE_TOOL_FAILURE_LOOP_THRESHOLD,
 ): number {
   if (value === undefined) {
     return DEFAULT_TOOL_FAILURE_LOOP_THRESHOLD

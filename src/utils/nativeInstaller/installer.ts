@@ -114,7 +114,7 @@ export function getBinaryName(platform: string): string {
 
 export function getExecutableName(platform: string): string {
   const baseName =
-    MACRO.PACKAGE_URL === '@anthropic-ai/claude-code' ? 'claude' : 'course'
+    MACRO.PACKAGE_URL === '@anthropic-ai/course-code' ? 'claude' : 'course'
   return platform.startsWith('win32') ? `${baseName}.exe` : baseName
 }
 
@@ -1589,7 +1589,7 @@ async function manualRemoveNpmPackage(
     }
 
     const binName =
-      packageName === '@anthropic-ai/claude-code' ? 'claude' : 'course'
+      packageName === '@anthropic-ai/course-code' ? 'claude' : 'course'
 
     if (getPlatform().startsWith('win32')) {
       // Windows - only remove executables, not the package directory
@@ -1697,9 +1697,9 @@ export async function cleanupNpmInstallations(): Promise<{
   const warnings: string[] = []
   let removed = 0
 
-  // Always attempt to remove @anthropic-ai/claude-code
+  // Always attempt to remove @anthropic-ai/course-code
   const codePackageResult = await attemptNpmUninstall(
-    '@anthropic-ai/claude-code',
+    '@anthropic-ai/course-code',
   )
   if (codePackageResult.success) {
     removed++
@@ -1711,7 +1711,7 @@ export async function cleanupNpmInstallations(): Promise<{
   }
 
   // Also attempt to remove MACRO.PACKAGE_URL if it's defined and different
-  if (MACRO.PACKAGE_URL && MACRO.PACKAGE_URL !== '@anthropic-ai/claude-code') {
+  if (MACRO.PACKAGE_URL && MACRO.PACKAGE_URL !== '@anthropic-ai/course-code') {
     const macroPackageResult = await attemptNpmUninstall(MACRO.PACKAGE_URL)
     if (macroPackageResult.success) {
       removed++

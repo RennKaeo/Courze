@@ -198,7 +198,7 @@ export const SOURCES = [
 
 /**
  * The JSON Schema URL for Claude Code settings
- * You can edit the contents at https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/claude-code-settings.json
+ * You can edit the contents at https://github.com/SchemaStore/schemastore/blob/master/src/schemas/json/course-code-settings.json
  */
-export const CLAUDE_CODE_SETTINGS_SCHEMA_URL =
-  'https://json.schemastore.org/claude-code-settings.json'
+export const COURSE_CODE_SETTINGS_SCHEMA_URL =
+  'https://json.schemastore.org/course-code-settings.json'

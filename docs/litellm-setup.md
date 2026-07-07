@@ -62,7 +62,7 @@ The proxy will start at `http://localhost:4000` by default.
 ### Option A: Environment Variables
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://localhost:4000/v1
 export OPENAI_API_KEY=<your-master-key-or-placeholder>
 export OPENAI_MODEL=<your-litellm-model-alias>
@@ -119,7 +119,7 @@ litellm_settings:
 litellm --config litellm_config.yaml --port 4000 --master_key sk-my-master-key
 
 # Connect Course Code
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://localhost:4000/v1
 export OPENAI_API_KEY=sk-my-master-key
 export OPENAI_MODEL=gpt-4o
@@ -155,7 +155,7 @@ your proxy does not expose context metadata from `/v1/models`, set an explicit
 override before launching:
 
 ```bash
-export CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS='{"long-context-model":1000000}'
+export COURSE_CODE_OPENAI_CONTEXT_WINDOWS='{"long-context-model":1000000}'
 ```
 
 ## 5. Troubleshooting
@@ -165,7 +165,7 @@ export CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS='{"long-context-model":1000000}'
 | 404 or Model Not Found | Model alias doesn't exist in LiteLLM config | Verify the `model_name` in `litellm_config.yaml` matches `OPENAI_MODEL` |
 | Connection Refused | LiteLLM proxy isn't running | Start the proxy with `litellm --config litellm_config.yaml --port 4000` |
 | Auth Failed | Missing or wrong `master_key` | Set the correct key in `OPENAI_API_KEY` |
-| `/context` shows 128K for a larger model | LiteLLM is not exposing context metadata for the alias, or startup discovery has not refreshed | Add `model_info.context_length` or `model_info.max_input_tokens` to the LiteLLM config, restart the proxy, then restart Course Code; use `CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS` as an explicit override if needed |
+| `/context` shows 128K for a larger model | LiteLLM is not exposing context metadata for the alias, or startup discovery has not refreshed | Add `model_info.context_length` or `model_info.max_input_tokens` to the LiteLLM config, restart the proxy, then restart Course Code; use `COURSE_CODE_OPENAI_CONTEXT_WINDOWS` as an explicit override if needed |
 | Upstream provider error | The backend provider key is missing or invalid | Ensure the upstream API key (e.g., `OPENAI_API_KEY`) is set in your LiteLLM proxy process environment |
 | Tools fail but chat works | The selected model has weak function/tool calling support | Switch to a model with strong tool support (e.g., GPT-4o, Claude Sonnet) |
 

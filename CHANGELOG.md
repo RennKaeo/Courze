@@ -78,7 +78,7 @@
 * **cli:** add local background sessions ([#1642](https://github.com/RennKaeo/Courze/issues/1642)) ([a1b3346](https://github.com/RennKaeo/Courze/commit/a1b3346f654d06f97aeec102394e0786bf8934ba))
 * **commands:** add /update command with package-manager auto-detection ([#1687](https://github.com/RennKaeo/Courze/issues/1687)) ([c4aa756](https://github.com/RennKaeo/Courze/commit/c4aa7566899132effd798766a80b772fe01c4d2a))
 * **config:** add explicit provider env-file loading ([#1668](https://github.com/RennKaeo/Courze/issues/1668)) ([5af6f95](https://github.com/RennKaeo/Courze/commit/5af6f95c46ebe994dc892177c956e4fdd9466426))
-* **config:** add OPENCLAUDE_CONFIG_DIR override ([#1683](https://github.com/RennKaeo/Courze/issues/1683)) ([2aad6fc](https://github.com/RennKaeo/Courze/commit/2aad6fc93eeb93f668af87a88a02f5930a3fdc25))
+* **config:** add COURSE_CONFIG_DIR override ([#1683](https://github.com/RennKaeo/Courze/issues/1683)) ([2aad6fc](https://github.com/RennKaeo/Courze/commit/2aad6fc93eeb93f668af87a88a02f5930a3fdc25))
 * **context-collapse:** opt-in between-turns context collapse (span summarization) ([#1619](https://github.com/RennKaeo/Courze/issues/1619)) ([d5588ea](https://github.com/RennKaeo/Courze/commit/d5588ea80da55392ce79865448cb86b10778b6be))
 * **fireworks:** add GLM-5.2 model support ([#1728](https://github.com/RennKaeo/Courze/issues/1728)) ([ae66c30](https://github.com/RennKaeo/Courze/commit/ae66c30df55665282ebc244142c0b0d6b4f28083))
 * **integrations:** add GLM 5.2 as an Opengateway-routed model ([#1772](https://github.com/RennKaeo/Courze/issues/1772)) ([adafde3](https://github.com/RennKaeo/Courze/commit/adafde30fa9330404d89cedb731bade075d28d95))
@@ -111,7 +111,7 @@
 * preserve provider route context metadata ([#1741](https://github.com/RennKaeo/Courze/issues/1741)) ([5625f42](https://github.com/RennKaeo/Courze/commit/5625f4217df00eeec79d4629b21da175f9267a7e))
 * **provider:** Add Xiaomi MiMo token plan provider ([#1751](https://github.com/RennKaeo/Courze/issues/1751)) ([091571f](https://github.com/RennKaeo/Courze/commit/091571f643b5ddaf060d397342f93b00271b3e40))
 * **provider:** centralize provider secret redaction ([#1665](https://github.com/RennKaeo/Courze/issues/1665)) ([29aea49](https://github.com/RennKaeo/Courze/commit/29aea4969d0686f9864bbe88b030f79890d745c4))
-* **provider:** honor explicit CLAUDE_CODE_USE_OPENAI=0 on fresh startup ([#1690](https://github.com/RennKaeo/Courze/issues/1690)) ([6fbbf2d](https://github.com/RennKaeo/Courze/commit/6fbbf2dffce6efbbb130ebcb69a1d22cbd727c16)), closes [#1245](https://github.com/RennKaeo/Courze/issues/1245)
+* **provider:** honor explicit COURSE_CODE_USE_OPENAI=0 on fresh startup ([#1690](https://github.com/RennKaeo/Courze/issues/1690)) ([6fbbf2d](https://github.com/RennKaeo/Courze/commit/6fbbf2dffce6efbbb130ebcb69a1d22cbd727c16)), closes [#1245](https://github.com/RennKaeo/Courze/issues/1245)
 * **provider:** match xAI base URL by hostname, not 'x.ai' substring ([#1669](https://github.com/RennKaeo/Courze/issues/1669)) ([1b33fa6](https://github.com/RennKaeo/Courze/commit/1b33fa62b841aa0a0230d685957925598e2edecf))
 * **query:** add activity-aware query guard leases ([#1686](https://github.com/RennKaeo/Courze/issues/1686)) ([23cfc24](https://github.com/RennKaeo/Courze/commit/23cfc242ed465de22ddc8b54952b1bbf04cef785))
 * **sdk:** make stub-leak detection TDZ-safe + defer to next microtask ([#1287](https://github.com/RennKaeo/Courze/issues/1287)) ([#1398](https://github.com/RennKaeo/Courze/issues/1398)) ([650fae9](https://github.com/RennKaeo/Courze/commit/650fae952d2b4c22fb5216121f18ba613e4191f5))
@@ -143,7 +143,7 @@
 * **ctx:** add /ctx context window visualization and token bars to /cost ([#1610](https://github.com/RennKaeo/Courze/issues/1610)) ([c2cf603](https://github.com/RennKaeo/Courze/commit/c2cf60334421736a0e1f183ae0f8ff766ad4ecdf))
 * **gemini-vertex:** native Gemini Vertex client and auth helpers (1/3) ([#1607](https://github.com/RennKaeo/Courze/issues/1607)) ([b9c65de](https://github.com/RennKaeo/Courze/commit/b9c65deabc00d7bdc622c8d30087f2702c8910f1))
 * **provider:** add Fireworks AI as official OpenAI-compatible provider ([#1590](https://github.com/RennKaeo/Courze/issues/1590)) ([0b24b60](https://github.com/RennKaeo/Courze/commit/0b24b60ce92a108ab062c1a78ce101d4f951c45c))
-* **web:** rebuild landing as Astro static site with gitlawb theme and full docs ([#1606](https://github.com/RennKaeo/Courze/issues/1606)) ([d08593d](https://github.com/RennKaeo/Courze/commit/d08593de922891bff954985d716e9a906d01538e))
+* **web:** rebuild landing as Astro static site with courze theme and full docs ([#1606](https://github.com/RennKaeo/Courze/issues/1606)) ([d08593d](https://github.com/RennKaeo/Courze/commit/d08593de922891bff954985d716e9a906d01538e))
 
 
 ### Bug Fixes
@@ -421,7 +421,7 @@
 * **groq:** dynamic model discovery with mapModel filtering and hybrid catalog ([#1143](https://github.com/RennKaeo/Courze/issues/1143)) ([a65bdb4](https://github.com/RennKaeo/Courze/commit/a65bdb41b84e7454ef2f50921ea56f04464f0455))
 * implement high-performance SQLite storage layer with JSON audit log (Phase 2 Masterpiece) ([#1106](https://github.com/RennKaeo/Courze/issues/1106)) ([e12432e](https://github.com/RennKaeo/Courze/commit/e12432eaf68be2ded987f83b16f1d4ae994d4d2b))
 * **nvidia-nim:** add latest chat models, remove duplicate Mixtral 8x22B entry. Verified against integrate.api.nvidia.com/v1/models on 2026-05-13. Tracks [#1099](https://github.com/RennKaeo/Courze/issues/1099). ([#1145](https://github.com/RennKaeo/Courze/issues/1145)) ([0f6668f](https://github.com/RennKaeo/Courze/commit/0f6668f554a9ed687095a3ce244fdf246cfe884c))
-* **provider:** add Gitlawb Opengateway as default provider with MiMo ([#1165](https://github.com/RennKaeo/Courze/issues/1165)) ([5b5ba88](https://github.com/RennKaeo/Courze/commit/5b5ba8853bd8b3d922b957a96484e1092cd3a6a3))
+* **provider:** add OpenGateway as default provider with MiMo ([#1165](https://github.com/RennKaeo/Courze/issues/1165)) ([5b5ba88](https://github.com/RennKaeo/Courze/commit/5b5ba8853bd8b3d922b957a96484e1092cd3a6a3))
 * **provider:** add Venice official provider ([#1109](https://github.com/RennKaeo/Courze/issues/1109)) ([f9621ab](https://github.com/RennKaeo/Courze/commit/f9621ab575762453bff5d224e1e6f44067d9b1f3))
 * **provider:** add Xiaomi MiMo integration ([#1152](https://github.com/RennKaeo/Courze/issues/1152)) ([18483e4](https://github.com/RennKaeo/Courze/commit/18483e4d96e9763993af116112a0fee4877a1227))
 
@@ -468,7 +468,7 @@
 
 ### Performance Improvements
 
-* **local:** add OPENCLAUDE_LOCAL_FAST_PATH to skip cloud-only transforms ([#1068](https://github.com/RennKaeo/Courze/issues/1068)) ([4fad5d2](https://github.com/RennKaeo/Courze/commit/4fad5d25dadbaee3712a2dd3749d1a9e8363a0b7)), closes [#1016](https://github.com/RennKaeo/Courze/issues/1016)
+* **local:** add COURSE_LOCAL_FAST_PATH to skip cloud-only transforms ([#1068](https://github.com/RennKaeo/Courze/issues/1068)) ([4fad5d2](https://github.com/RennKaeo/Courze/commit/4fad5d25dadbaee3712a2dd3749d1a9e8363a0b7)), closes [#1016](https://github.com/RennKaeo/Courze/issues/1016)
 
 ## [0.9.2](https://github.com/RennKaeo/Courze/compare/v0.9.1...v0.9.2) (2026-05-06)
 
@@ -539,7 +539,7 @@
 ### Features
 
 * add model-specific tokenizers and compression ratio detection ([#799](https://github.com/RennKaeo/Courze/issues/799)) ([e92e527](https://github.com/RennKaeo/Courze/commit/e92e5274b223d935d380b1fbd234cb631ab03211))
-* add OPENCLAUDE_DISABLE_TOOL_REMINDERS env var to suppress hidden tool-output reminders ([#837](https://github.com/RennKaeo/Courze/issues/837)) ([28de94d](https://github.com/RennKaeo/Courze/commit/28de94df5dcd7718cb334e2e793e9472f5b291c5)), closes [#809](https://github.com/RennKaeo/Courze/issues/809)
+* add COURSE_DISABLE_TOOL_REMINDERS env var to suppress hidden tool-output reminders ([#837](https://github.com/RennKaeo/Courze/issues/837)) ([28de94d](https://github.com/RennKaeo/Courze/commit/28de94df5dcd7718cb334e2e793e9472f5b291c5)), closes [#809](https://github.com/RennKaeo/Courze/issues/809)
 * add streaming optimizer and structured request logging ([#703](https://github.com/RennKaeo/Courze/issues/703)) ([5b9cd21](https://github.com/RennKaeo/Courze/commit/5b9cd21e373823a77fd552d6e02f5d4b68ae06b1))
 * add xAI as official provider ([#865](https://github.com/RennKaeo/Courze/issues/865)) ([2586a9c](https://github.com/RennKaeo/Courze/commit/2586a9cddbd2512826bca81cb5deb3ec97f00f0f))
 * **api:** expose cache metrics in REPL + normalize across providers ([#813](https://github.com/RennKaeo/Courze/issues/813)) ([9e23c2b](https://github.com/RennKaeo/Courze/commit/9e23c2bec43697187762601db5b1585c9b0fb1a3))
@@ -588,7 +588,7 @@
 * **api:** ensure strict role sequence and filter empty assistant messages after interruption ([#745](https://github.com/RennKaeo/Courze/issues/745) regression) ([#794](https://github.com/RennKaeo/Courze/issues/794)) ([06e7684](https://github.com/RennKaeo/Courze/commit/06e7684eb56df8e694ac784575e163641931c44c))
 * Collapse all-text arrays to string for DeepSeek compatibility ([#806](https://github.com/RennKaeo/Courze/issues/806)) ([761924d](https://github.com/RennKaeo/Courze/commit/761924daa7e225fe8acf41651408c7cae639a511))
 * **model:** codex/nvidia-nim/minimax now read OPENAI_MODEL env ([#815](https://github.com/RennKaeo/Courze/issues/815)) ([4581208](https://github.com/RennKaeo/Courze/commit/458120889f6ce54cc9f0b287461d5e38eae48a20))
-* **provider:** saved profile ignored when stale CLAUDE_CODE_USE_* in shell ([#807](https://github.com/RennKaeo/Courze/issues/807)) ([13de4e8](https://github.com/RennKaeo/Courze/commit/13de4e85df7f5fadc8cd15a76076374dc112360b))
+* **provider:** saved profile ignored when stale COURSE_CODE_USE_* in shell ([#807](https://github.com/RennKaeo/Courze/issues/807)) ([13de4e8](https://github.com/RennKaeo/Courze/commit/13de4e85df7f5fadc8cd15a76076374dc112360b))
 * rename .claude.json to .course.json with legacy fallback ([#582](https://github.com/RennKaeo/Courze/issues/582)) ([4d4fb28](https://github.com/RennKaeo/Courze/commit/4d4fb2880e4d0e3a62d8715e1ec13d932e736279))
 * replace discontinued gemini-2.5-pro-preview-03-25 with stable gemini-2.5-pro ([#802](https://github.com/RennKaeo/Courze/issues/802)) ([64582c1](https://github.com/RennKaeo/Courze/commit/64582c119d5d0278195271379da4a68d59a89c1f)), closes [#398](https://github.com/RennKaeo/Courze/issues/398)
 * **security:** harden project settings trust boundary + MCP sanitization ([#789](https://github.com/RennKaeo/Courze/issues/789)) ([ae3b723](https://github.com/RennKaeo/Courze/commit/ae3b723f3b297b49925cada4728f3174aee8bf12))
@@ -616,7 +616,7 @@
 
 ### Features
 
-* add OPENCLAUDE_DISABLE_STRICT_TOOLS env var to opt out of strict MCP tool schema normalization ([#770](https://github.com/RennKaeo/Courze/issues/770)) ([e6e8d9a](https://github.com/RennKaeo/Courze/commit/e6e8d9a24897e4c9ef08b72df20fabbf8ef27f38))
+* add COURSE_DISABLE_STRICT_TOOLS env var to opt out of strict MCP tool schema normalization ([#770](https://github.com/RennKaeo/Courze/issues/770)) ([e6e8d9a](https://github.com/RennKaeo/Courze/commit/e6e8d9a24897e4c9ef08b72df20fabbf8ef27f38))
 * mask provider api key input ([#772](https://github.com/RennKaeo/Courze/issues/772)) ([13e9f22](https://github.com/RennKaeo/Courze/commit/13e9f22a83a2b0f85f557b1e12c9442ba61241e4))
 
 

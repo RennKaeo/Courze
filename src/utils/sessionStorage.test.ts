@@ -189,14 +189,14 @@ function readSessionBranchEntries(text: string): SessionBranchEntry[] {
 async function withSessionPersistence<T>(fn: () => Promise<T>): Promise<T> {
   const originalPersistence = process.env.TEST_ENABLE_SESSION_PERSISTENCE
   const originalSessionPersistence = process.env.ENABLE_SESSION_PERSISTENCE
-  const originalSkipPromptHistory = process.env.CLAUDE_CODE_SKIP_PROMPT_HISTORY
+  const originalSkipPromptHistory = process.env.COURSE_CODE_SKIP_PROMPT_HISTORY
   const originalNodeEnv = process.env.NODE_ENV
   const originalSessionId = getSessionId()
   const originalSessionPersistenceDisabled = isSessionPersistenceDisabled()
   process.env.NODE_ENV = 'development'
   process.env.TEST_ENABLE_SESSION_PERSISTENCE = 'true'
   process.env.ENABLE_SESSION_PERSISTENCE = 'true'
-  delete process.env.CLAUDE_CODE_SKIP_PROMPT_HISTORY
+  delete process.env.COURSE_CODE_SKIP_PROMPT_HISTORY
   setSessionPersistenceDisabled(false)
   try {
     resetProjectForTesting()
@@ -213,9 +213,9 @@ async function withSessionPersistence<T>(fn: () => Promise<T>): Promise<T> {
       process.env.ENABLE_SESSION_PERSISTENCE = originalSessionPersistence
     }
     if (originalSkipPromptHistory === undefined) {
-      delete process.env.CLAUDE_CODE_SKIP_PROMPT_HISTORY
+      delete process.env.COURSE_CODE_SKIP_PROMPT_HISTORY
     } else {
-      process.env.CLAUDE_CODE_SKIP_PROMPT_HISTORY = originalSkipPromptHistory
+      process.env.COURSE_CODE_SKIP_PROMPT_HISTORY = originalSkipPromptHistory
     }
     if (originalNodeEnv === undefined) {
       delete process.env.NODE_ENV
@@ -255,7 +255,7 @@ test('recordTranscript respects prompt-history opt-out for replay state', async 
     )
     resetSettingsCache()
     process.env.TEST_ENABLE_SESSION_PERSISTENCE = 'false'
-    process.env.CLAUDE_CODE_SKIP_PROMPT_HISTORY = 'true'
+    process.env.COURSE_CODE_SKIP_PROMPT_HISTORY = 'true'
     resetProjectForTesting()
     resetAllReplayIndexBuilders()
 

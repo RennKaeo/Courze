@@ -27,7 +27,7 @@ import { getManagedFilePath } from './settings/managedPath.js'
 import { isRestrictedToPluginOnly } from './settings/pluginOnlyPolicy.js'
 
 // Claude configuration directory names
-export const CLAUDE_CONFIG_DIRECTORIES = [
+export const COURSE_CONFIG_DIRECTORIES = [
   'commands',
   'agents',
   'output-styles',
@@ -36,7 +36,7 @@ export const CLAUDE_CONFIG_DIRECTORIES = [
   ...(feature('TEMPLATES') ? (['templates'] as const) : []),
 ] as const
 
-export type ClaudeConfigDirectory = (typeof CLAUDE_CONFIG_DIRECTORIES)[number]
+export type ClaudeConfigDirectory = (typeof COURSE_CONFIG_DIRECTORIES)[number]
 
 const PROJECT_CONFIG_DIR_NAMES = ['.claude', '.course'] as const
 
@@ -51,11 +51,11 @@ const MARKDOWN_LOAD_BATCH_SIZE = 32
 // Max file size to ingest. Legitimate commands/agents/skills are small (a few
 // KB). Files larger than this are almost always vault notes or unrelated docs
 // that got dragged in via symlink — reading them all into memory causes the
-// same freeze (#769). Override with CLAUDE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES.
+// same freeze (#769). Override with COURSE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES.
 const DEFAULT_MAX_MARKDOWN_FILE_SIZE_BYTES = 256 * 1024
 
 function getMaxMarkdownFileSizeBytes(): number {
-  const raw = process.env.CLAUDE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES
+  const raw = process.env.COURSE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES
   if (!raw) return DEFAULT_MAX_MARKDOWN_FILE_SIZE_BYTES
   const parsed = Number.parseInt(raw, 10)
   return Number.isFinite(parsed) && parsed > 0
@@ -94,7 +94,7 @@ function recordOversizedSkip(skip: OversizedMarkdownSkip): void {
     process.stderr.write(
       `course: skipping oversized markdown config file ${skip.filePath} ` +
         `(${skip.sizeBytes} bytes > ${skip.maxBytes} max). Set ` +
-        `CLAUDE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES to raise the cap.\n`,
+        `COURSE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES to raise the cap.\n`,
     )
   }
 }
@@ -213,7 +213,7 @@ export function parseSlashCommandToolsFromFrontmatter(
  * Uses bigint: true to handle filesystems with large inodes (e.g., ExFAT)
  * that exceed JavaScript's Number precision (53 bits). Without bigint, different
  * large inodes can round to the same Number, causing false duplicate detection.
- * See: https://github.com/anthropics/claude-code/issues/13893
+ * See: https://github.com/anthropics/course-code/issues/13893
  *
  * @param filePath - Path to the file
  * @returns A string identifier "device:inode" or null if file can't be identified
@@ -377,7 +377,7 @@ export const loadMarkdownFilesForSubdir = memoize(
     // is absent. A standard `git worktree add` checks out the full tree, so the
     // worktree already has identical .claude/<subdir> content — loading the main
     // repo's copy too would duplicate every command/agent/skill
-    // (anthropics/claude-code#29599, #28182, #26992).
+    // (anthropics/course-code#29599, #28182, #26992).
     //
     // projectDirs already reflects existence (getProjectDirsUpToHome checked
     // each dir), so we compare against that instead of stat'ing again.
@@ -501,7 +501,7 @@ export const loadMarkdownFilesForSubdir = memoize(
  * This implementation exists alongside ripgrep for the following reasons:
  * 1. Ripgrep has poor startup performance in native builds (noticeable on app startup)
  * 2. Provides a fallback when ripgrep is unavailable
- * 3. Can be explicitly enabled via CLAUDE_CODE_USE_NATIVE_FILE_SEARCH env var
+ * 3. Can be explicitly enabled via COURSE_CODE_USE_NATIVE_FILE_SEARCH env var
  *
  * Symlink handling:
  * - Follows symlinks (equivalent to ripgrep's --follow flag)
@@ -529,7 +529,7 @@ async function findMarkdownFilesNative(
     // Cycle detection: track visited directories by device+inode
     // Uses bigint: true to handle filesystems with large inodes (e.g., ExFAT)
     // that exceed JavaScript's Number precision (53 bits).
-    // See: https://github.com/anthropics/claude-code/issues/13893
+    // See: https://github.com/anthropics/course-code/issues/13893
     try {
       const stats = await stat(currentDir, { bigint: true })
       if (stats.isDirectory()) {
@@ -618,10 +618,10 @@ async function loadMarkdownFiles(dir: string): Promise<
 > {
   // File search strategy:
   // - Default: ripgrep (faster, battle-tested)
-  // - Fallback: native Node.js (when CLAUDE_CODE_USE_NATIVE_FILE_SEARCH is set)
+  // - Fallback: native Node.js (when COURSE_CODE_USE_NATIVE_FILE_SEARCH is set)
   //
   // Why both? Ripgrep has poor startup performance in native builds.
-  const useNative = isEnvTruthy(process.env.CLAUDE_CODE_USE_NATIVE_FILE_SEARCH)
+  const useNative = isEnvTruthy(process.env.COURSE_CODE_USE_NATIVE_FILE_SEARCH)
   const { signal, cleanup } = createCombinedAbortSignal(undefined, {
     timeoutMs: 3000,
   })
@@ -667,7 +667,7 @@ async function loadMarkdownFiles(dir: string): Promise<
               maxBytes: maxFileSize,
             })
             logForDebugging(
-              `Skipping oversized markdown file ${filePath} (${fileStat.size} bytes > ${maxFileSize} max). Set CLAUDE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES to override.`,
+              `Skipping oversized markdown file ${filePath} (${fileStat.size} bytes > ${maxFileSize} max). Set COURSE_CODE_MAX_MARKDOWN_FILE_SIZE_BYTES to override.`,
               { level: 'warn' },
             )
             return null

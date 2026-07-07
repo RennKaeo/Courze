@@ -107,7 +107,7 @@ function oc-local {
 
   Invoke-Course CodeWithEnvironment `
     -Environment @{
-      CLAUDE_CODE_USE_OPENAI = "1"
+      COURSE_CODE_USE_OPENAI = "1"
       OPENAI_BASE_URL        = "http://localhost:11434/v1"
       OPENAI_MODEL           = $Model
     } `
@@ -124,10 +124,10 @@ function oc-fast {
 
   Invoke-Course CodeWithEnvironment `
     -Environment @{
-      CLAUDE_CODE_USE_OPENAI = "1"
+      COURSE_CODE_USE_OPENAI = "1"
       OPENAI_BASE_URL        = "http://localhost:11434/v1"
       OPENAI_MODEL           = $Model
-      OPENCLAUDE_FAST_MODE   = "1"
+      COURSE_FAST_MODE   = "1"
     } `
     @Course CodeArgs
 }

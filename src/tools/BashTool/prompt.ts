@@ -38,7 +38,7 @@ export function getEffectiveTimeoutMs(timeout: unknown): number {
 }
 
 function getBackgroundUsageNote(): string | null {
-  if (isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_BACKGROUND_TASKS)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_DISABLE_BACKGROUND_TASKS)) {
     return null
   }
   return "You can use the `run_in_background` parameter to run the command in the background. Only use this if you don't need the result immediately and are OK being notified when the command completes later. You do not need to check the output right away - you'll be notified when it finishes. You do not need to use '&' at the end of the command when using this parameter."
@@ -59,7 +59,7 @@ function getCommitAndPRInstructions(): string {
 
   // For ant users, use the short version pointing to skills
   if (process.env.USER_TYPE === 'ant') {
-    const skillsSection = !isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)
+    const skillsSection = !isEnvTruthy(process.env.COURSE_CODE_SIMPLE)
       ? `For git commits and pull requests, use the \`/commit\` and \`/commit-push-pr\` skills:
 - \`/commit\` - Create a git commit with staged changes
 - \`/commit-push-pr\` - Commit, push, and create a pull request

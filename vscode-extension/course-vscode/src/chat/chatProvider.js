@@ -31,7 +31,7 @@ function getLaunchConfig() {
   const shimEnabled = cfg.get('useOpenAIShim', false);
   const permissionMode = cfg.get('permissionMode', 'acceptEdits');
   const env = {};
-  if (shimEnabled) env.CLAUDE_CODE_USE_OPENAI = '1';
+  if (shimEnabled) env.COURSE_CODE_USE_OPENAI = '1';
   const folders = vscode.workspace.workspaceFolders;
   const cwd = folders && folders.length > 0 ? folders[0].uri.fsPath : undefined;
   return { command, cwd, env, permissionMode };

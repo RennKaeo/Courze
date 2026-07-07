@@ -14,22 +14,22 @@ import * as realUdsClient from './udsClient.js'
 import * as realProviders from './model/providers.js'
 
 const tempDirs: string[] = []
-const originalSimple = process.env.CLAUDE_CODE_SIMPLE
+const originalSimple = process.env.COURSE_CODE_SIMPLE
 const providerEnvKeys = [
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_MISTRAL',
-  'CLAUDE_CODE_USE_GITHUB',
-  'CLAUDE_CODE_USE_BEDROCK',
-  'CLAUDE_CODE_USE_VERTEX',
-  'CLAUDE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_FOUNDRY',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_MISTRAL',
+  'COURSE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_BEDROCK',
+  'COURSE_CODE_USE_VERTEX',
+  'COURSE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_FOUNDRY',
   'OPENAI_MODEL',
   'OPENAI_BASE_URL',
   'OPENAI_API_BASE',
   'NVIDIA_NIM',
   'MINIMAX_API_KEY',
   'XAI_API_KEY',
-  'CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED',
+  'COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED',
 ] as const
 const originalProviderEnv = Object.fromEntries(
   providerEnvKeys.map(key => [key, process.env[key]]),
@@ -139,9 +139,9 @@ afterEach(async () => {
     mock.module('./udsClient.js', () => realUdsClient)
     mock.module('./model/providers.js', () => realProviders)
     if (originalSimple === undefined) {
-      delete process.env.CLAUDE_CODE_SIMPLE
+      delete process.env.COURSE_CODE_SIMPLE
     } else {
-      process.env.CLAUDE_CODE_SIMPLE = originalSimple
+      process.env.COURSE_CODE_SIMPLE = originalSimple
     }
     for (const key of providerEnvKeys) {
       const value = originalProviderEnv[key]
@@ -164,11 +164,11 @@ async function importFreshConversationRecovery() {
   mock.module('./model/providers.js', () => ({
     ...realProviders,
     getAPIProvider: () => {
-      if (process.env.CLAUDE_CODE_USE_GITHUB) return 'github'
-      if (process.env.CLAUDE_CODE_USE_OPENAI) return 'openai'
-      if (process.env.CLAUDE_CODE_USE_BEDROCK) return 'bedrock'
-      if (process.env.CLAUDE_CODE_USE_VERTEX) return 'vertex'
-      if (process.env.CLAUDE_CODE_USE_FOUNDRY) return 'foundry'
+      if (process.env.COURSE_CODE_USE_GITHUB) return 'github'
+      if (process.env.COURSE_CODE_USE_OPENAI) return 'openai'
+      if (process.env.COURSE_CODE_USE_BEDROCK) return 'bedrock'
+      if (process.env.COURSE_CODE_USE_VERTEX) return 'vertex'
+      if (process.env.COURSE_CODE_USE_FOUNDRY) return 'foundry'
       return 'firstParty'
     },
   }))
@@ -183,7 +183,7 @@ function clearProviderEnv(): void {
 }
 
 test('loadConversationForResume accepts a small transcript from jsonl path', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const path = await writeJsonl(user(id(1), 'hello'))
   const { loadConversationForResume } = await importFreshConversationRecovery()
 
@@ -194,7 +194,7 @@ test('loadConversationForResume accepts a small transcript from jsonl path', asy
 })
 
 test('loadConversationForResume preserves goal metadata from a loaded log option', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const goal = activeGoal('keep going after resume')
   const { loadConversationForResume } = await importFreshConversationRecovery()
 
@@ -218,7 +218,7 @@ test('loadConversationForResume preserves goal metadata from a loaded log option
 })
 
 test('loadConversationForResume preserves goal metadata from jsonl transcript path', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const goal = activeGoal('keep going after jsonl resume')
   const path = await writeJsonlEntries([
     {
@@ -281,7 +281,7 @@ test('findResumeLogByPrSelector selects the first non-sidechain PR match', async
 })
 
 test('loadConversationForResume rejects oversized reconstructed transcripts', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const hugeContent = 'x'.repeat(8 * 1024 * 1024 + 32 * 1024)
   const path = await writeJsonl(user(id(2), hugeContent))
   const {
@@ -303,7 +303,7 @@ test('loadConversationForResume rejects oversized reconstructed transcripts', as
 })
 
 test('collectLiveBackgroundSessionIds includes local registry sessions when UDS is empty', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const liveSessionId = '00000000-0000-4000-8000-000000000111'
   const staleSessionId = '00000000-0000-4000-8000-000000000222'
   const { collectLiveBackgroundSessionIds } =
@@ -328,7 +328,7 @@ test('collectLiveBackgroundSessionIds includes local registry sessions when UDS 
 })
 
 test('collectLiveBackgroundSessionIds falls back to registry sessions when UDS fails', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const liveSessionId = '00000000-0000-4000-8000-000000000333'
   const { collectLiveBackgroundSessionIds } =
     await importFreshConversationRecovery()
@@ -350,7 +350,7 @@ test('collectLiveBackgroundSessionIds falls back to registry sessions when UDS f
 })
 
 test('collectLiveBackgroundSessionIds falls back to UDS sessions when registry refresh fails', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const liveSessionId = '00000000-0000-4000-8000-000000000444'
   const interactiveSessionId = '00000000-0000-4000-8000-000000000555'
   const { collectLiveBackgroundSessionIds } =
@@ -378,7 +378,7 @@ test('collectLiveBackgroundSessionIds falls back to UDS sessions when registry r
 
 test('deserializeMessages preserves thinking blocks for GitHub native Claude transport', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'claude-sonnet-4-6'
   const { deserializeMessages } = await importFreshConversationRecovery()
 
@@ -606,7 +606,7 @@ test('restoreSkillStateFromMessages restores only complete valid invoked skill r
 })
 
 test('loadConversationForResume keeps valid messages around a malformed attachment record', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
   const path = await writeJsonlEntries([
     user(id(60), 'before'),
     {
@@ -662,7 +662,7 @@ test('deserializeMessages preserves thinking blocks for DeepSeek 3P provider (#9
   // back"). preserveReasoningContent: true (from runtimeMetadata's DeepSeek
   // shim config inference) must opt the provider out of the 3P thinking strip.
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.deepseek.com/v1'
   process.env.OPENAI_MODEL = 'deepseek-v4-flash'
   const { deserializeMessages } = await importFreshConversationRecovery()
@@ -691,7 +691,7 @@ test('deserializeMessages still strips thinking blocks for generic OpenAI 3P (no
   // original strip behaviour from #248; thinking blocks were causing 400s
   // there, and the fix for #957 must not regress that path.
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5-mini'
   const { deserializeMessages } = await importFreshConversationRecovery()

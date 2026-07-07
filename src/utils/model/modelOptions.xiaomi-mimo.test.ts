@@ -13,22 +13,22 @@ import {
 } from './xiaomi-mimoModels.js'
 
 const originalEnv = {
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_MISTRAL: process.env.CLAUDE_CODE_USE_MISTRAL,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_MISTRAL: process.env.COURSE_CODE_USE_MISTRAL,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
   OPENAI_BASE_URL: process.env.OPENAI_BASE_URL,
   OPENAI_API_BASE: process.env.OPENAI_API_BASE,
   OPENAI_MODEL: process.env.OPENAI_MODEL,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
   MIMO_API_KEY: process.env.MIMO_API_KEY,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
   MINIMAX_API_KEY: process.env.MINIMAX_API_KEY,
   NVIDIA_NIM: process.env.NVIDIA_NIM,
   VENICE_API_KEY: process.env.VENICE_API_KEY,
@@ -76,7 +76,7 @@ afterEach(() => {
 })
 
 test('Xiaomi MiMo provider exposes MiMo catalog models in /model options', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.xiaomimimo.com/v1'
   process.env.OPENAI_MODEL = 'mimo-v2.5-pro'
   process.env.MIMO_API_KEY = 'mimo-live-key'
@@ -93,7 +93,7 @@ test('Xiaomi MiMo provider exposes MiMo catalog models in /model options', async
 })
 
 test('Xiaomi MiMo provider does not activate for unrelated OpenAI-compatible mimo-prefixed models', async () => {
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.example.com/v1'
   process.env.OPENAI_MODEL = 'mimo-custom'
 

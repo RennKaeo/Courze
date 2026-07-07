@@ -1,5 +1,5 @@
 /**
- * Client for the Gitlawb Ads service (ads.gitlawb.com).
+ * Client for the Courze Ads service (ads.courze.ai).
  *
  * course shows opt-in "sponsored tips" during inference waits; a viewer who
  * dwells on one earns opengateway credits. This module is the thin HTTP client:
@@ -12,7 +12,7 @@
  */
 import { fetchWithProxyRetry } from './api/fetchWithProxyRetry.js'
 
-const DEFAULT_ADS_BASE_URL = 'https://ads.gitlawb.com'
+const DEFAULT_ADS_BASE_URL = 'https://ads.courze.ai'
 
 export function adsBaseUrl(): string {
   return (process.env.ADS_BASE_URL ?? DEFAULT_ADS_BASE_URL).replace(/\/$/, '')
@@ -36,7 +36,7 @@ export type ConfirmResult = {
 
 const COMMON_HEADERS = (earnCode: string): Record<string, string> => ({
   'content-type': 'application/json',
-  'user-agent': 'gitlawb-course-ads',
+  'user-agent': 'courze-course-ads',
   'x-earn-code': earnCode,
 })
 

@@ -16,8 +16,8 @@ import { setClaudeConfigHomeDirForTesting } from './envUtils.js'
 import { getFsImplementation } from './fsOperations.js'
 
 describe('KnowledgeGraph Phase 1 Stress & Edge Cases', () => {
-  const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
-  const originalOrama = process.env.OPENCLAUDE_KNOWLEDGE_ORAMA
+  const originalConfigDir = process.env.COURSE_CONFIG_DIR
+  const originalOrama = process.env.COURSE_KNOWLEDGE_ORAMA
   const configDir = mkdtempSync(join(tmpdir(), 'course-stress-'))
   const cwd = getFsImplementation().cwd()
 
@@ -47,8 +47,8 @@ describe('KnowledgeGraph Phase 1 Stress & Edge Cases', () => {
 
   beforeEach(async () => {
     await acquireEnvMutex()
-    process.env.CLAUDE_CONFIG_DIR = configDir
-    process.env.OPENCLAUDE_KNOWLEDGE_ORAMA = '1'
+    process.env.COURSE_CONFIG_DIR = configDir
+    process.env.COURSE_KNOWLEDGE_ORAMA = '1'
     setClaudeConfigHomeDirForTesting(configDir)
     resetGlobalGraph()
   })
@@ -58,14 +58,14 @@ describe('KnowledgeGraph Phase 1 Stress & Edge Cases', () => {
       resetGlobalGraph()
       clearMemoryOnly()
       if (originalConfigDir === undefined) {
-        delete process.env.CLAUDE_CONFIG_DIR
+        delete process.env.COURSE_CONFIG_DIR
       } else {
-        process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+        process.env.COURSE_CONFIG_DIR = originalConfigDir
       }
       if (originalOrama === undefined) {
-        delete process.env.OPENCLAUDE_KNOWLEDGE_ORAMA
+        delete process.env.COURSE_KNOWLEDGE_ORAMA
       } else {
-        process.env.OPENCLAUDE_KNOWLEDGE_ORAMA = originalOrama
+        process.env.COURSE_KNOWLEDGE_ORAMA = originalOrama
       }
       setClaudeConfigHomeDirForTesting(undefined)
     } finally {

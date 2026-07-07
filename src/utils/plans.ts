@@ -27,8 +27,8 @@ const MAX_SLUG_RETRIES = 10
 
 export function getDefaultPlansDirectory({
   configDirEnv = resolveConfigDirEnv({
-    openClaudeConfigDir: process.env.OPENCLAUDE_CONFIG_DIR,
-    legacyConfigDir: process.env.CLAUDE_CONFIG_DIR,
+    openClaudeConfigDir: process.env.COURSE_CONFIG_DIR,
+    legacyConfigDir: process.env.COURSE_CONFIG_DIR,
   }),
   homeDir = homedir(),
 }: {

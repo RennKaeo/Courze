@@ -12,12 +12,12 @@ import {
 import { getDefaultMainLoopModelSetting, getUserSpecifiedModelSetting } from './model.js'
 
 const env = {
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
   OPENAI_MODEL: process.env.OPENAI_MODEL,
 }
 // `model` is a legacy loose key not declared on GlobalConfig.
@@ -33,12 +33,12 @@ function restoreEnv(key: keyof typeof env): void {
 
 beforeEach(async () => {
   await acquireSharedMutationLock('model/model.github.test.ts')
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
+  process.env.COURSE_CODE_USE_GITHUB = '1'
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
   delete process.env.OPENAI_MODEL
   saveGlobalConfig(current => ({
     ...current,

@@ -348,7 +348,7 @@ function getKnownCredentialSourceNames(routeId: string): Set<string> {
 function resolveDiagnosticProviderContext(
   env: NodeJS.ProcessEnv,
 ): DiagnosticProviderContext {
-  if (isTruthy(env.CLAUDE_CODE_USE_OPENAI)) {
+  if (isTruthy(env.COURSE_CODE_USE_OPENAI)) {
     const request = resolveProviderRequest({ processEnv: env })
     if (request.transport === 'codex_responses') {
       return {
@@ -376,7 +376,7 @@ function resolveDiagnosticProviderContext(
     limitsModel: model,
     catalogRouteId: routeId,
     baseUrl: resolveProviderBaseUrl(routeId, env),
-    ...(isTruthy(env.CLAUDE_CODE_USE_OPENAI) && env.OPENAI_API_FORMAT
+    ...(isTruthy(env.COURSE_CODE_USE_OPENAI) && env.OPENAI_API_FORMAT
       ? { apiFormat: env.OPENAI_API_FORMAT }
       : {}),
     credential: getCredentialSummary(routeId, env),

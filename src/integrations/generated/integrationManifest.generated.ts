@@ -9,14 +9,14 @@ import type { ProviderPresetManifestEntry } from '../descriptors.js'
 
 export const PROVIDER_PRESET_MANIFEST = [
   {
-    "preset": "gitlawb-opengateway",
+    "preset": "course-gateway",
     "routeKind": "gateway",
-    "routeId": "gitlawb-opengateway",
+    "routeId": "course-gateway",
     "vendorId": "openai",
-    "gatewayId": "gitlawb-opengateway",
-    "description": "Gitlawb Opengateway - (API key required, signup at https://gitlawb.com/opengateway/keys)",
-    "label": "Gitlawb Opengateway",
-    "name": "Gitlawb Opengateway",
+    "gatewayId": "course-gateway",
+    "description": "OpenGateway - (API key required, signup at https://courze.ai/opengateway/keys)",
+    "label": "OpenGateway",
+    "name": "OpenGateway",
     "apiKeyEnvVars": [
       "OPENGATEWAY_API_KEY"
     ],
@@ -27,7 +27,7 @@ export const PROVIDER_PRESET_MANIFEST = [
     "modelEnvVars": [
       "OPENAI_MODEL"
     ],
-    "fallbackBaseUrl": "https://opengateway.gitlawb.com/v1",
+    "fallbackBaseUrl": "https://opengateway.courze.ai/v1",
     "fallbackModel": "mimo-v2.5-pro",
     "badge": {
       "text": "Recommended",
@@ -452,7 +452,7 @@ export const PROVIDER_PRESET_MANIFEST = [
 ] as const satisfies readonly ProviderPresetManifestEntry[]
 export type ProviderPreset = (typeof PROVIDER_PRESET_MANIFEST)[number]['preset']
 export const ORDERED_PROVIDER_PRESETS = [
-  "gitlawb-opengateway",
+  "course-gateway",
   "anthropic",
   "dashscope-cn",
   "dashscope-intl",

@@ -167,7 +167,7 @@ test('resolveProviderRequest ignores CLINE_API_MODEL without CLINE_API_KEY', () 
 test('resolveProviderRequest ignores ClinePass model when GitHub mode is active', () => {
   const request = resolveProviderRequest({
     processEnv: {
-      CLAUDE_CODE_USE_GITHUB: '1',
+      COURSE_CODE_USE_GITHUB: '1',
       CLINE_API_KEY: 'cp-key',
       CLINE_API_MODEL: 'cline-pass/qwen3.7-max',
     },

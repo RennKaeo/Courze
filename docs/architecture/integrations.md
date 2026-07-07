@@ -174,7 +174,7 @@ env-centric.
 These are expected to shrink in later work, but they are still correct today:
 
 - `src/integrations/routeMetadata.ts`
-  `resolveActiveRouteIdFromEnv()` still honors `CLAUDE_CODE_USE_*` flags and
+  `resolveActiveRouteIdFromEnv()` still honors `COURSE_CODE_USE_*` flags and
   OpenAI-compatible env fallback because bootstrap and saved-profile flows are
   still env-driven.
 - `src/utils/providerFlag.ts`

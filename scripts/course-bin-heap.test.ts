@@ -19,8 +19,8 @@ describe('course launcher heap guard', () => {
   test('keeps user and troubleshooting escape hatches', () => {
     const source = readFileSync(BIN_PATH, 'utf-8')
 
-    expect(source).toContain('OPENCLAUDE_DISABLE_HEAP_RELAUNCH')
-    expect(source).toContain('OPENCLAUDE_NODE_MAX_OLD_SPACE_SIZE_MB')
+    expect(source).toContain('COURSE_DISABLE_HEAP_RELAUNCH')
+    expect(source).toContain('COURSE_NODE_MAX_OLD_SPACE_SIZE_MB')
     expect(source).toContain('process.env.NODE_OPTIONS')
     expect(source).toContain("hasNodeOptionFlag('--max-old-space-size')")
   })

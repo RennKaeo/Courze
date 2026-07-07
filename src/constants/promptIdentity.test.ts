@@ -4,7 +4,7 @@ import {
   releaseSharedMutationLock,
 } from '../test/sharedMutationLock.js'
 
-const originalSimpleEnv = process.env.CLAUDE_CODE_SIMPLE
+const originalSimpleEnv = process.env.COURSE_CODE_SIMPLE
 const originalMacro = (globalThis as Record<string, unknown>).MACRO
 const hadOriginalMacro = Object.hasOwn(globalThis, 'MACRO')
 
@@ -13,8 +13,8 @@ let getSystemPrompt: typeof import('./prompts.js').getSystemPrompt
 let DEFAULT_AGENT_PROMPT: typeof import('./prompts.js').DEFAULT_AGENT_PROMPT
 let CLI_SYSPROMPT_PREFIXES: typeof import('./system.js').CLI_SYSPROMPT_PREFIXES
 let getCLISyspromptPrefix: typeof import('./system.js').getCLISyspromptPrefix
-let CLAUDE_CODE_GUIDE_AGENT:
-  typeof import('../tools/AgentTool/built-in/claudeCodeGuideAgent.js').CLAUDE_CODE_GUIDE_AGENT
+let COURSE_CODE_GUIDE_AGENT:
+  typeof import('../tools/AgentTool/built-in/claudeCodeGuideAgent.js').COURSE_CODE_GUIDE_AGENT
 let GENERAL_PURPOSE_AGENT:
   typeof import('../tools/AgentTool/built-in/generalPurposeAgent.js').GENERAL_PURPOSE_AGENT
 let EXPLORE_AGENT:
@@ -41,7 +41,7 @@ beforeAll(async () => {
   ;({ clearSystemPromptSections } = await import('./systemPromptSections.js'))
   ;({ getSystemPrompt, DEFAULT_AGENT_PROMPT } = await import('./prompts.js'))
   ;({ CLI_SYSPROMPT_PREFIXES, getCLISyspromptPrefix } = await import('./system.js'))
-  ;({ CLAUDE_CODE_GUIDE_AGENT } = await import(
+  ;({ COURSE_CODE_GUIDE_AGENT } = await import(
     '../tools/AgentTool/built-in/claudeCodeGuideAgent.js'
   ))
   ;({ GENERAL_PURPOSE_AGENT } = await import(
@@ -70,9 +70,9 @@ afterAll(() => {
 
 afterEach(() => {
   if (originalSimpleEnv === undefined) {
-    delete process.env.CLAUDE_CODE_SIMPLE
+    delete process.env.COURSE_CODE_SIMPLE
   } else {
-    process.env.CLAUDE_CODE_SIMPLE = originalSimpleEnv
+    process.env.COURSE_CODE_SIMPLE = originalSimpleEnv
   }
   clearSystemPromptSections()
 })
@@ -90,7 +90,7 @@ test('CLI identity prefixes describe Course Code instead of Claude Code', () => 
 })
 
 test('simple mode identity describes Course Code instead of Claude Code', async () => {
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CODE_SIMPLE = '1'
 
   const prompt = await getSystemPrompt([], 'gpt-4o')
 
@@ -100,7 +100,7 @@ test('simple mode identity describes Course Code instead of Claude Code', async 
 })
 
 test('system prompt model identity updates when model changes mid-session', async () => {
-  delete process.env.CLAUDE_CODE_SIMPLE
+  delete process.env.COURSE_CODE_SIMPLE
   clearSystemPromptSections()
 
   const firstPrompt = await getSystemPrompt([], 'old-test-model')
@@ -116,8 +116,8 @@ test('system prompt model identity updates when model changes mid-session', asyn
 
 test('system prompt includes immediate-tool-use directive in non-REPL mode', async () => {
   const originalReplMode = process.env.CLAUDE_REPL_MODE
-  const originalCodeRepl = process.env.CLAUDE_CODE_REPL
-  process.env.CLAUDE_CODE_REPL = '0'
+  const originalCodeRepl = process.env.COURSE_CODE_REPL
+  process.env.COURSE_CODE_REPL = '0'
 
   try {
     const prompt = await getSystemPrompt([], 'gpt-4o')
@@ -130,17 +130,17 @@ test('system prompt includes immediate-tool-use directive in non-REPL mode', asy
       process.env.CLAUDE_REPL_MODE = originalReplMode
     }
     if (originalCodeRepl === undefined) {
-      delete process.env.CLAUDE_CODE_REPL
+      delete process.env.COURSE_CODE_REPL
     } else {
-      process.env.CLAUDE_CODE_REPL = originalCodeRepl
+      process.env.COURSE_CODE_REPL = originalCodeRepl
     }
   }
 })
 
 test('system prompt includes immediate-tool-use directive in REPL mode', async () => {
   const originalReplMode = process.env.CLAUDE_REPL_MODE
-  const originalCodeRepl = process.env.CLAUDE_CODE_REPL
-  delete process.env.CLAUDE_CODE_REPL
+  const originalCodeRepl = process.env.COURSE_CODE_REPL
+  delete process.env.COURSE_CODE_REPL
   process.env.CLAUDE_REPL_MODE = '1'
 
   try {
@@ -154,9 +154,9 @@ test('system prompt includes immediate-tool-use directive in REPL mode', async (
       process.env.CLAUDE_REPL_MODE = originalReplMode
     }
     if (originalCodeRepl === undefined) {
-      delete process.env.CLAUDE_CODE_REPL
+      delete process.env.COURSE_CODE_REPL
     } else {
-      process.env.CLAUDE_CODE_REPL = originalCodeRepl
+      process.env.COURSE_CODE_REPL = originalCodeRepl
     }
   }
 })
@@ -192,7 +192,7 @@ test('built-in agent prompts describe Course Code instead of Claude Code', () =>
   expect(statuslinePrompt).toContain('Course Code')
   expect(statuslinePrompt).not.toContain('Claude Code')
 
-  const guidePrompt = CLAUDE_CODE_GUIDE_AGENT.getSystemPrompt({
+  const guidePrompt = COURSE_CODE_GUIDE_AGENT.getSystemPrompt({
     toolUseContext: {
       options: {
         commands: [],

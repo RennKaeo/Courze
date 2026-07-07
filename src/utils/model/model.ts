@@ -125,7 +125,7 @@ export function getUserSpecifiedModelSetting(): ModelSetting | undefined {
     // cross-provider leaks (e.g. ANTHROPIC_MODEL sent to the OpenAI API).
     //
     // All OpenAI-shim providers (openai, codex, github, nvidia-nim, minimax)
-    // set CLAUDE_CODE_USE_OPENAI=1 + OPENAI_MODEL via
+    // set COURSE_CODE_USE_OPENAI=1 + OPENAI_MODEL via
     // applyProviderProfileToProcessEnv. Earlier this check only included
     // openai/github — codex/nvidia-nim/minimax fell through to the stale
     // settings.model, so switching from (say) Moonshot to Codex kept firing
@@ -760,7 +760,7 @@ export function parseUserSpecifiedModel(
   // The tag must ALWAYS be stripped before alias/model matching, otherwise an
   // aliased request like `sonnet[1m]` fails to resolve to its base model. Whether
   // to re-append the tag depends on has1mContext, which returns false when 1M is
-  // disabled (CLAUDE_CODE_DISABLE_1M_CONTEXT) — in that case the request resolves
+  // disabled (COURSE_CODE_DISABLE_1M_CONTEXT) — in that case the request resolves
   // to the base model with the tag dropped, not left as an unresolved alias.
   const hasTagSyntax = /\[1m]$/i.test(normalizedModel)
   const has1mTag = has1mContext(normalizedModel)
@@ -773,7 +773,7 @@ export function parseUserSpecifiedModel(
   // ANTHROPIC_DEFAULT_SONNET_MODEL=Deploy[1m] baked into getDefaultSonnetModel().
   // Strip whatever tag is present, then re-attach [1m] only when a tag was
   // requested (on the user input OR the resolved default) AND 1M context is
-  // enabled. This guarantees CLAUDE_CODE_DISABLE_1M_CONTEXT drops the tag no
+  // enabled. This guarantees COURSE_CODE_DISABLE_1M_CONTEXT drops the tag no
   // matter where it came from, while still honoring an env default's opt-in.
   const applyOneMTag = (resolved: ModelName): ModelName => {
     const base = resolved.replace(/\[1m]$/i, '').trim()
@@ -894,7 +894,7 @@ function isLegacyOpusFirstParty(model: string): boolean {
  * Opt-out for the legacy Opus 4.0/4.1 → current Opus remap.
  */
 export function isLegacyModelRemapEnabled(): boolean {
-  return !isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_LEGACY_MODEL_REMAP)
+  return !isEnvTruthy(process.env.COURSE_CODE_DISABLE_LEGACY_MODEL_REMAP)
 }
 
 export function modelDisplayString(model: ModelSetting): string {

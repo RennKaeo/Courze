@@ -1,5 +1,5 @@
 export const SITE = {
-  url: 'https://course.gitlawb.com',
+  url: 'https://course.courze.ai',
   name: 'course',
   title: 'course — open-source coding agent CLI for any model',
   description:
@@ -7,8 +7,8 @@ export const SITE = {
   installCommand: 'npm install -g @renskaeo/courze@latest',
   npmUrl: 'https://www.npmjs.com/package/@renskaeo/courze',
   github: 'https://github.com/RennKaeo/Courze',
-  gitlawb: 'https://gitlawb.com',
-  gitlawbRepo: 'https://gitlawb.com/node/repos/z6MkqDnb/course',
+  courze: 'https://courze.ai',
+  courzeRepo: 'https://courze.ai/node/repos/z6MkqDnb/course',
   version: '0.18.0',
   ogDefault: '/og/default.png',
   ogDocs: '/og/docs.png',

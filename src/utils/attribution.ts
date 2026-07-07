@@ -97,7 +97,7 @@ export function getDefaultCommitCoAuthorName({
 }
 
 export function getDefaultCommitCoAuthorEmail(_apiProvider: string): string {
-  return 'course@gitlawb.com'
+  return 'course@courze.ai'
 }
 
 /**
@@ -114,7 +114,7 @@ export function getAttributionTexts(): AttributionTexts {
   }
 
   if (getClientType() === 'remote') {
-    const remoteSessionId = process.env.CLAUDE_CODE_REMOTE_SESSION_ID
+    const remoteSessionId = process.env.COURSE_CODE_REMOTE_SESSION_ID
     if (remoteSessionId) {
       const ingressUrl = process.env.SESSION_INGRESS_URL
       // Skip for local dev - URLs won't persist
@@ -152,7 +152,7 @@ export function getAttributionTexts(): AttributionTexts {
   })
   const coAuthorEmail = getDefaultCommitCoAuthorEmail(apiProvider)
   const defaultCommit = isEnvTruthy(
-    process.env.OPENCLAUDE_DISABLE_CO_AUTHORED_BY,
+    process.env.COURSE_DISABLE_CO_AUTHORED_BY,
   )
     ? ''
     : `Co-Authored-By: ${modelName} <${coAuthorEmail}>`
@@ -365,7 +365,7 @@ export async function getEnhancedPRAttribution(
   }
 
   if (getClientType() === 'remote') {
-    const remoteSessionId = process.env.CLAUDE_CODE_REMOTE_SESSION_ID
+    const remoteSessionId = process.env.COURSE_CODE_REMOTE_SESSION_ID
     if (remoteSessionId) {
       const ingressUrl = process.env.SESSION_INGRESS_URL
       // Skip for local dev - URLs won't persist

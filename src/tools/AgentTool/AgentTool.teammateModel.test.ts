@@ -19,17 +19,17 @@ let settingsForTest: SettingsJson = {}
 let allowedModelsForTest = new Set(['allowed-model'])
 
 const originalEnv = {
-  CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS:
-    process.env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS,
-  CLAUDE_CODE_SUBAGENT_MODEL: process.env.CLAUDE_CODE_SUBAGENT_MODEL,
+  COURSE_CODE_EXPERIMENTAL_AGENT_TEAMS:
+    process.env.COURSE_CODE_EXPERIMENTAL_AGENT_TEAMS,
+  COURSE_CODE_SUBAGENT_MODEL: process.env.COURSE_CODE_SUBAGENT_MODEL,
 }
 
 beforeEach(async () => {
   await acquireSharedMutationLock(
     'tools/AgentTool/AgentTool.teammateModel.test.ts',
   )
-  process.env.CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS = '1'
-  delete process.env.CLAUDE_CODE_SUBAGENT_MODEL
+  process.env.COURSE_CODE_EXPERIMENTAL_AGENT_TEAMS = '1'
+  delete process.env.COURSE_CODE_SUBAGENT_MODEL
   settingsForTest = {}
   allowedModelsForTest = new Set(['allowed-model'])
 })
@@ -52,8 +52,8 @@ afterEach(async () => {
         () => originalSpawnMultiAgentModule!,
       )
     }
-    restoreEnv('CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS')
-    restoreEnv('CLAUDE_CODE_SUBAGENT_MODEL')
+    restoreEnv('COURSE_CODE_EXPERIMENTAL_AGENT_TEAMS')
+    restoreEnv('COURSE_CODE_SUBAGENT_MODEL')
     settingsForTest = {}
     allowedModelsForTest = new Set(['allowed-model'])
   } finally {

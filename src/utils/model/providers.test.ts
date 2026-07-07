@@ -6,12 +6,12 @@ import {
 } from '../../test/sharedMutationLock.js'
 
 const originalEnv = {
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
   NVIDIA_NIM: process.env.NVIDIA_NIM,
   MINIMAX_API_KEY: process.env.MINIMAX_API_KEY,
   ANTHROPIC_BASE_URL: process.env.ANTHROPIC_BASE_URL,
@@ -53,12 +53,12 @@ async function importFreshProvidersModule() {
 }
 
 function clearProviderEnv(): void {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
   delete process.env.NVIDIA_NIM
   delete process.env.MINIMAX_API_KEY
   delete process.env.ANTHROPIC_BASE_URL
@@ -84,12 +84,12 @@ test('first-party provider keeps Anthropic account setup flow enabled', () => {
 })
 
 test.each([
-  ['CLAUDE_CODE_USE_OPENAI', 'openai'],
-  ['CLAUDE_CODE_USE_GITHUB', 'github'],
-  ['CLAUDE_CODE_USE_GEMINI', 'gemini'],
-  ['CLAUDE_CODE_USE_BEDROCK', 'bedrock'],
-  ['CLAUDE_CODE_USE_VERTEX', 'vertex'],
-  ['CLAUDE_CODE_USE_FOUNDRY', 'foundry'],
+  ['COURSE_CODE_USE_OPENAI', 'openai'],
+  ['COURSE_CODE_USE_GITHUB', 'github'],
+  ['COURSE_CODE_USE_GEMINI', 'gemini'],
+  ['COURSE_CODE_USE_BEDROCK', 'bedrock'],
+  ['COURSE_CODE_USE_VERTEX', 'vertex'],
+  ['COURSE_CODE_USE_FOUNDRY', 'foundry'],
 ] as const)(
   '%s disables Anthropic account setup flow',
   async (envKey, provider) => {
@@ -105,8 +105,8 @@ test.each([
 
 test('GEMINI takes precedence over GitHub when both are set', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   const { getAPIProvider } = await importFreshProvidersModule()
 
   expect(getAPIProvider()).toBe('gemini')
@@ -114,7 +114,7 @@ test('GEMINI takes precedence over GitHub when both are set', async () => {
 
 test('GEMINI takes precedence over NVIDIA_NIM when both flags are set', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.NVIDIA_NIM = '1'
   const { getAPIProvider } = await importFreshProvidersModule()
 
@@ -123,8 +123,8 @@ test('GEMINI takes precedence over NVIDIA_NIM when both flags are set', async ()
 
 test('Foundry takes precedence over Gemini when both flags are set', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_FOUNDRY = '1'
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_FOUNDRY = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   const { getAPIProvider } = await importFreshProvidersModule()
 
   expect(getAPIProvider()).toBe('foundry')
@@ -132,7 +132,7 @@ test('Foundry takes precedence over Gemini when both flags are set', async () =>
 
 test('GEMINI takes precedence over env-only MiniMax API keys', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.MINIMAX_API_KEY = 'minimax-key'
   const { getAPIProvider } = await importFreshProvidersModule()
 
@@ -141,7 +141,7 @@ test('GEMINI takes precedence over env-only MiniMax API keys', async () => {
 
 test('OPENAI takes precedence over env-only MiniMax API keys', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.MINIMAX_API_KEY = 'minimax-key'
   const { getAPIProvider } = await importFreshProvidersModule()
 
@@ -150,7 +150,7 @@ test('OPENAI takes precedence over env-only MiniMax API keys', async () => {
 
 test('explicit local openai-compatible base URLs stay on the openai provider', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'http://127.0.0.1:8080/v1'
   process.env.OPENAI_MODEL = 'gpt-5.4'
 
@@ -160,7 +160,7 @@ test('explicit local openai-compatible base URLs stay on the openai provider', a
 
 test('codex aliases still resolve to the codex provider without a non-codex base URL', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_MODEL = 'codexplan'
 
   const { getAPIProvider } = await importFreshProvidersModule()
@@ -169,7 +169,7 @@ test('codex aliases still resolve to the codex provider without a non-codex base
 
 test('XAI_API_KEY resolves to the xai provider', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.XAI_API_KEY = 'xai-test-key'
   process.env.OPENAI_BASE_URL = 'https://api.x.ai/v1'
   process.env.OPENAI_MODEL = 'grok-4'
@@ -199,7 +199,7 @@ test('conflicting OpenAI base prevents env-only xAI provider label', async () =>
 
 test('official OpenAI base URLs now keep provider detection on openai for aliases', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.openai.com/v1'
   process.env.OPENAI_MODEL = 'gpt-5.4'
 
@@ -209,7 +209,7 @@ test('official OpenAI base URLs now keep provider detection on openai for aliase
 
 test('descriptor-backed MiniMax routes keep the legacy minimax provider category', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_BASE_URL = 'https://api.minimax.chat/v1'
   process.env.MINIMAX_API_KEY = 'minimax-key'
 
@@ -250,7 +250,7 @@ test('conflicting OpenAI base prevents env-only MiniMax provider label', async (
 
 test('NVIDIA_NIM env preserves the legacy nvidia-nim provider category for custom endpoints', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.NVIDIA_NIM = '1'
   process.env.OPENAI_BASE_URL = 'https://nim.example.com/v1'
   process.env.OPENAI_MODEL = 'nvidia/llama-3.1-nemotron-70b-instruct'
@@ -261,7 +261,7 @@ test('NVIDIA_NIM env preserves the legacy nvidia-nim provider category for custo
 
 // isGithubNativeAnthropicMode
 
-test('isGithubNativeAnthropicMode: false when CLAUDE_CODE_USE_GITHUB is not set', async () => {
+test('isGithubNativeAnthropicMode: false when COURSE_CODE_USE_GITHUB is not set', async () => {
   clearProviderEnv()
   process.env.OPENAI_MODEL = 'claude-sonnet-4-5'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
@@ -270,7 +270,7 @@ test('isGithubNativeAnthropicMode: false when CLAUDE_CODE_USE_GITHUB is not set'
 
 test('isGithubNativeAnthropicMode: true for bare claude- model via OPENAI_MODEL', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'claude-sonnet-4-5'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
   expect(isGithubNativeAnthropicMode()).toBe(true)
@@ -278,7 +278,7 @@ test('isGithubNativeAnthropicMode: true for bare claude- model via OPENAI_MODEL'
 
 test('isGithubNativeAnthropicMode: true for github:copilot:claude- compound format', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'github:copilot:claude-sonnet-4'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
   expect(isGithubNativeAnthropicMode()).toBe(true)
@@ -286,7 +286,7 @@ test('isGithubNativeAnthropicMode: true for github:copilot:claude- compound form
 
 test('isGithubNativeAnthropicMode: true when resolvedModel is a claude- model', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'github:copilot'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
   expect(isGithubNativeAnthropicMode('claude-haiku-4-5')).toBe(true)
@@ -294,7 +294,7 @@ test('isGithubNativeAnthropicMode: true when resolvedModel is a claude- model', 
 
 test('isGithubNativeAnthropicMode: false for generic github:copilot alias', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'github:copilot'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
   expect(isGithubNativeAnthropicMode()).toBe(false)
@@ -302,7 +302,7 @@ test('isGithubNativeAnthropicMode: false for generic github:copilot alias', asyn
 
 test('isGithubNativeAnthropicMode: false for non-Claude model', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'gpt-4o'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
   expect(isGithubNativeAnthropicMode()).toBe(false)
@@ -310,7 +310,7 @@ test('isGithubNativeAnthropicMode: false for non-Claude model', async () => {
 
 test('isGithubNativeAnthropicMode: false for github:copilot:gpt- model', async () => {
   clearProviderEnv()
-  process.env.CLAUDE_CODE_USE_GITHUB = '1'
+  process.env.COURSE_CODE_USE_GITHUB = '1'
   process.env.OPENAI_MODEL = 'github:copilot:gpt-4o'
   const { isGithubNativeAnthropicMode } = await importFreshProvidersModule()
   expect(isGithubNativeAnthropicMode()).toBe(false)

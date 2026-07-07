@@ -30,9 +30,9 @@ import { which } from '../which.js'
 import { getUserBinDir, getXDGDataHome } from '../xdg.js'
 import { DEEP_LINK_PROTOCOL } from './parseDeepLink.js'
 
-export const MACOS_BUNDLE_ID = 'com.anthropic.claude-code-url-handler'
+export const MACOS_BUNDLE_ID = 'com.anthropic.course-code-url-handler'
 const APP_NAME = 'Claude Code URL Handler'
-const DESKTOP_FILE_NAME = 'claude-code-url-handler.desktop'
+const DESKTOP_FILE_NAME = 'course-code-url-handler.desktop'
 const MACOS_APP_NAME = 'Claude Code URL Handler.app'
 
 // Shared between register* (writes these paths/values) and
@@ -240,7 +240,7 @@ export async function registerProtocolHandler(
  */
 export function getProtocolBinaryName(platform = process.platform): string {
   const baseName =
-    MACRO.PACKAGE_URL === '@anthropic-ai/claude-code' ? 'claude' : 'course'
+    MACRO.PACKAGE_URL === '@anthropic-ai/course-code' ? 'claude' : 'course'
   return platform === 'win32' ? `${baseName}.exe` : baseName
 }
 

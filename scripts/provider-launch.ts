@@ -35,7 +35,7 @@ function parseLaunchOptions(argv: string[]): LaunchOptions {
   let requestedProfile: ProviderProfile | 'auto' | null = 'auto'
   const passthroughArgs: string[] = []
   let fast = false
-  let goal = normalizeRecommendationGoal(process.env.OPENCLAUDE_PROFILE_GOAL)
+  let goal = normalizeRecommendationGoal(process.env.COURSE_PROFILE_GOAL)
 
   for (let i = 0; i < argv.length; i++) {
     const arg = argv[i]!
@@ -112,12 +112,12 @@ function runProcess(command: string, args: string[], env: NodeJS.ProcessEnv): Pr
 }
 
 function applyFastFlags(env: NodeJS.ProcessEnv): NodeJS.ProcessEnv {
-  env.CLAUDE_CODE_SIMPLE ??= '1'
-  env.CLAUDE_CODE_DISABLE_THINKING ??= '1'
+  env.COURSE_CODE_SIMPLE ??= '1'
+  env.COURSE_CODE_DISABLE_THINKING ??= '1'
   env.DISABLE_INTERLEAVED_THINKING ??= '1'
   env.DISABLE_AUTO_COMPACT ??= '1'
-  env.CLAUDE_CODE_DISABLE_AUTO_MEMORY ??= '1'
-  env.CLAUDE_CODE_DISABLE_BACKGROUND_TASKS ??= '1'
+  env.COURSE_CODE_DISABLE_AUTO_MEMORY ??= '1'
+  env.COURSE_CODE_DISABLE_BACKGROUND_TASKS ??= '1'
   return env
 }
 

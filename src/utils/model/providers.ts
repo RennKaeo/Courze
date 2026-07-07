@@ -29,7 +29,7 @@ export type LegacyAPIProvider =
 export type APIProvider = LegacyAPIProvider
 
 export function getAPIProvider(): LegacyAPIProvider {
-  if (isEnvTruthy(process.env.CLAUDE_CODE_USE_FOUNDRY)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_USE_FOUNDRY)) {
     return 'foundry'
   }
 
@@ -89,7 +89,7 @@ export function usesAnthropicAccountFlow(): boolean {
  * Returns true when the GitHub provider should use Anthropic's native API
  * format instead of the OpenAI-compatible shim.
  *
- * Enabled when CLAUDE_CODE_USE_GITHUB=1 and the model string contains "claude-"
+ * Enabled when COURSE_CODE_USE_GITHUB=1 and the model string contains "claude-"
  * anywhere (handles bare names like "claude-sonnet-4" and compound formats like
  * "github:copilot:claude-sonnet-4" or any future provider-prefixed variants).
  *
@@ -98,7 +98,7 @@ export function usesAnthropicAccountFlow(): boolean {
  * per-turn token costs by caching the system prompt and tool definitions.
  */
 export function isGithubNativeAnthropicMode(resolvedModel?: string): boolean {
-  if (!isEnvTruthy(process.env.CLAUDE_CODE_USE_GITHUB)) return false
+  if (!isEnvTruthy(process.env.COURSE_CODE_USE_GITHUB)) return false
   const model = resolvedModel?.trim() || process.env.OPENAI_MODEL?.trim() || ''
   return model.toLowerCase().includes('claude-')
 }

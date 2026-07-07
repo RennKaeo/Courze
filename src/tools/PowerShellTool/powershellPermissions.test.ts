@@ -43,7 +43,7 @@ describe('PowerShell .git write safety', () => {
   test('does not force a .git safety prompt for the commit message temp file in bypass mode', () => {
     expect(
       isUnsafeDotGitWritePathForPowerShell(
-        '.git/OPENCLAUDE_COMMIT_MSG',
+        '.git/COURSE_COMMIT_MSG',
         permissionContext('bypassPermissions'),
       ),
     ).toBe(false)
@@ -52,7 +52,7 @@ describe('PowerShell .git write safety', () => {
   test('does not force a .git safety prompt for the commit message temp file in full access mode', () => {
     expect(
       isUnsafeDotGitWritePathForPowerShell(
-        '.git/OPENCLAUDE_COMMIT_MSG',
+        '.git/COURSE_COMMIT_MSG',
         permissionContext('fullAccess'),
       ),
     ).toBe(false)
@@ -61,7 +61,7 @@ describe('PowerShell .git write safety', () => {
   test('still prompts for the commit message temp file outside dangerous modes', () => {
     expect(
       isUnsafeDotGitWritePathForPowerShell(
-        '.git/OPENCLAUDE_COMMIT_MSG',
+        '.git/COURSE_COMMIT_MSG',
         permissionContext('default'),
       ),
     ).toBe(true)

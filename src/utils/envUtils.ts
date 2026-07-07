@@ -144,9 +144,9 @@ export function migrateLegacyClaudeConfigHome(options?: {
 
 /**
  * Resolves the override env value for the config home directory.
- * `OPENCLAUDE_CONFIG_DIR` is preferred — `CLAUDE_CONFIG_DIR` is the legacy
+ * `COURSE_CONFIG_DIR` is preferred — `COURSE_CONFIG_DIR` is the legacy
  * Anthropic name kept working for backward compatibility. When both are set
- * and disagree, `OPENCLAUDE_CONFIG_DIR` wins and we warn once so the user
+ * and disagree, `COURSE_CONFIG_DIR` wins and we warn once so the user
  * can clean up. Exported for tests.
  */
 let warnedAboutConflictingConfigDirEnvs = false
@@ -159,7 +159,7 @@ export function resolveConfigDirEnv(options?: {
   const open = options?.openClaudeConfigDir
   const legacy = options?.legacyConfigDir
   if (open && legacy && open !== legacy && !warnedAboutConflictingConfigDirEnvs) {
-    const message = `Both OPENCLAUDE_CONFIG_DIR and CLAUDE_CONFIG_DIR are set to different values. Using OPENCLAUDE_CONFIG_DIR=${open}; ignoring CLAUDE_CONFIG_DIR=${legacy}.`
+    const message = `Both COURSE_CONFIG_DIR and COURSE_CONFIG_DIR are set to different values. Using COURSE_CONFIG_DIR=${open}; ignoring COURSE_CONFIG_DIR=${legacy}.`
     if (options?.warn) {
       warnedAboutConflictingConfigDirEnvs = true
       options.warn(message)
@@ -212,8 +212,8 @@ export const getClaudeConfigHomeDir = memoize(
     }
 
     const configDirEnv = resolveConfigDirEnv({
-      openClaudeConfigDir: process.env.OPENCLAUDE_CONFIG_DIR,
-      legacyConfigDir: process.env.CLAUDE_CONFIG_DIR,
+      openClaudeConfigDir: process.env.COURSE_CONFIG_DIR,
+      legacyConfigDir: process.env.COURSE_CONFIG_DIR,
       warn: message => {
         // eslint-disable-next-line no-console
         console.warn(`[course] ${message}`)
@@ -242,7 +242,7 @@ export const getClaudeConfigHomeDir = memoize(
     })
   },
   () =>
-    `${claudeConfigHomeDirOverride ?? ''}\0${process.env.OPENCLAUDE_CONFIG_DIR ?? ''}\0${process.env.CLAUDE_CONFIG_DIR ?? ''}`,
+    `${claudeConfigHomeDirOverride ?? ''}\0${process.env.COURSE_CONFIG_DIR ?? ''}\0${process.env.COURSE_CONFIG_DIR ?? ''}`,
 )
 
 export function getTeamsDir(): string {
@@ -283,19 +283,19 @@ export function isEnvDefinedFalsy(
 }
 
 /**
- * --bare / CLAUDE_CODE_SIMPLE — skip hooks, LSP, plugin sync, skill dir-walk,
+ * --bare / COURSE_CODE_SIMPLE — skip hooks, LSP, plugin sync, skill dir-walk,
  * attribution, background prefetches, and ALL keychain/credential reads.
  * Auth is strictly ANTHROPIC_API_KEY env or apiKeyHelper from --settings.
  * Explicit CLI flags (--plugin-dir, --add-dir, --mcp-config) still honored.
  * ~30 gates across the codebase.
  *
  * Checks argv directly (in addition to the env var) because several gates
- * run before main.tsx's action handler sets CLAUDE_CODE_SIMPLE=1 from --bare
+ * run before main.tsx's action handler sets COURSE_CODE_SIMPLE=1 from --bare
  * — notably startKeychainPrefetch() at main.tsx top-level.
  */
 export function isBareMode(): boolean {
   return (
-    isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE) ||
+    isEnvTruthy(process.env.COURSE_CODE_SIMPLE) ||
     process.argv.includes('--bare')
   )
 }

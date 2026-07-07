@@ -31,14 +31,14 @@ const {
 )) as typeof import('../services/compact/autoCompact.js')
 
 const SAVED_ENV = {
-  CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
-  CLAUDE_CODE_AUTO_COMPACT_WINDOW:
-    process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CODE_AUTO_COMPACT_WINDOW:
+    process.env.COURSE_CODE_AUTO_COMPACT_WINDOW,
   CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:
     process.env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE,
   DISABLE_AUTO_COMPACT: process.env.DISABLE_AUTO_COMPACT,
   DISABLE_COMPACT: process.env.DISABLE_COMPACT,
-  OPENCLAUDE_MAX_ACTIVE_MESSAGES: process.env.OPENCLAUDE_MAX_ACTIVE_MESSAGES,
+  COURSE_MAX_ACTIVE_MESSAGES: process.env.COURSE_MAX_ACTIVE_MESSAGES,
 }
 
 let savedGlobalConfig:
@@ -54,7 +54,7 @@ let tempDir: string | undefined
 beforeEach(async () => {
   await acquireSharedMutationLock('query/autoCompactCooldown.test.ts')
   tempDir = mkdtempSync(join(tmpdir(), 'course-autocompact-test-'))
-  process.env.CLAUDE_CONFIG_DIR = tempDir
+  process.env.COURSE_CONFIG_DIR = tempDir
   const globalConfig = getGlobalConfig()
   savedGlobalConfig = {
     autoCompactEnabled: globalConfig.autoCompactEnabled,
@@ -66,11 +66,11 @@ beforeEach(async () => {
     autoCompactEnabled: true,
     maxMessagesCompactionThreshold: undefined,
   }))
-  process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW = '200000'
+  process.env.COURSE_CODE_AUTO_COMPACT_WINDOW = '200000'
   process.env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE = '1'
   delete process.env.DISABLE_AUTO_COMPACT
   delete process.env.DISABLE_COMPACT
-  delete process.env.OPENCLAUDE_MAX_ACTIVE_MESSAGES
+  delete process.env.COURSE_MAX_ACTIVE_MESSAGES
 })
 
 afterEach(() => {

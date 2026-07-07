@@ -50,12 +50,12 @@ function asGithubEnterpriseEnvUrl(value: string | undefined): string | undefined
   return trimmed
 }
 
-function normalizeGitlawbOpengatewayBaseUrl(baseUrl: string | undefined): string | undefined {
+function normalizeCourzeOpengatewayBaseUrl(baseUrl: string | undefined): string | undefined {
   if (!baseUrl) return undefined
   try {
     const parsed = new URL(baseUrl)
     const hostname = parsed.hostname.toLowerCase()
-    if (hostname !== 'opengateway.gitlawb.com' && hostname !== 'opengateway.fly.dev') {
+    if (hostname !== 'opengateway.courze.ai' && hostname !== 'opengateway.fly.dev') {
       return baseUrl
     }
     const path = parsed.pathname.replace(/\/+$/, '').toLowerCase()
@@ -472,12 +472,12 @@ export function isLocalProviderUrl(baseUrl: string | undefined): boolean {
 // API the layers are invisible, but against multi-second local round-trips
 // they multiply per-call.
 //
-// Set `OPENCLAUDE_LOCAL_FAST_PATH=1` to force it on, `=0` to force off, or
+// Set `COURSE_LOCAL_FAST_PATH=1` to force it on, `=0` to force off, or
 // leave it unset to let `isLocalProviderUrl` decide. The opt-out is intended
 // to be conservative: if the env var is set explicitly, callers can audit
 // regressions; if not, behaviour only changes for hosts already classified
 // as local by the existing detector (loopback, RFC1918, .local, ULA/LL).
-const LOCAL_FAST_PATH_ENV = 'OPENCLAUDE_LOCAL_FAST_PATH'
+const LOCAL_FAST_PATH_ENV = 'COURSE_LOCAL_FAST_PATH'
 
 export type LocalFastPathConfig = {
   enabled: boolean
@@ -806,9 +806,9 @@ export function resolveProviderRequest(options?: {
   processEnv?: NodeJS.ProcessEnv
 }): ResolvedProviderRequest {
   const processEnv = options?.processEnv ?? process.env
-  const isGithubMode = isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB)
-  const isMistralMode = isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL)
-  const isGeminiMode = isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI)
+  const isGithubMode = isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB)
+  const isMistralMode = isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL)
+  const isGeminiMode = isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI)
   const isClinePassMode = Boolean(processEnv.CLINE_API_KEY?.trim())
   const explicitBaseUrl = asEnvUrl(options?.baseUrl)
 
@@ -910,7 +910,7 @@ export function resolveProviderRequest(options?: {
     !isGithubMode && isCodexAliasModel && !hasUserSetBaseUrl
       ? DEFAULT_CODEX_BASE_URL
       : rawBaseUrl
-  const finalBaseUrl = normalizeGitlawbOpengatewayBaseUrl(finalBaseUrlRaw)
+  const finalBaseUrl = normalizeCourzeOpengatewayBaseUrl(finalBaseUrlRaw)
 
   const gheUrl = githubEnterpriseEnvUrl
   const githubEndpointType = isGithubMode
@@ -1014,13 +1014,13 @@ export function resolveProviderRequest(options?: {
 }
 
 export function getAdditionalModelOptionsCacheScope(): string | null {
-  if (!isEnvTruthy(process.env.CLAUDE_CODE_USE_OPENAI)) {
-    if (!isEnvTruthy(process.env.CLAUDE_CODE_USE_GEMINI) &&
-        !isEnvTruthy(process.env.CLAUDE_CODE_USE_MISTRAL) &&
-        !isEnvTruthy(process.env.CLAUDE_CODE_USE_GITHUB) &&
-        !isEnvTruthy(process.env.CLAUDE_CODE_USE_BEDROCK) &&
-        !isEnvTruthy(process.env.CLAUDE_CODE_USE_VERTEX) &&
-        !isEnvTruthy(process.env.CLAUDE_CODE_USE_FOUNDRY)) {
+  if (!isEnvTruthy(process.env.COURSE_CODE_USE_OPENAI)) {
+    if (!isEnvTruthy(process.env.COURSE_CODE_USE_GEMINI) &&
+        !isEnvTruthy(process.env.COURSE_CODE_USE_MISTRAL) &&
+        !isEnvTruthy(process.env.COURSE_CODE_USE_GITHUB) &&
+        !isEnvTruthy(process.env.COURSE_CODE_USE_BEDROCK) &&
+        !isEnvTruthy(process.env.COURSE_CODE_USE_VERTEX) &&
+        !isEnvTruthy(process.env.COURSE_CODE_USE_FOUNDRY)) {
       return 'firstParty'
     }
     return null

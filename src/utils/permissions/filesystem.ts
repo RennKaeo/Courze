@@ -361,11 +361,11 @@ function ensureUsableTempDir(
  * resolution, paths like /tmp/claude-{uid}/... wouldn't match /private/tmp/claude-{uid}/...
  */
 // Memoized: called per-tool from permission checks (yoloClassifier, sandbox-adapter)
-// and per-turn from BashTool prompt. Inputs (CLAUDE_CODE_TMPDIR env + platform) are
+// and per-turn from BashTool prompt. Inputs (COURSE_CODE_TMPDIR env + platform) are
 // fixed at startup, and the realpath of the system tmp dir does not change mid-session.
 export const getClaudeTempDir = memoize(function getClaudeTempDir(): string {
   const baseTmpDir =
-    process.env.CLAUDE_CODE_TMPDIR ||
+    process.env.COURSE_CODE_TMPDIR ||
     (getPlatform() === 'windows' ? tmpdir() : '/tmp')
 
   // Resolve symlinks in the base temp directory (e.g., /tmp -> /private/tmp on macOS)
@@ -388,7 +388,7 @@ export const getClaudeTempDir = memoize(function getClaudeTempDir(): string {
   } catch (e: unknown) {
     if (isFsInaccessible(e)) {
       const fallbackDirs = [
-        join(tmpdir(), 'claude-code', getClaudeTempDirName()) + sep,
+        join(tmpdir(), 'course-code', getClaudeTempDirName()) + sep,
         join(getClaudeConfigHomeDir(), 'tmp', getClaudeTempDirName()) + sep,
       ]
       for (const fallbackDir of fallbackDirs) {
@@ -493,7 +493,7 @@ function pathsEqualForPermission(a: string, b: string): boolean {
 }
 
 export function isCourse CodeCommitMessagePath(absolutePath: string): boolean {
-  const expectedPath = join(getOriginalCwd(), '.git', 'OPENCLAUDE_COMMIT_MSG')
+  const expectedPath = join(getOriginalCwd(), '.git', 'COURSE_COMMIT_MSG')
   const expectedForms = getPathsForPermissionCheck(expectedPath)
   const targetForms = getPathsForPermissionCheck(absolutePath)
 

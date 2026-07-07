@@ -556,7 +556,7 @@ function getModelOptionsBase(fastMode = false): ModelOption[] {
   // can be appended to the standard picker options below.
   // We check PROFILE_ENV_APPLIED to avoid the ?? profiles[0] fallback in
   // getActiveProviderProfile which would affect users with inactive profiles.
-  const profileEnvApplied = process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1'
+  const profileEnvApplied = process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1'
   const profileModelOptions: ModelOption[] = []
   if (profileEnvApplied) {
     const activeProfile = getActiveProviderProfile()
@@ -718,7 +718,7 @@ function normalizeRouteModelOptionKey(model: string): string {
 }
 
 function getActiveOpenAIRouteId(): string | null {
-  const openAIFlag = process.env.CLAUDE_CODE_USE_OPENAI?.trim().toLowerCase()
+  const openAIFlag = process.env.COURSE_CODE_USE_OPENAI?.trim().toLowerCase()
   if (!openAIFlag || ['0', 'false', 'no', 'off'].includes(openAIFlag)) {
     return null
   }

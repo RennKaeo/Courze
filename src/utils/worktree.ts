@@ -1350,7 +1350,7 @@ export async function execIntoTmuxWorktree(args: string[]): Promise<{
 
   // Mirror createWorktreeForSession(): hook takes precedence over git so the
   // WorktreeCreate hook substitutes the VCS backend for this fast-path too
-  // (anthropics/claude-code#39281). Git path below runs only when no hook.
+  // (anthropics/course-code#39281). Git path below runs only when no hook.
   let worktreeDir: string
   let repoName: string
   if (hasWorktreeCreateHook()) {
@@ -1451,9 +1451,9 @@ export async function execIntoTmuxWorktree(args: string[]): Promise<{
   // Set env vars for the inner Claude to display tmux info in welcome message
   const tmuxEnv = {
     ...process.env,
-    CLAUDE_CODE_TMUX_SESSION: tmuxSessionName,
-    CLAUDE_CODE_TMUX_PREFIX: tmuxPrefix,
-    CLAUDE_CODE_TMUX_PREFIX_CONFLICTS: prefixConflicts ? '1' : '',
+    COURSE_CODE_TMUX_SESSION: tmuxSessionName,
+    COURSE_CODE_TMUX_PREFIX: tmuxPrefix,
+    COURSE_CODE_TMUX_PREFIX_CONFLICTS: prefixConflicts ? '1' : '',
   }
 
   // Check if session already exists

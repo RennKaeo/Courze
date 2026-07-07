@@ -314,7 +314,7 @@ describe('detectBestProvider — orchestrator', () => {
       skipLocal: true,
       hasCodexAuth: () => false,
     })
-    expect(result?.kind).toBe('gitlawb-opengateway')
+    expect(result?.kind).toBe('course-gateway')
     expect(result?.model).toBe('mimo-v2.5-pro')
     expect(probeCalled).toBe(false)
   })
@@ -349,7 +349,7 @@ describe('detectBestProvider — orchestrator', () => {
       timeoutMs: 100,
       hasCodexAuth: () => false,
     })
-    expect(result?.kind).toBe('gitlawb-opengateway')
+    expect(result?.kind).toBe('course-gateway')
     expect(result?.baseUrl).toBe('http://localhost:8181/v1/xiaomi-mimo')
   })
 
@@ -361,14 +361,14 @@ describe('detectBestProvider — orchestrator', () => {
     const result = await detectBestProvider({
       env: {
         OPENGATEWAY_API_KEY: 'ogw_live_test_0000000000000000',
-        OPENGATEWAY_BASE_URL: 'https://opengateway.gitlawb.com/v1/xiaomi-mimo',
+        OPENGATEWAY_BASE_URL: 'https://opengateway.courze.ai/v1/xiaomi-mimo',
       },
       fetchImpl,
       timeoutMs: 100,
       hasCodexAuth: () => false,
     })
-    expect(result?.kind).toBe('gitlawb-opengateway')
-    expect(result?.baseUrl).toBe('https://opengateway.gitlawb.com/v1')
+    expect(result?.kind).toBe('course-gateway')
+    expect(result?.baseUrl).toBe('https://opengateway.courze.ai/v1')
   })
 
   test('skipOpengatewayFallback returns null when nothing else is detected', async () => {

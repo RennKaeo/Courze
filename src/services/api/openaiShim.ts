@@ -9,7 +9,7 @@
  * Together, Groq, Fireworks, DeepSeek, Mistral, and any OpenAI-compatible API.
  *
  * Environment variables:
- *   CLAUDE_CODE_USE_OPENAI=1          — enable this provider
+ *   COURSE_CODE_USE_OPENAI=1          — enable this provider
  *   OPENAI_API_KEY=sk-...             — API key (optional for local models)
  *   OPENAI_API_KEYS=sk-a,sk-b         — optional comma-separated key pool for rotation
  *   OPENAI_AUTH_HEADER=api-key        — optional custom auth header name
@@ -21,7 +21,7 @@
  *   CODEX_API_KEY / ~/.codex/auth.json — Codex auth for codexplan/codexspark
  *
  * GitHub Copilot API (api.githubcopilot.com), OpenAI-compatible:
- *   CLAUDE_CODE_USE_GITHUB=1         — enable GitHub inference (no need for USE_OPENAI)
+ *   COURSE_CODE_USE_GITHUB=1         — enable GitHub inference (no need for USE_OPENAI)
  *   GITHUB_TOKEN or GH_TOKEN         — Copilot API token (mapped to Bearer auth)
  *   OPENAI_MODEL                     — optional; use github:copilot or openai/gpt-4.1 style IDs
  *
@@ -252,7 +252,7 @@ async function readWithIdleTimeout(
 }
 
 function isGithubModelsMode(): boolean {
-  return isEnvTruthy(process.env.CLAUDE_CODE_USE_GITHUB)
+  return isEnvTruthy(process.env.COURSE_CODE_USE_GITHUB)
 }
 
 function filterAnthropicHeaders(
@@ -477,7 +477,7 @@ function parsePositiveIntegerEnv(value: string | undefined): number | null {
 
 function getOllamaNumCtx(): number {
   return (
-    parsePositiveIntegerEnv(process.env.OPENCLAUDE_OLLAMA_NUM_CTX) ??
+    parsePositiveIntegerEnv(process.env.COURSE_OLLAMA_NUM_CTX) ??
     parsePositiveIntegerEnv(process.env.OLLAMA_CONTEXT_LENGTH) ??
     MIN_RECOMMENDED_OLLAMA_CONTEXT_TOKENS
   )
@@ -1010,7 +1010,7 @@ function convertContentBlocks(
 
 function isGeminiMode(): boolean {
   return (
-    isEnvTruthy(process.env.CLAUDE_CODE_USE_GEMINI) ||
+    isEnvTruthy(process.env.COURSE_CODE_USE_GEMINI) ||
     hasGeminiApiHost(process.env.OPENAI_BASE_URL)
   )
 }
@@ -1021,7 +1021,7 @@ function hydrateOpenAIShimCompatibilityEnv(
   // Provider selection, base URL defaults, and model defaults now flow
   // through resolveProviderRequest(). The shim still needs a few legacy
   // credential aliases because downstream auth/header paths read OPENAI_*.
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI)) {
     const geminiApiKey =
       processEnv.GEMINI_API_KEY ?? processEnv.GOOGLE_API_KEY
     if (geminiApiKey && !processEnv.OPENAI_API_KEY) {
@@ -1030,14 +1030,14 @@ function hydrateOpenAIShimCompatibilityEnv(
     return
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL)) {
     if (processEnv.MISTRAL_API_KEY && !processEnv.OPENAI_API_KEY) {
       processEnv.OPENAI_API_KEY = processEnv.MISTRAL_API_KEY
     }
     return
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB)) {
     processEnv.OPENAI_API_KEY =
       processEnv.GITHUB_COPILOT_KEY ??
       processEnv.OPENAI_API_KEY ??
@@ -1439,7 +1439,7 @@ function convertTools(
   const isGemini = isGeminiMode()
   const strict =
     !isGemini &&
-    !isEnvTruthy(process.env.OPENCLAUDE_DISABLE_STRICT_TOOLS) &&
+    !isEnvTruthy(process.env.COURSE_DISABLE_STRICT_TOOLS) &&
     !options.skipStrict
 
   return tools

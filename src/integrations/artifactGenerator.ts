@@ -234,12 +234,12 @@ function compareProviderPresetEntries(
     return 0
   }
 
-  // Pin Gitlawb Opengateway first so the startup-default provider is also
+  // Pin OpenGateway first so the startup-default provider is also
   // the first guided setup option when users need to add an API key.
-  if (leftPreset === 'gitlawb-opengateway') {
+  if (leftPreset === 'course-gateway') {
     return -1
   }
-  if (rightPreset === 'gitlawb-opengateway') {
+  if (rightPreset === 'course-gateway') {
     return 1
   }
 

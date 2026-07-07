@@ -1,10 +1,10 @@
 import { defineGateway } from '../define.js'
 
 export default defineGateway({
-  id: 'gitlawb-opengateway',
-  label: 'Gitlawb Opengateway',
+  id: 'course-gateway',
+  label: 'OpenGateway',
   category: 'aggregating',
-  defaultBaseUrl: 'https://opengateway.gitlawb.com/v1',
+  defaultBaseUrl: 'https://opengateway.courze.ai/v1',
   defaultModel: 'mimo-v2.5-pro',
   supportsModelRouting: true,
   vendorId: 'openai',
@@ -20,10 +20,10 @@ export default defineGateway({
     // fallbacks because existing course configs may already hold generic credentials there.
     credentialEnvVars: ['OPENGATEWAY_API_KEY', 'OPENAI_API_KEYS', 'OPENAI_API_KEY'],
     missingCredentialMessage:
-      'OPENGATEWAY_API_KEY is required to use Gitlawb Opengateway.\n' +
-      'Mint a free API key at https://gitlawb.com/opengateway/keys and set it as OPENGATEWAY_API_KEY (or OPENAI_API_KEYS / OPENAI_API_KEY when OPENAI_BASE_URL points at opengateway).',
+      'OPENGATEWAY_API_KEY is required to use OpenGateway.\n' +
+      'Mint a free API key at https://courze.ai/opengateway/keys and set it as OPENGATEWAY_API_KEY (or OPENAI_API_KEYS / OPENAI_API_KEY when OPENAI_BASE_URL points at opengateway).',
     routing: {
-      matchBaseUrlHosts: ['opengateway.gitlawb.com', 'opengateway.fly.dev'],
+      matchBaseUrlHosts: ['opengateway.courze.ai', 'opengateway.fly.dev'],
     },
   },
   transportConfig: {
@@ -45,15 +45,15 @@ export default defineGateway({
     },
   },
   preset: {
-    id: 'gitlawb-opengateway',
-    description: 'Gitlawb Opengateway - (API key required, signup at https://gitlawb.com/opengateway/keys)',
+    id: 'course-gateway',
+    description: 'OpenGateway - (API key required, signup at https://courze.ai/opengateway/keys)',
     apiKeyEnvVars: ['OPENGATEWAY_API_KEY'],
-    label: 'Gitlawb Opengateway',
-    name: 'Gitlawb Opengateway',
+    label: 'OpenGateway',
+    name: 'OpenGateway',
     vendorId: 'openai',
     modelEnvVars: ['OPENAI_MODEL'],
     baseUrlEnvVars: ['OPENGATEWAY_BASE_URL', 'OPENAI_BASE_URL'],
-    fallbackBaseUrl: 'https://opengateway.gitlawb.com/v1',
+    fallbackBaseUrl: 'https://opengateway.courze.ai/v1',
     fallbackModel: 'mimo-v2.5-pro',
     badge: { text: 'Recommended', color: 'success' },
   },

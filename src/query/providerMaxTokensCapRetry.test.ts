@@ -108,8 +108,8 @@ function makeParams(
 // `any[]` on purpose: the collected stream mixes Message/StreamEvent/Terminal
 // and the assertions below probe optional properties across all of them.
 async function collect(params: QueryParams): Promise<any[]> {
-  const previousSimple = process.env.CLAUDE_CODE_SIMPLE
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  const previousSimple = process.env.COURSE_CODE_SIMPLE
+  process.env.COURSE_CODE_SIMPLE = '1'
   const messages: any[] = []
   try {
     for await (const message of query(params)) {
@@ -117,9 +117,9 @@ async function collect(params: QueryParams): Promise<any[]> {
     }
   } finally {
     if (previousSimple === undefined) {
-      delete process.env.CLAUDE_CODE_SIMPLE
+      delete process.env.COURSE_CODE_SIMPLE
     } else {
-      process.env.CLAUDE_CODE_SIMPLE = previousSimple
+      process.env.COURSE_CODE_SIMPLE = previousSimple
     }
   }
   return messages

@@ -34,12 +34,12 @@ let fixturesRoot: string | undefined
 const envKeys = [
   'ANTHROPIC_API_KEY',
   'ANTHROPIC_AUTH_TOKEN',
-  'CLAUDE_CODE_DISABLE_NONSTREAMING_FALLBACK',
-  'CLAUDE_CODE_TEST_FIXTURES_ROOT',
+  'COURSE_CODE_DISABLE_NONSTREAMING_FALLBACK',
+  'COURSE_CODE_TEST_FIXTURES_ROOT',
   'CLAUDE_DISABLE_STREAM_WATCHDOG',
   'CLAUDE_ENABLE_STREAM_WATCHDOG',
   'CLAUDE_STREAM_IDLE_TIMEOUT_MS',
-  'OPENCLAUDE_MAX_RETRIES',
+  'COURSE_MAX_RETRIES',
   'VCR_RECORD',
 ] as const
 
@@ -297,9 +297,9 @@ beforeEach(async () => {
   }
   fixturesRoot = mkdtempSync(join(tmpdir(), 'claude-watchdog-vcr-'))
   process.env.ANTHROPIC_API_KEY = 'sk-test-watchdog'
-  process.env.CLAUDE_CODE_TEST_FIXTURES_ROOT = fixturesRoot
+  process.env.COURSE_CODE_TEST_FIXTURES_ROOT = fixturesRoot
   process.env.CLAUDE_STREAM_IDLE_TIMEOUT_MS = '25'
-  process.env.OPENCLAUDE_MAX_RETRIES = '0'
+  process.env.COURSE_MAX_RETRIES = '0'
   process.env.VCR_RECORD = '1'
 })
 

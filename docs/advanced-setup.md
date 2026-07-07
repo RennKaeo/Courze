@@ -41,7 +41,7 @@ bun run dev
 ### OpenAI
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=sk-...
 export OPENAI_MODEL=gpt-4o
 ```
@@ -60,7 +60,7 @@ Codex OAuth credentials, also set `CHATGPT_ACCOUNT_ID` (or
 `CODEX_ACCOUNT_ID`).
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_MODEL=codexplan
 
 # optional if you do not already have ~/.codex/auth.json
@@ -73,7 +73,7 @@ course
 ### DeepSeek
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=sk-...
 export OPENAI_BASE_URL=https://api.deepseek.com/v1
 export OPENAI_MODEL=deepseek-v4-flash
@@ -84,7 +84,7 @@ Use `deepseek-v4-pro` when you want the stronger model. `deepseek-chat` and `dee
 ### Google Gemini
 
 ```bash
-export CLAUDE_CODE_USE_GEMINI=1
+export COURSE_CODE_USE_GEMINI=1
 export GEMINI_API_KEY=...
 export GEMINI_MODEL=gemini-3-flash-preview
 ```
@@ -107,7 +107,7 @@ gcloud auth application-default login
 Minimal setup:
 
 ```bash
-export CLAUDE_CODE_USE_VERTEX=1
+export COURSE_CODE_USE_VERTEX=1
 export ANTHROPIC_VERTEX_PROJECT_ID=my-gcp-project
 export GOOGLE_CLOUD_PROJECT=my-gcp-project
 export CLOUD_ML_REGION=us-east5
@@ -122,7 +122,7 @@ Vertex region override variables are also supported for Claude models; see
 ### Gemini via OpenRouter
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=sk-or-...
 export OPENAI_BASE_URL=https://openrouter.ai/api/v1
 export OPENAI_MODEL=google/gemini-2.5-pro
@@ -135,7 +135,7 @@ OpenRouter model availability changes over time. If a model stops working, try a
 ```bash
 ollama pull llama3.3:70b
 
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://localhost:11434/v1
 export OPENAI_MODEL=llama3.3:70b
 ```
@@ -149,10 +149,10 @@ context window by default instead of falling back to the smaller context often
 used by Ollama's OpenAI-compatible `/v1/chat/completions` shim.
 
 To choose a different request-level context size, set
-`OPENCLAUDE_OLLAMA_NUM_CTX` before launching Course Code:
+`COURSE_OLLAMA_NUM_CTX` before launching Course Code:
 
 ```bash
-export OPENCLAUDE_OLLAMA_NUM_CTX=65536
+export COURSE_OLLAMA_NUM_CTX=65536
 ```
 
 You can also start Ollama with a global context length:
@@ -190,7 +190,7 @@ present.
 ### Atomic Chat (local, Apple Silicon)
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://127.0.0.1:1337/v1
 export OPENAI_MODEL=your-model-name
 ```
@@ -208,7 +208,7 @@ Download Atomic Chat from [atomic.chat](https://atomic.chat/). The app must be r
 ### LM Studio
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://localhost:1234/v1
 export OPENAI_MODEL=your-model-name
 ```
@@ -216,7 +216,7 @@ export OPENAI_MODEL=your-model-name
 ### Together AI
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=...
 export OPENAI_BASE_URL=https://api.together.xyz/v1
 export OPENAI_MODEL=meta-llama/Llama-3.3-70B-Instruct-Turbo
@@ -225,7 +225,7 @@ export OPENAI_MODEL=meta-llama/Llama-3.3-70B-Instruct-Turbo
 ### Groq
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export GROQ_API_KEY=gsk_...
 export OPENAI_BASE_URL=https://api.groq.com/openai/v1
 export OPENAI_MODEL=llama-3.3-70b-versatile
@@ -236,7 +236,7 @@ export OPENAI_MODEL=llama-3.3-70b-versatile
 ### OpenCode Zen (pay-as-you-go)
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENCODE_API_KEY=...
 export OPENAI_BASE_URL=https://opencode.ai/zen/v1
 export OPENAI_MODEL=gpt-5.4
@@ -251,7 +251,7 @@ Qwen, MiniMax, GLM, Kimi, Grok, Big Pickle, DeepSeek, Nemotron). Uses the same
 ### OpenCode Go (subscription)
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENCODE_API_KEY=...
 export OPENAI_BASE_URL=https://opencode.ai/zen/go/v1
 export OPENAI_MODEL=glm-5.1
@@ -262,17 +262,17 @@ course
 OpenCode Go is a $10/mo subscription for 13 open models (GLM, Kimi, DeepSeek,
 MiMo, MiniMax, Qwen). Uses the same `OPENCODE_API_KEY` as OpenCode Zen.
 
-### Gitlawb Opengateway
+### OpenGateway
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
-export OPENAI_BASE_URL=https://opengateway.gitlawb.com/v1
+export COURSE_CODE_USE_OPENAI=1
+export OPENAI_BASE_URL=https://opengateway.courze.ai/v1
 export OPENGATEWAY_API_KEY=ogw_live_...
 export OPENAI_MODEL=mimo-v2.5-pro
 ```
 
 The Opengateway route is the fresh-install startup default and requires an API
-key from https://gitlawb.com/opengateway/keys. Keep the base URL at `/v1` and
+key from https://courze.ai/opengateway/keys. Keep the base URL at `/v1` and
 switch models with `/model` or `OPENAI_MODEL`. Current partner models include:
 
 - `mimo-v2.5-pro`
@@ -281,7 +281,7 @@ switch models with `/model` or `OPENAI_MODEL`. Current partner models include:
 ### Xiaomi MiMo
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export MIMO_API_KEY=...
 export OPENAI_BASE_URL=https://api.xiaomimimo.com/v1
 export OPENAI_MODEL=mimo-v2.5-pro
@@ -292,7 +292,7 @@ The `/provider` Xiaomi MiMo preset uses the same endpoint and stores the key as 
 ### NEAR AI
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export NEARAI_API_KEY=...
 export OPENAI_BASE_URL=https://cloud-api.near.ai/v1
 export OPENAI_MODEL=anthropic/claude-sonnet-4-6
@@ -317,7 +317,7 @@ export OPENAI_BASE_URL=https://qwen35-122b.completions.near.ai/v1
 ### Mistral
 
 ```bash
-export CLAUDE_CODE_USE_MISTRAL=1
+export COURSE_CODE_USE_MISTRAL=1
 export MISTRAL_API_KEY=...
 export MISTRAL_MODEL=devstral-latest
 ```
@@ -325,7 +325,7 @@ export MISTRAL_MODEL=devstral-latest
 ### Azure OpenAI
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=your-azure-key
 export OPENAI_BASE_URL=https://your-resource.openai.azure.com/openai/deployments/your-deployment/v1
 export OPENAI_MODEL=gpt-4o
@@ -340,7 +340,7 @@ When your endpoint is the **resource base URL** (not the full `.../deployments/.
 and sends the key in the `api-key` header for Azure hosts.
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export OPENAI_API_KEY=your-azure-key
 export OPENAI_BASE_URL=https://your-resource.openai.azure.com
 export OPENAI_MODEL=your-deployment-name
@@ -358,7 +358,7 @@ export OPENAI_AZURE_STYLE=1
 Fireworks AI provides a fully OpenAI-compatible endpoint. Model IDs use the full path format `accounts/fireworks/models/<model-name>`.
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_CODE_USE_OPENAI=1
 export FIREWORKS_API_KEY=fw_your_key_here
 export OPENAI_BASE_URL=https://api.fireworks.ai/inference/v1
 export OPENAI_MODEL=accounts/fireworks/models/llama-v3p1-70b-instruct
@@ -370,21 +370,21 @@ The **Course Code VS Code extension** can store the key in Secret Storage and se
 
 | Variable | Required | Description |
 |----------|----------|-------------|
-| `CLAUDE_CODE_USE_OPENAI` | OpenAI-compatible only | Set to `1` to enable the OpenAI-compatible provider path |
+| `COURSE_CODE_USE_OPENAI` | OpenAI-compatible only | Set to `1` to enable the OpenAI-compatible provider path |
 | `OPENAI_API_KEYS` | One of `OPENAI_API_KEYS` or `OPENAI_API_KEY` for non-local OpenAI-compatible cloud routes* | Comma-separated OpenAI-compatible API key pool. Takes precedence over `OPENAI_API_KEY` and rotates to the next key on auth, quota, or rate-limit failures (`*` not needed for local models like Ollama, LM Studio, Atomic Chat, or other local OpenAI-compatible proxies). |
 | `OPENAI_API_KEY` | Required only when `OPENAI_API_KEYS` is unset or empty for non-local OpenAI-compatible cloud routes* | Your API key (`*` not needed for local models like Ollama, LM Studio, Atomic Chat, or other local OpenAI-compatible proxies). A comma-separated list also enables key rotation. |
 | `OPENAI_MODEL` | OpenAI-compatible only | Model name such as `gpt-4o`, `deepseek-v4-flash`, or `llama3.3:70b` |
 | `OPENAI_BASE_URL` | No | API endpoint, defaulting to `https://api.openai.com/v1` |
 | `OPENAI_API_BASE` | No | Compatibility alias for `OPENAI_BASE_URL` |
-| `OPENCLAUDE_OLLAMA_NUM_CTX` | Ollama only | Request-level Ollama context window. Defaults to `32768`; set a larger value for longer same-session history if your model and hardware can handle it. |
-| `CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS` | No | JSON map of OpenAI-compatible model names to context windows, such as `{"custom-model":1000000}`. Use this when a custom provider does not expose context metadata from `/v1/models`. |
+| `COURSE_OLLAMA_NUM_CTX` | Ollama only | Request-level Ollama context window. Defaults to `32768`; set a larger value for longer same-session history if your model and hardware can handle it. |
+| `COURSE_CODE_OPENAI_CONTEXT_WINDOWS` | No | JSON map of OpenAI-compatible model names to context windows, such as `{"custom-model":1000000}`. Use this when a custom provider does not expose context metadata from `/v1/models`. |
 | `OPENCODE_API_KEY` | OpenCode Zen / Go | Shared API key for OpenCode Zen (pay-as-you-go) and OpenCode Go (subscription); get yours from https://opencode.ai |
 | `MIMO_API_KEY` | Xiaomi MiMo route | Xiaomi MiMo API key for `https://api.xiaomimimo.com/v1`; mirrored into the OpenAI-compatible auth env when the MiMo route is active |
-| `CLAUDE_CODE_USE_GEMINI` | Gemini only | Set to `1` to enable the direct Gemini provider path |
+| `COURSE_CODE_USE_GEMINI` | Gemini only | Set to `1` to enable the direct Gemini provider path |
 | `GEMINI_API_KEY` / `GOOGLE_API_KEY` | Gemini API-key auth | Gemini API key for direct Gemini setup |
 | `GEMINI_MODEL` | Gemini only | Model name such as `gemini-3-flash-preview` or `gemini-2.5-pro` |
 | `GEMINI_BASE_URL` | No | Override the Gemini base URL |
-| `CLAUDE_CODE_USE_MISTRAL` | Mistral only | Set to `1` to enable the dedicated Mistral provider path |
+| `COURSE_CODE_USE_MISTRAL` | Mistral only | Set to `1` to enable the dedicated Mistral provider path |
 | `MISTRAL_API_KEY` | Mistral only | Mistral API key |
 | `MISTRAL_MODEL` | Mistral only | Model name such as `devstral-latest` |
 | `MISTRAL_BASE_URL` | No | Override the Mistral base URL |
@@ -392,10 +392,10 @@ The **Course Code VS Code extension** can store the key in Secret Storage and se
 | `CHATGPT_ACCOUNT_ID` / `CODEX_ACCOUNT_ID` | Codex only | Required for manual Codex env setup when the account id is not coming from `auth.json` or stored OAuth credentials |
 | `CODEX_AUTH_JSON_PATH` | Codex only | Path to a Codex CLI `auth.json` file |
 | `CODEX_HOME` | Codex only | Alternative Codex home directory |
-| `OPENCLAUDE_MAX_RETRIES` | No | Maximum retry attempts for retryable API failures, capped at 100 (default: 10). Set to `0` to disable retries after the initial request. If unset, deprecated `CLAUDE_CODE_MAX_RETRIES` is still honored for compatibility. |
-| `OPENCLAUDE_RETRY_DELAY_MS` | No | Base retry delay in milliseconds for APIs that do not send `Retry-After`; exponential backoff starts from this value, capped at 60000 (default: 500) |
-| `OPENCLAUDE_DISABLE_CO_AUTHORED_BY` | No | Suppress the default `Co-Authored-By` trailer in generated git commits |
-| `OPENCLAUDE_LOG_TOKEN_USAGE` | No | When truthy (e.g. `verbose`), emits one JSON line on stderr per API request with input/output/cache tokens and the resolved provider. **User-facing debug output** — complements the REPL display controlled by `/config showCacheStats`. Distinct from `CLAUDE_CODE_ENABLE_TOKEN_USAGE_ATTACHMENT`, which is **model-facing** (injects context usage info into the prompt itself). Both can run together. |
+| `COURSE_MAX_RETRIES` | No | Maximum retry attempts for retryable API failures, capped at 100 (default: 10). Set to `0` to disable retries after the initial request. If unset, deprecated `COURSE_CODE_MAX_RETRIES` is still honored for compatibility. |
+| `COURSE_RETRY_DELAY_MS` | No | Base retry delay in milliseconds for APIs that do not send `Retry-After`; exponential backoff starts from this value, capped at 60000 (default: 500) |
+| `COURSE_DISABLE_CO_AUTHORED_BY` | No | Suppress the default `Co-Authored-By` trailer in generated git commits |
+| `COURSE_LOG_TOKEN_USAGE` | No | When truthy (e.g. `verbose`), emits one JSON line on stderr per API request with input/output/cache tokens and the resolved provider. **User-facing debug output** — complements the REPL display controlled by `/config showCacheStats`. Distinct from `COURSE_CODE_ENABLE_TOKEN_USAGE_ATTACHMENT`, which is **model-facing** (injects context usage info into the prompt itself). Both can run together. |
 
 Model env vars are provider-scoped: first-party Anthropic sessions read
 `ANTHROPIC_MODEL`, OpenAI-compatible sessions read `OPENAI_MODEL`, Gemini reads
@@ -440,8 +440,8 @@ bun run hardening:strict
 
 Notes:
 
-- `doctor:runtime` fails fast if `CLAUDE_CODE_USE_OPENAI=1` with a placeholder key or a missing key for non-local providers.
-- `doctor:runtime` also validates the dedicated Gemini and Mistral env paths when `CLAUDE_CODE_USE_GEMINI=1` or `CLAUDE_CODE_USE_MISTRAL=1`.
+- `doctor:runtime` fails fast if `COURSE_CODE_USE_OPENAI=1` with a placeholder key or a missing key for non-local providers.
+- `doctor:runtime` also validates the dedicated Gemini and Mistral env paths when `COURSE_CODE_USE_GEMINI=1` or `COURSE_CODE_USE_MISTRAL=1`.
 - Local providers such as `http://localhost:11434/v1`, `http://10.0.0.1:11434/v1`, and `http://127.0.0.1:1337/v1` can run without `OPENAI_API_KEY`.
 - Codex profiles validate `CODEX_API_KEY` or the Codex CLI auth file and probe `POST /responses` instead of `GET /models`.
 - `course doctor report` is redacted by default and is intended for GitHub issues. It summarizes provider/runtime/build/settings state without prompts, transcripts, raw settings files, API keys, MCP command details, or full home-directory paths.
@@ -542,7 +542,7 @@ For `dev:atomic-chat`, make sure Atomic Chat is running with a model loaded befo
 ## Message-Count Compaction Threshold
 
 By default, Course Code compacts conversations based on token usage. A secondary
-message-count-based trigger (`OPENCLAUDE_MAX_ACTIVE_MESSAGES`) exists for
+message-count-based trigger (`COURSE_MAX_ACTIVE_MESSAGES`) exists for
 diagnostics but is disabled by default.
 
 If you frequently resume long sessions that accumulate hundreds of small
@@ -559,5 +559,5 @@ or `1000`). Setting it to `off` (default) disables the message-count trigger.
 This setting is intended for power users debugging specific edge cases. Most
 users should leave it at `off`.
 
-The legacy `OPENCLAUDE_MAX_ACTIVE_MESSAGES` environment variable is still
+The legacy `COURSE_MAX_ACTIVE_MESSAGES` environment variable is still
 honored when the setting is `off`.

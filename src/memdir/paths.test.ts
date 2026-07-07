@@ -27,15 +27,15 @@ function mockSources(sources: SourceFixture[]): void {
 
 beforeEach(() => {
   _originalEnv = {
-    CLAUDE_CODE_DISABLE_AUTO_MEMORY: process.env.CLAUDE_CODE_DISABLE_AUTO_MEMORY,
-    CLAUDE_CODE_SIMPLE: process.env.CLAUDE_CODE_SIMPLE,
-    CLAUDE_CODE_REMOTE: process.env.CLAUDE_CODE_REMOTE,
-    CLAUDE_CODE_REMOTE_MEMORY_DIR: process.env.CLAUDE_CODE_REMOTE_MEMORY_DIR,
+    COURSE_CODE_DISABLE_AUTO_MEMORY: process.env.COURSE_CODE_DISABLE_AUTO_MEMORY,
+    COURSE_CODE_SIMPLE: process.env.COURSE_CODE_SIMPLE,
+    COURSE_CODE_REMOTE: process.env.COURSE_CODE_REMOTE,
+    COURSE_CODE_REMOTE_MEMORY_DIR: process.env.COURSE_CODE_REMOTE_MEMORY_DIR,
   }
-  delete process.env.CLAUDE_CODE_DISABLE_AUTO_MEMORY
-  delete process.env.CLAUDE_CODE_SIMPLE
-  delete process.env.CLAUDE_CODE_REMOTE
-  delete process.env.CLAUDE_CODE_REMOTE_MEMORY_DIR
+  delete process.env.COURSE_CODE_DISABLE_AUTO_MEMORY
+  delete process.env.COURSE_CODE_SIMPLE
+  delete process.env.COURSE_CODE_REMOTE
+  delete process.env.COURSE_CODE_REMOTE_MEMORY_DIR
 
   _sources = []
   // Enable every source so getEnabledSettingSources() returns the full set in
@@ -116,7 +116,7 @@ test('a parent autoMemoryEnabled: false is not re-enabled by a narrower memory.a
 })
 
 test('env var still overrides settings', () => {
-  process.env.CLAUDE_CODE_DISABLE_AUTO_MEMORY = '1'
+  process.env.COURSE_CODE_DISABLE_AUTO_MEMORY = '1'
   mockSources([
     { source: 'projectSettings', settings: { memory: { autoWrite: true } } },
   ])

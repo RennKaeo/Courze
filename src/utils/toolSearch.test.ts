@@ -8,7 +8,7 @@ describe('resolveToolSearchMode', () => {
   })
 
   test('kill switch forces standard mode on Anthropic-wire providers', () => {
-    const env = { CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS: 'true' }
+    const env = { COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS: 'true' }
     expect(resolveToolSearchMode(env, 'firstParty')).toBe('standard')
     expect(resolveToolSearchMode(env, 'bedrock')).toBe('standard')
     expect(resolveToolSearchMode(env, 'vertex')).toBe('standard')
@@ -20,7 +20,7 @@ describe('resolveToolSearchMode', () => {
     // The OpenAI shims and the Gemini Vertex client convert every message and
     // tool definition client-side — no Anthropic beta shape reaches the wire,
     // so the beta kill switch has nothing to protect there.
-    const env = { CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS: 'true' }
+    const env = { COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS: 'true' }
     expect(resolveToolSearchMode(env, 'codex')).toBe('tst')
     expect(resolveToolSearchMode(env, 'openai')).toBe('tst')
     expect(resolveToolSearchMode(env, 'github')).toBe('tst')
@@ -36,7 +36,7 @@ describe('resolveToolSearchMode', () => {
 
   test('auto mode is preserved on converted-wire providers despite kill switch', () => {
     const env = {
-      CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS: 'true',
+      COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS: 'true',
       ENABLE_TOOL_SEARCH: 'auto',
     }
     expect(resolveToolSearchMode(env, 'codex')).toBe('tst-auto')

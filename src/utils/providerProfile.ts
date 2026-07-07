@@ -49,16 +49,16 @@ export const DEFAULT_GEMINI_MODEL = 'gemini-3-flash-preview'
 export const DEFAULT_MISTRAL_BASE_URL = 'https://api.mistral.ai/v1'
 export const DEFAULT_MISTRAL_MODEL = 'mistral-vibe-cli-latest'
 export const DEFAULT_STARTUP_PROVIDER_ENV_VAR =
-  'CLAUDE_CODE_DEFAULT_STARTUP_PROVIDER'
+  'COURSE_CODE_DEFAULT_STARTUP_PROVIDER'
 
 const PROFILE_ENV_KEYS = [
-  'CLAUDE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_GITHUB',
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_MISTRAL',
-  'CLAUDE_CODE_USE_BEDROCK',
-  'CLAUDE_CODE_USE_VERTEX',
-  'CLAUDE_CODE_USE_FOUNDRY',
+  'COURSE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_MISTRAL',
+  'COURSE_CODE_USE_BEDROCK',
+  'COURSE_CODE_USE_VERTEX',
+  'COURSE_CODE_USE_FOUNDRY',
   'ANTHROPIC_BASE_URL',
   'ANTHROPIC_MODEL',
   'ANTHROPIC_API_KEY',
@@ -76,7 +76,7 @@ const PROFILE_ENV_KEYS = [
   'OPENAI_API_KEY',
   'GITHUB_COPILOT_KEY',
   'GITHUB_ENTERPRISE_URL',
-  'CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS',
+  'COURSE_CODE_OPENAI_CONTEXT_WINDOWS',
   'CODEX_API_KEY',
   'CODEX_CREDENTIAL_SOURCE',
   'CHATGPT_ACCOUNT_ID',
@@ -187,7 +187,7 @@ export type ProfileEnv = {
   NEARAI_API_KEY?: string
   FIREWORKS_API_KEY?: string
   OPENCODE_API_KEY?: string
-  CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS?: string
+  COURSE_CODE_OPENAI_CONTEXT_WINDOWS?: string
 }
 
 export type ProfileFile = {
@@ -863,7 +863,7 @@ export function buildOpenAIProfileEnv(options: {
     ...(key ? { [keyEnvVar]: key } : {}),
     ...(options.maxContextLength
       ? {
-          CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS: JSON.stringify({
+          COURSE_CODE_OPENAI_CONTEXT_WINDOWS: JSON.stringify({
             [normalizedModel]: options.maxContextLength,
           }),
         }
@@ -1022,27 +1022,27 @@ function buildXaiProfileEnv(options: {
 function getCompatibilityProfileFlag(
   compatibilityMode: CompatibilityProfileMode,
 ):
-  | 'CLAUDE_CODE_USE_OPENAI'
-  | 'CLAUDE_CODE_USE_GITHUB'
-  | 'CLAUDE_CODE_USE_GEMINI'
-  | 'CLAUDE_CODE_USE_MISTRAL'
-  | 'CLAUDE_CODE_USE_BEDROCK'
-  | 'CLAUDE_CODE_USE_VERTEX'
+  | 'COURSE_CODE_USE_OPENAI'
+  | 'COURSE_CODE_USE_GITHUB'
+  | 'COURSE_CODE_USE_GEMINI'
+  | 'COURSE_CODE_USE_MISTRAL'
+  | 'COURSE_CODE_USE_BEDROCK'
+  | 'COURSE_CODE_USE_VERTEX'
   | undefined {
   switch (compatibilityMode) {
     case 'openai':
-      return 'CLAUDE_CODE_USE_OPENAI'
+      return 'COURSE_CODE_USE_OPENAI'
     case 'github':
     case 'github-enterprise':
-      return 'CLAUDE_CODE_USE_GITHUB'
+      return 'COURSE_CODE_USE_GITHUB'
     case 'gemini':
-      return 'CLAUDE_CODE_USE_GEMINI'
+      return 'COURSE_CODE_USE_GEMINI'
     case 'mistral':
-      return 'CLAUDE_CODE_USE_MISTRAL'
+      return 'COURSE_CODE_USE_MISTRAL'
     case 'bedrock':
-      return 'CLAUDE_CODE_USE_BEDROCK'
+      return 'COURSE_CODE_USE_BEDROCK'
     case 'vertex':
-      return 'CLAUDE_CODE_USE_VERTEX'
+      return 'COURSE_CODE_USE_VERTEX'
     default:
       return undefined
   }
@@ -1074,7 +1074,7 @@ export function buildCompatibilityProcessEnv(options: {
 }
 
 export function isDefaultStartupProviderEnv(env: NodeJS.ProcessEnv): boolean {
-  return env[DEFAULT_STARTUP_PROVIDER_ENV_VAR] === 'gitlawb-opengateway'
+  return env[DEFAULT_STARTUP_PROVIDER_ENV_VAR] === 'course-gateway'
 }
 
 export function buildCodexOAuthProfileEnv(
@@ -1213,29 +1213,29 @@ export function hasExplicitProviderSelection(
   processEnv: NodeJS.ProcessEnv = process.env,
 ): boolean {
   // If env was already applied from a provider profile, preserve it.
-  if (processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1') {
+  if (processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1') {
     return true
   }
 
   return (
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_OPENAI) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_BEDROCK) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_VERTEX) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_FOUNDRY)
+    isEnvTruthy(processEnv.COURSE_CODE_USE_OPENAI) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_BEDROCK) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_VERTEX) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_FOUNDRY)
   )
 }
 
 function hasConcreteProviderSelection(
   processEnv: NodeJS.ProcessEnv = process.env,
 ): boolean {
-  if (processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1') {
+  if (processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1') {
     return true
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_OPENAI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_OPENAI)) {
     return (
       sanitizeProviderConfigValue(processEnv.OPENAI_BASE_URL) !== undefined ||
       sanitizeProviderConfigValue(processEnv.OPENAI_API_BASE) !== undefined ||
@@ -1245,7 +1245,7 @@ function hasConcreteProviderSelection(
     )
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI)) {
     return (
       sanitizeProviderConfigValue(processEnv.GEMINI_BASE_URL) !== undefined ||
       normalizeProfileModel(
@@ -1256,7 +1256,7 @@ function hasConcreteProviderSelection(
     )
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL)) {
     return (
       sanitizeProviderConfigValue(processEnv.MISTRAL_BASE_URL) !== undefined ||
       normalizeProfileModel(
@@ -1266,7 +1266,7 @@ function hasConcreteProviderSelection(
     )
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB)) {
     return (
       sanitizeApiKey(processEnv.GITHUB_TOKEN) !== undefined ||
       sanitizeApiKey(processEnv.GH_TOKEN) !== undefined ||
@@ -1277,14 +1277,14 @@ function hasConcreteProviderSelection(
   }
 
   if (
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_BEDROCK) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_VERTEX) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_FOUNDRY)
+    isEnvTruthy(processEnv.COURSE_CODE_USE_BEDROCK) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_VERTEX) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_FOUNDRY)
   ) {
     return true
   }
 
-  // Env-only provider setups — no CLAUDE_CODE_USE_* flag needed
+  // Env-only provider setups — no COURSE_CODE_USE_* flag needed
   return (
     sanitizeApiKey(processEnv.FIREWORKS_API_KEY) !== undefined ||
     sanitizeApiKey(processEnv.NEARAI_API_KEY) !== undefined
@@ -1375,12 +1375,12 @@ export async function buildLaunchEnv(options: {
 
   if (hasExplicitProviderSelection(processEnv)) {
     const explicitProfileOverrides: Array<[string, ProviderProfile]> = [
-      ['CLAUDE_CODE_USE_GITHUB', 'github'],
-      ['CLAUDE_CODE_USE_BEDROCK', 'bedrock'],
-      ['CLAUDE_CODE_USE_VERTEX', 'vertex'],
-      ['CLAUDE_CODE_USE_MISTRAL', 'mistral'],
-      ['CLAUDE_CODE_USE_GEMINI', 'gemini'],
-      ['CLAUDE_CODE_USE_OPENAI', 'openai'],
+      ['COURSE_CODE_USE_GITHUB', 'github'],
+      ['COURSE_CODE_USE_BEDROCK', 'bedrock'],
+      ['COURSE_CODE_USE_VERTEX', 'vertex'],
+      ['COURSE_CODE_USE_MISTRAL', 'mistral'],
+      ['COURSE_CODE_USE_GEMINI', 'gemini'],
+      ['COURSE_CODE_USE_OPENAI', 'openai'],
     ]
 
     for (const [envKey, provider] of explicitProfileOverrides) {
@@ -1844,12 +1844,12 @@ export async function buildLaunchEnv(options: {
     env.ANTHROPIC_CUSTOM_HEADERS = customHeaders
   }
   const contextWindows =
-    processEnv.CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS ||
+    processEnv.COURSE_CODE_OPENAI_CONTEXT_WINDOWS ||
     (usePersistedOpenAIConfig
-      ? persistedEnv.CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS
+      ? persistedEnv.COURSE_CODE_OPENAI_CONTEXT_WINDOWS
       : undefined)
   if (contextWindows) {
-    env.CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS = contextWindows
+    env.COURSE_CODE_OPENAI_CONTEXT_WINDOWS = contextWindows
   }
 
   return buildCompatibilityProcessEnv({
@@ -1871,13 +1871,13 @@ export async function buildStartupEnvFromProfile(options?: {
   const persisted =
     options && 'persisted' in options ? options.persisted : loadProfileFile()
 
-  const profileManagedEnv = processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1'
+  const profileManagedEnv = processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1'
 
   // The single-profile file in the user config directory is a
   // first-run / fallback mechanism. The newer plural provider-profile
   // system (`/provider` presets + activeProviderProfileId in config) is
   // applied earlier in the bootstrap via applyActiveProviderProfileFromConfig
-  // and signals completion with CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED=1.
+  // and signals completion with COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED=1.
   //
   // If the plural system has already set env, trust it — do NOT overlay the
   // legacy file. addProviderProfile() does not sync the legacy file, so a
@@ -1896,36 +1896,36 @@ export async function buildStartupEnvFromProfile(options?: {
     return processEnv
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB)) {
     return processEnv
   }
 
   if (!persisted) {
     // No saved profile. If the user explicitly disabled the OpenAI-compatible
-    // provider (CLAUDE_CODE_USE_OPENAI=0), honor that opt-out instead of
+    // provider (COURSE_CODE_USE_OPENAI=0), honor that opt-out instead of
     // injecting the default Opengateway profile — otherwise the fallback
     // re-enables OpenAI and the startup validator reports a spurious missing
     // OPENAI_API_KEY warning (#1245).
     if (
-      processEnv.CLAUDE_CODE_USE_OPENAI !== undefined &&
-      !isEnvTruthy(processEnv.CLAUDE_CODE_USE_OPENAI)
+      processEnv.COURSE_CODE_USE_OPENAI !== undefined &&
+      !isEnvTruthy(processEnv.COURSE_CODE_USE_OPENAI)
     ) {
       return processEnv
     }
 
-    // No saved profile — default to Gitlawb Opengateway.
+    // No saved profile — default to OpenGateway.
     const env = buildCompatibilityProcessEnv({
       processEnv,
       compatibilityMode: 'openai',
       profileEnv: {
         OPENAI_BASE_URL:
-          getRouteDefaultBaseUrl('gitlawb-opengateway') ??
-          'https://opengateway.gitlawb.com/v1',
+          getRouteDefaultBaseUrl('course-gateway') ??
+          'https://opengateway.courze.ai/v1',
         OPENAI_MODEL:
-          getRouteDefaultModel('gitlawb-opengateway') ?? 'mimo-v2.5-pro',
+          getRouteDefaultModel('course-gateway') ?? 'mimo-v2.5-pro',
       },
     })
-    env[DEFAULT_STARTUP_PROVIDER_ENV_VAR] = 'gitlawb-opengateway'
+    env[DEFAULT_STARTUP_PROVIDER_ENV_VAR] = 'course-gateway'
     return env
   }
 
@@ -1934,7 +1934,7 @@ export async function buildStartupEnvFromProfile(options?: {
     persisted,
     goal:
       options?.goal ??
-      normalizeRecommendationGoal(processEnv.OPENCLAUDE_PROFILE_GOAL),
+      normalizeRecommendationGoal(processEnv.COURSE_PROFILE_GOAL),
     processEnv,
     getOllamaChatBaseUrl:
       options?.getOllamaChatBaseUrl ?? getOllamaChatBaseUrl,
@@ -1985,7 +1985,7 @@ export async function applySavedProfileToCurrentSession(options: {
   const processEnv = options.processEnv ?? process.env
   const hasExplicitSelection = hasExplicitProviderSelection(processEnv)
   const profileManagedEnv =
-    processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1'
+    processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1'
 
   if (options.profileFile.profile === 'codex' && hasExplicitSelection) {
     const isCodexOAuthProfile =
@@ -2001,21 +2001,21 @@ export async function applySavedProfileToCurrentSession(options: {
     const explicitEnv = await buildLaunchEnv({
       profile: options.profileFile.profile,
       persisted: options.profileFile,
-      goal: normalizeRecommendationGoal(processEnv.OPENCLAUDE_PROFILE_GOAL),
+      goal: normalizeRecommendationGoal(processEnv.COURSE_PROFILE_GOAL),
       processEnv: buildEnvSource,
       getOllamaChatBaseUrl,
       readGeminiAccessToken,
     })
-    delete explicitEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-    delete explicitEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+    delete explicitEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+    delete explicitEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
     const validationEnv = isCodexOAuthProfile
       ? { ...explicitEnv, CODEX_API_KEY: 'codex-oauth-token-for-validation' }
       : explicitEnv
     const validationError = await getProviderValidationError(validationEnv)
 
     if (profileManagedEnv) {
-      delete processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-      delete processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+      delete processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+      delete processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
       applyProfileEnvToProcessEnv(processEnv, explicitEnv)
       return validationError
     }
@@ -2031,15 +2031,15 @@ export async function applySavedProfileToCurrentSession(options: {
     options.profileFile.profile === 'codex' &&
     options.profileFile.env.CODEX_CREDENTIAL_SOURCE === 'oauth'
 
-  delete baseEnv.CLAUDE_CODE_USE_OPENAI
-  delete baseEnv.CLAUDE_CODE_USE_GITHUB
-  delete baseEnv.CLAUDE_CODE_USE_GEMINI
-  delete baseEnv.CLAUDE_CODE_USE_MISTRAL
-  delete baseEnv.CLAUDE_CODE_USE_BEDROCK
-  delete baseEnv.CLAUDE_CODE_USE_VERTEX
-  delete baseEnv.CLAUDE_CODE_USE_FOUNDRY
-  delete baseEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete baseEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete baseEnv.COURSE_CODE_USE_OPENAI
+  delete baseEnv.COURSE_CODE_USE_GITHUB
+  delete baseEnv.COURSE_CODE_USE_GEMINI
+  delete baseEnv.COURSE_CODE_USE_MISTRAL
+  delete baseEnv.COURSE_CODE_USE_BEDROCK
+  delete baseEnv.COURSE_CODE_USE_VERTEX
+  delete baseEnv.COURSE_CODE_USE_FOUNDRY
+  delete baseEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete baseEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
 
   if (isCodexOAuthProfile) {
     delete baseEnv.CODEX_API_KEY
@@ -2050,7 +2050,7 @@ export async function applySavedProfileToCurrentSession(options: {
   const nextEnv = await buildLaunchEnv({
     profile: options.profileFile.profile,
     persisted: options.profileFile,
-    goal: normalizeRecommendationGoal(processEnv.OPENCLAUDE_PROFILE_GOAL),
+    goal: normalizeRecommendationGoal(processEnv.COURSE_PROFILE_GOAL),
     processEnv: baseEnv,
     getOllamaChatBaseUrl,
     readGeminiAccessToken,
@@ -2063,8 +2063,8 @@ export async function applySavedProfileToCurrentSession(options: {
     return validationError
   }
 
-  delete processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete processEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete processEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
   applyProfileEnvToProcessEnv(processEnv, nextEnv)
   return null
 }

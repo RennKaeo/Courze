@@ -23,7 +23,7 @@ export type UpdateStrategy =
 
 /**
  * True when this build must NOT self-update: a third-party provider session
- * running on the upstream `@anthropic-ai/claude-code` package. Self-updating
+ * running on the upstream `@anthropic-ai/course-code` package. Self-updating
  * there pulls from the first-party distribution and would silently replace the
  * build the user is running. Custom-PACKAGE_URL builds (Course Code's
  * `@renskaeo/courze`) are safe to self-update.
@@ -44,7 +44,7 @@ export function isThirdPartyBuildBlockedFor(
   apiProvider: LegacyAPIProvider,
   packageUrl: string,
 ): boolean {
-  return apiProvider !== 'firstParty' && packageUrl === '@anthropic-ai/claude-code'
+  return apiProvider !== 'firstParty' && packageUrl === '@anthropic-ai/course-code'
 }
 
 /**

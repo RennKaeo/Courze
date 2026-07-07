@@ -1,11 +1,11 @@
 import { join } from 'path'
 import type { WikiPaths } from './types.js'
 
-export const OPENCLAUDE_DIRNAME = '.course'
+export const COURSE_DIRNAME = '.course'
 export const WIKI_DIRNAME = 'wiki'
 
 export function getWikiPaths(cwd: string): WikiPaths {
-  const root = join(cwd, OPENCLAUDE_DIRNAME, WIKI_DIRNAME)
+  const root = join(cwd, COURSE_DIRNAME, WIKI_DIRNAME)
 
   return {
     root,
@@ -15,6 +15,6 @@ export function getWikiPaths(cwd: string): WikiPaths {
     indexFile: join(root, 'index.md'),
     logFile: join(root, 'log.md'),
     conventionsFile: join(root, 'pages', 'conventions.md'),
-    conventionsCacheFile: join(cwd, OPENCLAUDE_DIRNAME, '.conventions-cache.json'),
+    conventionsCacheFile: join(cwd, COURSE_DIRNAME, '.conventions-cache.json'),
   }
 }

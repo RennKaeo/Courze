@@ -50,13 +50,13 @@ const optionalNonEmptyString = z.preprocess(
 const EnvSchema = z.object({
   ANTHROPIC_API_KEY: optionalNonEmptyString,
   ANTHROPIC_AUTH_TOKEN: optionalNonEmptyString,
-  OPENCLAUDE_CONFIG_DIR: optionalNonEmptyString,
-  CLAUDE_CONFIG_DIR: optionalNonEmptyString,
+  COURSE_CONFIG_DIR: optionalNonEmptyString,
+  COURSE_CONFIG_DIR: optionalNonEmptyString,
   HTTP_PROXY: z.string().url().optional().or(z.literal('')),
   HTTPS_PROXY: z.string().url().optional().or(z.literal('')),
   NODE_EXTRA_CA_CERTS: optionalNonEmptyString,
-  CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: z.string().optional(),
-  CLAUDE_CODE_DISABLE_TERMINAL_TITLE: z.string().optional(),
+  COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC: z.string().optional(),
+  COURSE_CODE_DISABLE_TERMINAL_TITLE: z.string().optional(),
   CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR: z.string().optional(),
 })
 

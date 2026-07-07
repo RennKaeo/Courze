@@ -12,7 +12,7 @@ import {
 const baseEnv = {
   HOME: '/home/alice',
   PATH: '/usr/bin',
-  CLAUDE_CODE_USE_OPENAI: '1',
+  COURSE_CODE_USE_OPENAI: '1',
   OPENAI_API_KEY: 'sk-openai-secret',
   OPENAI_BASE_URL:
     'https://user:pass@api.openai.com/v1?api_key=secret&mode=test',
@@ -221,7 +221,7 @@ describe('diagnostic issue report', () => {
       env: {
         HOME: '/home/alice',
         PATH: '/usr/bin',
-        CLAUDE_CODE_USE_GITHUB: '1',
+        COURSE_CODE_USE_GITHUB: '1',
         GITHUB_TOKEN: 'ghp_abcdefghijklmnopqrstuvwxyz',
         MY_PRIVATE_TOKEN: 'private-token-value',
       },
@@ -254,7 +254,7 @@ describe('diagnostic issue report', () => {
       env: {
         HOME: '/home/alice',
         PATH: '/usr/bin',
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_MODEL: 'codexplan',
         CODEX_API_KEY: 'codex-secret-token',
         CHATGPT_ACCOUNT_ID: 'acct_codex',
@@ -294,7 +294,7 @@ describe('diagnostic issue report', () => {
       env: {
         HOME: '/home/alice',
         PATH: '/usr/bin',
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_MODEL: 'codexspark',
         OPENAI_BASE_URL: 'https://chatgpt.com/backend-api/codex',
         CODEX_API_KEY: 'codex-secret-token',

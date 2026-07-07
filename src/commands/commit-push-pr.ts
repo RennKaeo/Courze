@@ -35,8 +35,8 @@ function getPromptContent(
   const username = process.env.USER || ''
 
   let prefix = ''
-  let reviewerArg = ' and `--reviewer anthropics/claude-code`'
-  let addReviewerArg = ' (and add `--add-reviewer anthropics/claude-code`)'
+  let reviewerArg = ' and `--reviewer anthropics/course-code`'
+  let addReviewerArg = ' (and add `--add-reviewer anthropics/course-code`)'
   let changelogSection = `
 
 ## Changelog

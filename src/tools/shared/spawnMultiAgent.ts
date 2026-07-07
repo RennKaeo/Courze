@@ -482,7 +482,7 @@ async function handleSpawnSplitPane(
   // Note: We spawn without a prompt - initial instructions are sent via mailbox
   const binaryPath = getTeammateCommand()
 
-  // Build teammate identity CLI args (replaces CLAUDE_CODE_* env vars)
+  // Build teammate identity CLI args (replaces COURSE_CODE_* env vars)
   const teammateArgs = [
     `--agent-id ${quote([teammateId])}`,
     `--agent-name ${quote([sanitizedName])}`,
@@ -517,7 +517,7 @@ async function handleSpawnSplitPane(
 
   const flagsStr = inheritedFlags ? ` ${inheritedFlags}` : ''
   // Propagate env vars that teammates need but may not inherit from tmux split-window shells.
-  // Includes CLAUDECODE, CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS, and API provider vars.
+  // Includes CLAUDECODE, COURSE_CODE_EXPERIMENTAL_AGENT_TEAMS, and API provider vars.
   const envStr = buildInheritedEnvVars()
   const spawnCommand = `cd ${quote([workingDir])} && env ${envStr} ${quote([binaryPath])} ${teammateArgs}${flagsStr}`
 
@@ -684,7 +684,7 @@ async function handleSpawnSeparateWindow(
   // Note: We spawn without a prompt - initial instructions are sent via mailbox
   const binaryPath = getTeammateCommand()
 
-  // Build teammate identity CLI args (replaces CLAUDE_CODE_* env vars)
+  // Build teammate identity CLI args (replaces COURSE_CODE_* env vars)
   const teammateArgs = [
     `--agent-id ${quote([teammateId])}`,
     `--agent-name ${quote([sanitizedName])}`,
@@ -719,7 +719,7 @@ async function handleSpawnSeparateWindow(
 
   const flagsStr = inheritedFlags ? ` ${inheritedFlags}` : ''
   // Propagate env vars that teammates need but may not inherit from tmux split-window shells.
-  // Includes CLAUDECODE, CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS, and API provider vars.
+  // Includes CLAUDECODE, COURSE_CODE_EXPERIMENTAL_AGENT_TEAMS, and API provider vars.
   const envStr = buildInheritedEnvVars()
   const spawnCommand = `cd ${quote([workingDir])} && env ${envStr} ${quote([binaryPath])} ${teammateArgs}${flagsStr}`
 

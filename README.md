@@ -2,30 +2,21 @@
 
 Course Code is an open-source coding-agent CLI for cloud and local model providers.
 
-Use OpenAI-compatible APIs, Gemini, GitHub Models, Codex OAuth, Codex, Ollama, Atomic Chat, and other supported backends while keeping one terminal-first workflow: prompts, tools, agents, MCP, slash commands, and streaming output.
+Use OpenAI-compatible APIs, Gemini, GitHub Models, Ollama, and other backends while keeping one terminal-first workflow: prompts, tools, agents, MCP, slash commands, and streaming output.
 
 [![PR Checks](https://github.com/RennKaeo/Courze/actions/workflows/pr-checks.yml/badge.svg?branch=main)](https://github.com/RennKaeo/Courze/actions/workflows/pr-checks.yml)
 [![Release](https://img.shields.io/github/v/tag/RennKaeo/Courze?label=release&color=0ea5e9)](https://github.com/RennKaeo/Courze/tags)
 [![Discussions](https://img.shields.io/badge/discussions-open-7c3aed)](https://github.com/RennKaeo/Courze/discussions)
 [![Discord](https://img.shields.io/badge/Discord-join-5865F2?logo=discord&logoColor=white)](https://discord.gg/k68zFR6AcB)
-[![X](https://img.shields.io/badge/X-@gitlawb-000000?logo=x&logoColor=white)](https://x.com/gitlawb)
 [![Security Policy](https://img.shields.io/badge/security-policy-0f766e)](SECURITY.md)
 [![License](https://img.shields.io/badge/license-MIT-2563eb)](LICENSE)
 
-Course Code is also mirrored to GitLawb:
-[gitlawb.com/node/repos/z6MkqDnb/course](https://gitlawb.com/node/repos/z6MkqDnb/course)
-
-[Quick Start](#quick-start) | [Setup Guides](#setup-guides) | [Providers](#supported-providers) | [Source Build](#source-build-and-local-development) | [VS Code Extension](#vs-code-extension) | [Sponsors](#sponsors) | [Community](#community)
+[Quick Start](#quick-start) | [Setup Guides](#setup-guides) | [Providers](#supported-providers) | [Source Build](#source-build-and-local-development) | [VS Code Extension](#vs-code-extension) | [Community](#community)
 
 ## Sponsors
 
 <table align="center">
   <tr>
-    <td align="center" width="150" height="80">
-      <a href="https://gitlawb.com">
-        <img src="https://gitlawb.com/logo.png" alt="GitLawb logo" width="72">
-      </a>
-    </td>
     <td align="center" width="150" height="80">
       <a href="https://bankr.bot">
         <img src="https://bankr.bot/favicon.svg" alt="Bankr.bot logo" width="72">
@@ -48,7 +39,6 @@ Course Code is also mirrored to GitLawb:
     </td>
   </tr>
   <tr>
-    <td align="center"><a href="https://gitlawb.com"><strong>GitLawb</strong></a></td>
     <td align="center"><a href="https://bankr.bot"><strong>Bankr.bot</strong></a></td>
     <td align="center"><a href="https://atomic.chat/"><strong>Atomic Chat</strong></a></td>
     <td align="center"><a href="https://mimo.mi.com"><strong>Xiaomi MiMo</strong></a></td>
@@ -58,13 +48,13 @@ Course Code is also mirrored to GitLawb:
 
 ## Star History
 
-[![Star History Chart](https://api.star-history.com/chart?repos=gitlawb/course&type=date&legend=top-left)](https://www.star-history.com/?repos=gitlawb%2Fcourse&type=date&legend=top-left)
+[![Star History Chart](https://api.star-history.com/chart?repos=RennKaeo/Courze&type=date&legend=top-left)](https://www.star-history.com/?repos=RennKaeo%2FCourze&type=date&legend=top-left)
 
 ## Why Course Code
 
 - Use one CLI across cloud APIs and local model backends
 - Save provider profiles inside the app with `/provider`
-- Run with OpenAI-compatible services, Gemini, GitHub Models, Codex OAuth, Codex, Ollama, Atomic Chat, and other supported providers
+- Run with OpenAI-compatible services, Gemini, GitHub Models, Ollama, and other supported providers
 - Keep coding-agent workflows in one place: bash, file tools, grep, glob, agents, tasks, MCP, and web tools
 - Use the bundled VS Code extension for launch integration and theme support
 
@@ -145,10 +135,8 @@ Background sessions are local child processes. Course Code does not start a daem
 or network service, and permission/provider/model/settings flags are passed to
 the child process the same way they are for a foreground `--print` run. Session
 metadata and logs are stored under the resolved Course Code config directory,
-usually `~/.course/bg-sessions/`; `OPENCLAUDE_CONFIG_DIR` can point
-Course Code somewhere else, with `CLAUDE_CONFIG_DIR` still supported as the
-legacy fallback. Session names can be reused after older sessions reach a
-terminal state; use the session ID to inspect older logs with the same name.
+usually `~/.course/bg-sessions/`; `COURSE_CONFIG_DIR` can point
+Course Code somewhere else.
 
 `course attach <id-or-name>` currently reports the matching session and
 points to `course logs <id> -f`; full terminal reattach is not implemented
@@ -159,7 +147,7 @@ for local background sessions yet.
 macOS / Linux:
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_USE_OPENAI=1
 export OPENAI_API_KEY=sk-your-key-here
 export OPENAI_MODEL=gpt-4o
 
@@ -169,7 +157,7 @@ course
 Windows PowerShell:
 
 ```powershell
-$env:CLAUDE_CODE_USE_OPENAI="1"
+$env:COURSE_USE_OPENAI="1"
 $env:OPENAI_API_KEY="sk-your-key-here"
 $env:OPENAI_MODEL="gpt-4o"
 
@@ -181,7 +169,7 @@ course
 macOS / Linux:
 
 ```bash
-export CLAUDE_CODE_USE_OPENAI=1
+export COURSE_USE_OPENAI=1
 export OPENAI_BASE_URL=http://localhost:11434/v1
 export OPENAI_MODEL=qwen2.5-coder:7b
 
@@ -191,7 +179,7 @@ course
 Windows PowerShell:
 
 ```powershell
-$env:CLAUDE_CODE_USE_OPENAI="1"
+$env:COURSE_USE_OPENAI="1"
 $env:OPENAI_BASE_URL="http://localhost:11434/v1"
 $env:OPENAI_MODEL="qwen2.5-coder:7b"
 
@@ -200,8 +188,8 @@ course
 
 For Ollama, Course Code uses Ollama's native chat API and requests a 32768-token
 context window on each chat request so same-session history is not silently
-truncated by Ollama's OpenAI-compatible shim. Set `OPENCLAUDE_OLLAMA_NUM_CTX`
-or `OLLAMA_CONTEXT_LENGTH` if you need a different request-level context size.
+truncated by Ollama's OpenAI-compatible shim. Set `COURSE_OLLAMA_NUM_CTX`
+if you need a different request-level context size.
 See [Advanced Setup](docs/advanced-setup.md#ollama-context-length) for
 verification with `ollama ps`.
 
@@ -225,20 +213,17 @@ Advanced and source-build guides:
 | OpenAI-compatible | `/provider` or env vars | Works with OpenAI, OpenRouter, DeepSeek, Groq, Mistral, LM Studio, and other compatible `/v1` servers |
 | Z.AI GLM Coding Plan | `/provider` or OpenAI-compatible env vars | Uses `OPENAI_API_KEY` at `https://api.z.ai/api/coding/paas/v4` and defaults to `glm-5.2` |
 | Hicap | `/provider` or OpenAI-compatible env vars | Uses `api-key` auth, discovers models from unauthenticated `/models`, and supports Responses mode for `gpt-` models |
-| Fireworks AI | `/provider` or env vars | First-class provider with 276 curated models (DeepSeek, Qwen, Llama, Gemma, and more); uses `FIREWORKS_API_KEY` |
-| ClinePass | `/provider` or env vars | AI model gateway with usage limits (5hr, weekly, monthly); uses `CLINE_API_KEY` at `https://api.cline.bot/api/v1` |
+| Fireworks AI | `/provider` or env vars | 276 curated models (DeepSeek, Qwen, Llama, Gemma, and more); uses `FIREWORKS_API_KEY` |
+| ClinePass | `/provider` or env vars | AI model gateway with usage limits; uses `CLINE_API_KEY` at `https://api.cline.bot/api/v1` |
 | Gemini | `/provider` or env vars | Supports API key only |
 | GitHub Models | `/onboard-github` | Interactive onboarding with saved credentials |
-| Codex OAuth | `/provider` | Opens ChatGPT sign-in in your browser and stores Codex credentials securely |
-| Codex | `/provider` | Uses existing Codex CLI auth, Course Code secure storage, or env credentials |
-| Gitlawb Opengateway | Startup default, `/provider`, or env vars | Smart gateway at `https://opengateway.gitlawb.com/v1`; requires an API key from https://gitlawb.com/opengateway/keys and routes Xiaomi MiMo and GMI Cloud partner models by `OPENAI_MODEL` |
-| OpenCode Zen | `/provider` or env vars | Pay-as-you-go AI gateway (48 models); uses `OPENCODE_API_KEY` via `https://opencode.ai/zen/v1`; shared key with OpenCode Go |
-| OpenCode Go | `/provider` or env vars | $10/mo subscription for open models (13 models); uses `OPENCODE_API_KEY` via `https://opencode.ai/zen/go/v1`; shared key with OpenCode Zen |
-| Xiaomi MiMo | `/provider` or env vars | OpenAI-compatible API at `https://mimo.mi.com`; uses `MIMO_API_KEY` and defaults to `mimo-v2.5-pro` |
-| NEAR AI | `/provider` or env vars | Unified gateway (Claude, GPT, Gemini + TEE open models); uses `NEARAI_API_KEY` at `https://cloud-api.near.ai/v1` |
 | Ollama | `/provider` or env vars | Local inference with no API key |
 | Atomic Chat | `/provider`, env vars, or `bun run dev:atomic-chat` | Local Model Provider; auto-detects loaded models |
-| Bedrock / Vertex / Foundry | env vars | Anthropic-family cloud routes; Vertex is for Claude on Vertex AI, not arbitrary Model Garden models |
+| OpenCode Zen | `/provider` or env vars | Pay-as-you-go AI gateway (48 models); uses `OPENCODE_API_KEY` via `https://opencode.ai/zen/v1` |
+| OpenCode Go | `/provider` or env vars | $10/mo subscription for open models (13 models); uses `OPENCODE_API_KEY` via `https://opencode.ai/zen/go/v1` |
+| Xiaomi MiMo | `/provider` or env vars | OpenAI-compatible API at `https://mimo.mi.com`; uses `MIMO_API_KEY` and defaults to `mimo-v2.5-pro` |
+| NEAR AI | `/provider` or env vars | Unified gateway (Claude, GPT, Gemini + TEE open models); uses `NEARAI_API_KEY` at `https://cloud-api.near.ai/v1` |
+| Bedrock / Vertex / Foundry | env vars | Anthropic-family cloud routes |
 
 ## What Works
 
@@ -253,17 +238,15 @@ Advanced and source-build guides:
 
 Course Code supports multiple providers, but behavior is not identical across all of them.
 
-- Anthropic-specific features may not exist on other providers
+- Provider-specific features may not exist on all backends
 - Tool quality depends heavily on the selected model
 - Smaller local models can struggle with long multi-step tool flows
 - Some providers impose lower output caps than the CLI defaults, and Course Code adapts where possible
-- Gitlawb Opengateway is the fresh-install startup default and requires an API key from https://gitlawb.com/opengateway/keys. It uses one OpenAI-compatible base URL; switch between `mimo-*` and `google/gemini-3.1-flash-lite-preview` with `/model`, and do not pin the base URL to `/v1/xiaomi-mimo`.
-- Z.AI GLM Coding Plan uses `https://api.z.ai/api/coding/paas/v4` with `glm-5.2` by default. Use `glm-5.2?reasoning=high` for enhanced reasoning, `glm-5.2?reasoning=xhigh` to request Z.AI `reasoning_effort=max`, or `glm-5.2?thinking=disabled` for faster direct answers.
 - Xiaomi MiMo uses `api-key` header auth on the direct OpenAI-compatible route and currently does not support `/usage` reporting in Course Code
 
 ### GitHub Copilot sub-agent optimization
 
-When CLAUDE_CODE_USE_GITHUB=1, Course Code serializes sub-agent execution to reduce GitHub Copilot Premium Request consumption. Default behavior is GITHUB_COPILOT_MAX_SUBAGENTS=1 (synchronous, one sub-agent at a time). Tuning vars (all optional):
+When `COURSE_USE_GITHUB=1`, Course Code serializes sub-agent execution to reduce GitHub Copilot Premium Request consumption. Default behavior is `GITHUB_COPILOT_MAX_SUBAGENTS=1` (synchronous, one sub-agent at a time). Tuning vars (all optional):
 
 | Var | Effect |
 |---|---|
@@ -354,7 +337,7 @@ By default, `WebSearch` works on non-Anthropic models using DuckDuckGo. This giv
 
 > **Note:** DuckDuckGo fallback works by scraping search results and may be rate-limited, blocked, or subject to DuckDuckGo's Terms of Service. If you want a more reliable supported option, configure Firecrawl.
 
-For Anthropic-native backends and Codex responses, Course Code keeps the native provider web search behavior.
+For Anthropic-native backends, Course Code keeps the native provider web search behavior.
 
 `WebFetch` works, but its basic HTTP plus HTML-to-markdown path can still fail on JavaScript-rendered sites or sites that block plain HTTP requests.
 
@@ -421,10 +404,8 @@ Helpful commands:
 - `bun run dev`
 - `bun test`
 - `bun run test:coverage`
-- `bun run security:pr-scan -- --base origin/main`
 - `bun run smoke`
 - `bun run doctor:runtime`
-- `bun run verify:privacy`
 - focused `bun test ...` runs for the areas you touch
 
 ## Testing And Coverage
@@ -469,6 +450,7 @@ Recommended contributor validation before opening a PR:
 - focused `bun test ...` runs for the files and flows you changed
 
 Coverage output is written to `coverage/lcov.info`, and Course Code also generates a git-activity-style heatmap at `coverage/index.html`.
+
 ## Repository Structure
 
 - `src/` - core CLI/runtime
@@ -480,7 +462,7 @@ Coverage output is written to `coverage/lcov.info`, and Course Code also generat
 
 ## VS Code Extension
 
-The repo includes a VS Code extension in [`vscode-extension/course-vscode`](vscode-extension/course-vscode) for Course Code launch integration, provider-aware Control Center, in-editor chat, theme support, and optional **Microsoft Foundry / Azure OpenAI** configuration (endpoint, API version, deployment, API key via Secret Storage) injected into launched terminals. See that folder’s [README](vscode-extension/course-vscode/README.md).
+The repo includes a VS Code extension in [`vscode-extension/course-vscode`](vscode-extension/course-vscode) for Course Code launch integration, provider-aware Control Center, in-editor chat, theme support, and optional **Microsoft Foundry / Azure OpenAI** configuration (endpoint, API version, deployment, API key via Secret Storage) injected into launched terminals. See that folder's [README](vscode-extension/course-vscode/README.md).
 
 ## Security
 
@@ -491,7 +473,6 @@ If you believe you found a security issue, see [SECURITY.md](SECURITY.md).
 - Use [GitHub Discussions](https://github.com/RennKaeo/Courze/discussions) for Q&A, ideas, and community conversation
 - Use [GitHub Issues](https://github.com/RennKaeo/Courze/issues) for confirmed bugs and actionable feature work
 - Join the [Discord](https://discord.gg/k68zFR6AcB) to chat with the community in real time
-- Follow [@gitlawb on X](https://x.com/gitlawb) for updates and announcements
 
 ## Contributing
 
@@ -504,13 +485,6 @@ For larger changes, open an issue first so the scope is clear before implementat
 - `bun run smoke`
 - focused `bun test ...` runs for files and flows you changed
 
-
-## Disclaimer
-
-Course Code is an independent community project and is not affiliated with, endorsed by, or sponsored by Anthropic.
-
-Course Code originated from the Claude Code codebase and has since been substantially modified to support multiple providers and open use. "Claude" and "Claude Code" are trademarks of Anthropic PBC. See [LICENSE](LICENSE) for details.
-
 ## License
 
-MIT for Course Code contributors' modifications; the derived Claude Code remains Anthropic's. [See more](LICENSE).
+MIT. See [LICENSE](LICENSE) for details.

@@ -26,10 +26,10 @@ test('parseGitHubReleaseBody strips markdown links and trailing refs', () => {
 test('parseGitHubReleaseBody preserves snake_case identifiers', () => {
   expect(
     parseGitHubReleaseBody(
-      '* add OPENCLAUDE_DISABLE_TOOL_REMINDERS env var to suppress reminders',
+      '* add COURSE_DISABLE_TOOL_REMINDERS env var to suppress reminders',
     ),
   ).toEqual([
-    'add OPENCLAUDE_DISABLE_TOOL_REMINDERS env var to suppress reminders',
+    'add COURSE_DISABLE_TOOL_REMINDERS env var to suppress reminders',
   ])
 })
 

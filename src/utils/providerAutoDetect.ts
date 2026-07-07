@@ -51,7 +51,7 @@ export type DetectedProviderKind =
   | 'fireworks'
   | 'ollama'
   | 'lm-studio'
-  | 'gitlawb-opengateway'
+  | 'course-gateway'
 
 export type DetectedProvider = {
   kind: DetectedProviderKind
@@ -305,7 +305,7 @@ export async function detectLocalService(options?: {
  * Orchestrator: env scan first (sync, free), then local-service probes
  * (async, ~1-2s worst case) only if nothing was found in env.
  */
-const OPENGATEWAY_DEFAULT_BASE_URL = 'https://opengateway.gitlawb.com/v1'
+const OPENGATEWAY_DEFAULT_BASE_URL = 'https://opengateway.courze.ai/v1'
 const OPENGATEWAY_DEFAULT_MODEL = 'mimo-v2.5-pro'
 
 function normalizeOpengatewayBaseUrl(baseUrl: string): string {
@@ -314,7 +314,7 @@ function normalizeOpengatewayBaseUrl(baseUrl: string): string {
     const hostname = parsed.hostname.toLowerCase()
     const path = parsed.pathname.replace(/\/+$/, '').toLowerCase()
     if (
-      (hostname === 'opengateway.gitlawb.com' || hostname === 'opengateway.fly.dev') &&
+      (hostname === 'opengateway.courze.ai' || hostname === 'opengateway.fly.dev') &&
       (path === '/v1/xiaomi-mimo' || path === '/v1/gmi-cloud')
     ) {
       parsed.pathname = '/v1'
@@ -329,9 +329,9 @@ function normalizeOpengatewayBaseUrl(baseUrl: string): string {
 }
 
 /**
- * Fallback: the Gitlawb Opengateway exposes partner inference through a
+ * Fallback: the OpenGateway exposes partner inference through a
  * smart OpenAI-compatible route. As of 2026-05-22 it requires a per-user API
- * key (signup at https://gitlawb.com/opengateway/keys); without a key we return
+ * key (signup at https://courze.ai/opengateway/keys); without a key we return
  * null so the caller surfaces the missing-credential prompt instead of
  * silently routing to an endpoint that will 401.
  */
@@ -345,9 +345,9 @@ function defaultOpengatewayProvider(env: EnvLike): DetectedProvider | null {
     (typeof env.OPENGATEWAY_BASE_URL === 'string' && env.OPENGATEWAY_BASE_URL.trim()) ||
     OPENGATEWAY_DEFAULT_BASE_URL
   return {
-    kind: 'gitlawb-opengateway',
+    kind: 'course-gateway',
     source:
-      'Gitlawb Opengateway (API key required, signup at https://gitlawb.com/opengateway/keys)',
+      'OpenGateway (API key required, signup at https://courze.ai/opengateway/keys)',
     baseUrl: normalizeOpengatewayBaseUrl(baseUrl),
     model: OPENGATEWAY_DEFAULT_MODEL,
   }
@@ -362,7 +362,7 @@ export async function detectBestProvider(options?: {
   /** Override for Codex auth-file detection. See detectProviderFromEnv. */
   hasCodexAuth?: () => boolean
   /**
-   * Disable the Gitlawb Opengateway fallback. Returns null when no other
+   * Disable the OpenGateway fallback. Returns null when no other
    * provider is detected. Use this in tests that need to assert "nothing found".
    */
   skipOpengatewayFallback?: boolean

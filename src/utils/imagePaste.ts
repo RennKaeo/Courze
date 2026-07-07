@@ -57,7 +57,7 @@ const SAFE_PATH_RE = /^[\w:\/\\@.\-_{}\[\]() ]+$/
 
 function safeTmpDir(platform: SupportedPlatform): string {
   const dir =
-    process.env.CLAUDE_CODE_TMPDIR ||
+    process.env.COURSE_CODE_TMPDIR ||
     (platform === 'win32' ? process.env.TEMP || 'C:\\Temp' : '/tmp')
   if (SAFE_PATH_RE.test(dir)) return dir
   return platform === 'win32' ? 'C:\\Temp' : '/tmp'
@@ -67,7 +67,7 @@ function getClipboardCommands() {
   const platform = process.platform as SupportedPlatform
 
   // Platform-specific temporary file paths
-  // Use CLAUDE_CODE_TMPDIR if set, otherwise fall back to platform defaults
+  // Use COURSE_CODE_TMPDIR if set, otherwise fall back to platform defaults
   const baseTmpDir = safeTmpDir(platform)
   const screenshotFilename = 'claude_cli_latest_screenshot.png'
   const tempPaths: Record<SupportedPlatform, string> = {

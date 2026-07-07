@@ -24,7 +24,7 @@ test('loads flat and nested skills with colon namespaces', async () => {
   await acquireSharedMutationLock('loadSkillsDir.test.ts')
   const configDir = mkdtempSync(join(tmpdir(), 'course-skills-'))
   const cwd = join(configDir, 'workspace')
-  const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const originalConfigDir = process.env.COURSE_CONFIG_DIR
 
   try {
     mkdirSync(cwd, { recursive: true })
@@ -32,7 +32,7 @@ test('loads flat and nested skills with colon namespaces', async () => {
     writeSkill(configDir, 'git/commit')
     writeSkill(configDir, 'frontend/react/form')
 
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     clearSkillCaches()
 
     const skills = await getSkillDirCommands(cwd)
@@ -69,9 +69,9 @@ test('loads flat and nested skills with colon namespaces', async () => {
   } finally {
     try {
       if (originalConfigDir === undefined) {
-        delete process.env.CLAUDE_CONFIG_DIR
+        delete process.env.COURSE_CONFIG_DIR
       } else {
-        process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+        process.env.COURSE_CONFIG_DIR = originalConfigDir
       }
       clearSkillCaches()
       rmSync(configDir, { recursive: true, force: true })

@@ -211,7 +211,7 @@ export function shouldUseThinkingForModel(
 ): boolean {
   return (
     thinkingConfig.type !== 'disabled' &&
-    !isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_THINKING) &&
+    !isEnvTruthy(process.env.COURSE_CODE_DISABLE_THINKING) &&
     modelSupportsThinking(model)
   )
 }

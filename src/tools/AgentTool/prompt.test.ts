@@ -7,8 +7,8 @@ import { getPrompt } from './prompt.js'
 import type { AgentDefinition } from './loadAgentsDir.js'
 
 const originalEnv = {
-  CLAUDE_CODE_AGENT_LIST_IN_MESSAGES:
-    process.env.CLAUDE_CODE_AGENT_LIST_IN_MESSAGES,
+  COURSE_CODE_AGENT_LIST_IN_MESSAGES:
+    process.env.COURSE_CODE_AGENT_LIST_IN_MESSAGES,
   USER_TYPE: process.env.USER_TYPE,
 }
 
@@ -18,7 +18,7 @@ beforeEach(async () => {
 
 afterEach(() => {
   try {
-    restoreEnv('CLAUDE_CODE_AGENT_LIST_IN_MESSAGES')
+    restoreEnv('COURSE_CODE_AGENT_LIST_IN_MESSAGES')
     restoreEnv('USER_TYPE')
   } finally {
     releaseSharedMutationLock()
@@ -46,7 +46,7 @@ const agents: AgentDefinition[] = [
 describe('AgentTool prompt isolation contract', () => {
   test('advertises worktree isolation but never remote isolation', async () => {
     process.env.USER_TYPE = 'ant'
-    process.env.CLAUDE_CODE_AGENT_LIST_IN_MESSAGES = 'false'
+    process.env.COURSE_CODE_AGENT_LIST_IN_MESSAGES = 'false'
 
     const prompt = await getPrompt(agents)
 

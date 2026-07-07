@@ -215,7 +215,7 @@ test('github-enterprise launch does not derive Enterprise URL from public Copilo
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GITHUB, '1')
+  assert.equal(env.COURSE_CODE_USE_GITHUB, '1')
   assert.equal(env.OPENAI_BASE_URL, 'https://api.githubcopilot.com')
   assert.equal(env.GITHUB_ENTERPRISE_URL, undefined)
 })
@@ -232,7 +232,7 @@ test('github-enterprise launch preserves persisted direct Copilot key', async ()
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GITHUB, '1')
+  assert.equal(env.COURSE_CODE_USE_GITHUB, '1')
   assert.equal(env.GITHUB_ENTERPRISE_URL, 'https://github.mycompany.com')
   assert.equal(env.GITHUB_COPILOT_KEY, 'enterprise-profile-key')
 })
@@ -284,7 +284,7 @@ test('xai launch uses descriptor defaults and persisted xAI key', async () => {
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.OPENAI_BASE_URL, 'https://api.x.ai/v1')
   assert.equal(env.OPENAI_MODEL, 'grok-4.3')
   assert.equal(env.OPENAI_API_KEY, 'xai-persisted-key')
@@ -304,7 +304,7 @@ test('xai launch lets shell xAI key override persisted xAI key', async () => {
     },
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.OPENAI_BASE_URL, 'https://api.x.ai/v1')
   assert.equal(env.OPENAI_MODEL, 'grok-3')
   assert.equal(env.OPENAI_API_KEY, 'xai-shell-key')
@@ -347,14 +347,14 @@ test('openai launch ignores codex persisted transport hints', async () => {
   assert.equal(env.OPENAI_API_KEY, 'sk-live')
 })
 
-test('buildStartupEnvFromProfile defaults fresh installs to Gitlawb Opengateway', async () => {
+test('buildStartupEnvFromProfile defaults fresh installs to OpenGateway', async () => {
   const env = await buildStartupEnvFromProfile({
     persisted: null,
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
-  assert.equal(env.OPENAI_BASE_URL, 'https://opengateway.gitlawb.com/v1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
+  assert.equal(env.OPENAI_BASE_URL, 'https://opengateway.courze.ai/v1')
   assert.equal(env.OPENAI_MODEL, 'mimo-v2.5-pro')
   assert.equal(isDefaultStartupProviderEnv(env), true)
 })
@@ -403,8 +403,8 @@ test('applyStartupEnvFromProfile applies valid startup env (issue #1651)', async
 
   assert.equal(error, null)
   assert.deepEqual(warnings, [])
-  assert.equal(processEnv.CLAUDE_CODE_USE_OPENAI, '1')
-  assert.equal(processEnv.OPENAI_BASE_URL, 'https://opengateway.gitlawb.com/v1')
+  assert.equal(processEnv.COURSE_CODE_USE_OPENAI, '1')
+  assert.equal(processEnv.OPENAI_BASE_URL, 'https://opengateway.courze.ai/v1')
   assert.equal(processEnv.OPENAI_MODEL, 'mimo-v2.5-pro')
   assert.equal(processEnv.OPENGATEWAY_API_KEY, 'test-key')
 })
@@ -413,14 +413,14 @@ test('buildStartupEnvFromProfile preserves explicit OpenAI-compatible env withou
   const env = await buildStartupEnvFromProfile({
     persisted: null,
     processEnv: {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_API_KEY: 'sk-live',
       OPENAI_BASE_URL: 'http://common.example.com/v1',
       OPENAI_MODEL: 'gemma-4-31B-it',
     },
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.OPENAI_API_KEY, 'sk-live')
   assert.equal(env.OPENAI_BASE_URL, 'http://common.example.com/v1')
   assert.equal(env.OPENAI_MODEL, 'gemma-4-31B-it')
@@ -428,17 +428,17 @@ test('buildStartupEnvFromProfile preserves explicit OpenAI-compatible env withou
   assert.equal(isDefaultStartupProviderEnv(env), false)
 })
 
-test('buildStartupEnvFromProfile respects an explicit CLAUDE_CODE_USE_OPENAI=0 opt-out (issue #1245)', async () => {
+test('buildStartupEnvFromProfile respects an explicit COURSE_CODE_USE_OPENAI=0 opt-out (issue #1245)', async () => {
   const env = await buildStartupEnvFromProfile({
     persisted: null,
     processEnv: {
-      CLAUDE_CODE_USE_OPENAI: '0',
+      COURSE_CODE_USE_OPENAI: '0',
     },
   })
 
   // The explicit opt-out must be preserved and the default Opengateway
   // profile must NOT be injected over it.
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '0')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '0')
   assert.equal(env.OPENAI_BASE_URL, undefined)
   assert.equal(env.OPENAI_MODEL, undefined)
   assert.equal(isDefaultStartupProviderEnv(env), false)
@@ -456,13 +456,13 @@ test('buildStartupEnvFromProfile preserves env-only Fireworks setup without a sa
     },
   })
 
-  // Must NOT fall through to Gitlawb Opengateway default
+  // Must NOT fall through to OpenGateway default
   assert.equal(env.FIREWORKS_API_KEY, 'fw-key')
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
+  assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
   assert.equal(
     env.OPENAI_BASE_URL,
     undefined,
-    'should not inject Gitlawb Opengateway base URL',
+    'should not inject OpenGateway base URL',
   )
   assert.equal(isDefaultStartupProviderEnv(env), false)
 })
@@ -479,7 +479,7 @@ test('buildStartupEnvFromProfile preserves env-only NEAR AI setup without a save
   assert.equal(
     env.OPENAI_BASE_URL,
     undefined,
-    'should not inject Gitlawb Opengateway base URL',
+    'should not inject OpenGateway base URL',
   )
   assert.equal(isDefaultStartupProviderEnv(env), false)
 })
@@ -529,8 +529,8 @@ test('matching persisted gemini env is reused for gemini launch', async () => {
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, '1')
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
+  assert.equal(env.COURSE_CODE_USE_GEMINI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
   assert.equal(env.GEMINI_MODEL, 'gemini-2.5-flash')
   assert.equal(env.GEMINI_API_KEY, 'gem-persisted')
   assert.equal(env.GEMINI_BASE_URL, 'https://example.test/v1beta/openai')
@@ -553,12 +553,12 @@ test('openai env variables take precedence over gemini', async () => {
       OPENAI_MODEL: 'gpt-4o-mini',
       CODEX_API_KEY: 'codex-live',
       CHATGPT_ACCOUNT_ID: 'acct_live',
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
     },
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, undefined) 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_GEMINI, undefined) 
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.GEMINI_MODEL, undefined)
   assert.equal(env.GEMINI_API_KEY, undefined)
   assert.equal(
@@ -921,11 +921,11 @@ test('saveProfileFile defaults to user config instead of the working directory',
   const cwd = mkdtempSync(join(tmpdir(), 'course-workspace-profile-'))
   const configRoot = mkdtempSync(join(tmpdir(), 'course-config-profile-'))
   const configDir = join(configRoot, 'config')
-  const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const previousConfigDir = process.env.COURSE_CONFIG_DIR
   const previousCwd = process.cwd()
 
   try {
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     process.chdir(cwd)
 
     const persisted = createProfileFile('openai', {
@@ -947,9 +947,9 @@ test('saveProfileFile defaults to user config instead of the working directory',
   } finally {
     process.chdir(previousCwd)
     if (previousConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = previousConfigDir
+      process.env.COURSE_CONFIG_DIR = previousConfigDir
     }
     rmSync(cwd, { recursive: true, force: true })
     rmSync(configRoot, { recursive: true, force: true })
@@ -959,11 +959,11 @@ test('saveProfileFile defaults to user config instead of the working directory',
 test('loadProfileFile keeps project-local files as a legacy fallback', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'course-legacy-profile-'))
   const configDir = mkdtempSync(join(tmpdir(), 'course-empty-config-profile-'))
-  const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const previousConfigDir = process.env.COURSE_CONFIG_DIR
   const previousCwd = process.cwd()
 
   try {
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     process.chdir(cwd)
 
     const legacyProfile = createProfileFile('gemini', {
@@ -980,9 +980,9 @@ test('loadProfileFile keeps project-local files as a legacy fallback', () => {
   } finally {
     process.chdir(previousCwd)
     if (previousConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = previousConfigDir
+      process.env.COURSE_CONFIG_DIR = previousConfigDir
     }
     rmSync(cwd, { recursive: true, force: true })
     rmSync(configDir, { recursive: true, force: true })
@@ -992,11 +992,11 @@ test('loadProfileFile keeps project-local files as a legacy fallback', () => {
 test('loadProfileFile does not fall back when user config profile is invalid', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'course-invalid-profile-'))
   const configDir = mkdtempSync(join(tmpdir(), 'course-invalid-config-profile-'))
-  const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const previousConfigDir = process.env.COURSE_CONFIG_DIR
   const previousCwd = process.cwd()
 
   try {
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     process.chdir(cwd)
 
     const legacyProfile = createProfileFile('gemini', {
@@ -1014,9 +1014,9 @@ test('loadProfileFile does not fall back when user config profile is invalid', (
   } finally {
     process.chdir(previousCwd)
     if (previousConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = previousConfigDir
+      process.env.COURSE_CONFIG_DIR = previousConfigDir
     }
     rmSync(cwd, { recursive: true, force: true })
     rmSync(configDir, { recursive: true, force: true })
@@ -1026,11 +1026,11 @@ test('loadProfileFile does not fall back when user config profile is invalid', (
 test('deleteProfileFile clears the default profile and legacy workspace fallback', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'course-delete-profile-'))
   const configDir = mkdtempSync(join(tmpdir(), 'course-delete-config-profile-'))
-  const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const previousConfigDir = process.env.COURSE_CONFIG_DIR
   const previousCwd = process.cwd()
 
   try {
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     process.chdir(cwd)
 
     const configProfile = createProfileFile('openai', {
@@ -1056,9 +1056,9 @@ test('deleteProfileFile clears the default profile and legacy workspace fallback
   } finally {
     process.chdir(previousCwd)
     if (previousConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = previousConfigDir
+      process.env.COURSE_CONFIG_DIR = previousConfigDir
     }
     rmSync(cwd, { recursive: true, force: true })
     rmSync(configDir, { recursive: true, force: true })
@@ -1068,11 +1068,11 @@ test('deleteProfileFile clears the default profile and legacy workspace fallback
 test('deleteProfileFile with configDir and cwd clears both user config and legacy fallback', () => {
   const cwd = mkdtempSync(join(tmpdir(), 'course-delete-mixed-profile-'))
   const configDir = mkdtempSync(join(tmpdir(), 'course-delete-mixed-config-profile-'))
-  const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const previousConfigDir = process.env.COURSE_CONFIG_DIR
   const previousCwd = process.cwd()
 
   try {
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     process.chdir(cwd)
 
     const configProfile = createProfileFile('openai', {
@@ -1098,9 +1098,9 @@ test('deleteProfileFile with configDir and cwd clears both user config and legac
   } finally {
     process.chdir(previousCwd)
     if (previousConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = previousConfigDir
+      process.env.COURSE_CONFIG_DIR = previousConfigDir
     }
     rmSync(cwd, { recursive: true, force: true })
     rmSync(configDir, { recursive: true, force: true })
@@ -1180,11 +1180,11 @@ test('clearPersistedCodexOAuthProfile removes only persisted Codex OAuth profile
 test('clearPersistedCodexOAuthProfile clears both default and legacy OAuth profiles', async () => {
   const cwd = mkdtempSync(join(tmpdir(), 'course-clear-oauth-profile-'))
   const configDir = mkdtempSync(join(tmpdir(), 'course-clear-oauth-config-'))
-  const previousConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const previousConfigDir = process.env.COURSE_CONFIG_DIR
   const previousCwd = process.cwd()
 
   try {
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     process.chdir(cwd)
 
     const {
@@ -1220,9 +1220,9 @@ test('clearPersistedCodexOAuthProfile clears both default and legacy OAuth profi
   } finally {
     process.chdir(previousCwd)
     if (previousConfigDir === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = previousConfigDir
+      process.env.COURSE_CONFIG_DIR = previousConfigDir
     }
     rmSync(cwd, { recursive: true, force: true })
     rmSync(configDir, { recursive: true, force: true })
@@ -1238,8 +1238,8 @@ test('buildStartupEnvFromProfile applies persisted gemini settings when no provi
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, '1')
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
+  assert.equal(env.COURSE_CODE_USE_GEMINI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
   assert.equal(env.GEMINI_API_KEY, 'gem-test')
   assert.equal(env.GEMINI_MODEL, 'gemini-2.5-flash')
 })
@@ -1254,7 +1254,7 @@ test('buildStartupEnvFromProfile rehydrates stored Gemini access token for acces
     readGeminiAccessToken: () => 'token-live',
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, '1')
+  assert.equal(env.COURSE_CODE_USE_GEMINI, '1')
   assert.equal(env.GEMINI_AUTH_MODE, 'access-token')
   assert.equal(env.GEMINI_ACCESS_TOKEN, 'token-live')
   assert.equal(env.GEMINI_API_KEY, undefined)
@@ -1271,7 +1271,7 @@ test('buildStartupEnvFromProfile does not inject stored access token for adc pro
     readGeminiAccessToken: () => 'token-live',
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, '1')
+  assert.equal(env.COURSE_CODE_USE_GEMINI, '1')
   assert.equal(env.GEMINI_AUTH_MODE, 'adc')
   assert.equal(env.GEMINI_ACCESS_TOKEN, undefined)
   assert.equal(env.GEMINI_API_KEY, undefined)
@@ -1279,7 +1279,7 @@ test('buildStartupEnvFromProfile does not inject stored access token for adc pro
 
 test('buildStartupEnvFromProfile leaves explicit provider selections untouched', async () => {
   const processEnv: NodeJS.ProcessEnv = {
-    CLAUDE_CODE_USE_GEMINI: '1',
+    COURSE_CODE_USE_GEMINI: '1',
     GEMINI_API_KEY: 'gem-live',
     GEMINI_MODEL: 'gemini-2.0-flash',
   }
@@ -1292,7 +1292,7 @@ test('buildStartupEnvFromProfile leaves explicit provider selections untouched',
     processEnv,
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, '1')
+  assert.equal(env.COURSE_CODE_USE_GEMINI, '1')
   assert.equal(env.GEMINI_API_KEY, 'gem-live')
   assert.equal(env.GEMINI_MODEL, 'gemini-2.0-flash')
   assert.equal(env.GEMINI_BASE_URL, undefined)
@@ -1322,7 +1322,7 @@ test('legacy openai saved profiles still deserialize and rebuild startup env', a
       processEnv: {},
     })
 
-    assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+    assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
     assert.equal(env.OPENAI_BASE_URL, 'https://api.openai.com/v1')
     assert.equal(env.OPENAI_MODEL, 'gpt-4o')
     assert.equal(env.OPENAI_API_KEY, 'sk-legacy-live')
@@ -1353,7 +1353,7 @@ test('legacy openai saved profiles preserve OPENAI_API_KEYS during startup rebui
       processEnv: {},
     })
 
-    assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+    assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
     assert.equal(env.OPENAI_BASE_URL, 'https://api.openai.com/v1')
     assert.equal(env.OPENAI_MODEL, 'gpt-4o')
     assert.equal(env.OPENAI_API_KEYS, 'key-a,key-b')
@@ -1438,7 +1438,7 @@ test('legacy anthropic saved profiles still deserialize and rebuild startup env'
       processEnv: {},
     })
 
-    assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
+    assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
     assert.equal(env.ANTHROPIC_BASE_URL, 'https://api.anthropic.com')
     assert.equal(env.ANTHROPIC_MODEL, 'claude-sonnet-4-6')
     assert.equal(env.ANTHROPIC_API_KEY, 'sk-ant-live')
@@ -1468,13 +1468,13 @@ test('bedrock persisted profiles load and rebuild the dedicated startup env', as
       processEnv: {},
     })
 
-    assert.equal(env.CLAUDE_CODE_USE_BEDROCK, '1')
+    assert.equal(env.COURSE_CODE_USE_BEDROCK, '1')
     assert.equal(env.ANTHROPIC_MODEL, 'claude-sonnet-4-6')
     assert.equal(
       env.ANTHROPIC_BEDROCK_BASE_URL,
       'https://bedrock-proxy.example',
     )
-    assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
+    assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
   } finally {
     rmSync(tempDir, { recursive: true, force: true })
   }
@@ -1482,7 +1482,7 @@ test('bedrock persisted profiles load and rebuild the dedicated startup env', as
 
 test('buildStartupEnvFromProfile preserves explicit GitHub provider settings when the legacy file is stale', async () => {
   const processEnv: NodeJS.ProcessEnv = {
-    CLAUDE_CODE_USE_GITHUB: '1',
+    COURSE_CODE_USE_GITHUB: '1',
     OPENAI_MODEL: 'github:copilot',
   }
 
@@ -1496,9 +1496,9 @@ test('buildStartupEnvFromProfile preserves explicit GitHub provider settings whe
   })
 
   assert.equal(env, processEnv)
-  assert.equal(env.CLAUDE_CODE_USE_GITHUB, '1')
+  assert.equal(env.COURSE_CODE_USE_GITHUB, '1')
   assert.equal(env.OPENAI_MODEL, 'github:copilot')
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
+  assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
   assert.equal(env.OPENAI_API_KEY, undefined)
   assert.equal(env.OPENAI_BASE_URL, undefined)
 })
@@ -1506,7 +1506,7 @@ test('buildStartupEnvFromProfile preserves explicit GitHub provider settings whe
 test('applySavedProfileToCurrentSession can switch away from GitHub provider env', async () => {
   const { applySavedProfileToCurrentSession } = await importFreshProviderProfileModule()
   const processEnv: NodeJS.ProcessEnv = {
-    CLAUDE_CODE_USE_GITHUB: '1',
+    COURSE_CODE_USE_GITHUB: '1',
     OPENAI_MODEL: 'github:copilot',
   }
 
@@ -1519,8 +1519,8 @@ test('applySavedProfileToCurrentSession can switch away from GitHub provider env
   })
 
   assert.equal(error, null)
-  assert.equal(processEnv.CLAUDE_CODE_USE_GITHUB, undefined)
-  assert.equal(processEnv.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(processEnv.COURSE_CODE_USE_GITHUB, undefined)
+  assert.equal(processEnv.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(processEnv.OPENAI_BASE_URL, 'http://localhost:11434/v1')
   assert.equal(processEnv.OPENAI_MODEL, 'llama3.1:8b')
   assert.equal(Object.hasOwn(processEnv, 'OPENAI_API_KEY'), false)
@@ -1529,9 +1529,9 @@ test('applySavedProfileToCurrentSession can switch away from GitHub provider env
 test('applySavedProfileToCurrentSession replaces empty active OpenAI key for Codex OAuth', async () => {
   const { applySavedProfileToCurrentSession } = await importFreshProviderProfileModule()
   const processEnv: NodeJS.ProcessEnv = {
-    CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
-    CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: 'provider_codex_oauth',
-    CLAUDE_CODE_USE_OPENAI: '1',
+    COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
+    COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: 'provider_codex_oauth',
+    COURSE_CODE_USE_OPENAI: '1',
     OPENAI_BASE_URL: DEFAULT_CODEX_BASE_URL,
     OPENAI_MODEL: 'codexplan',
     OPENAI_API_KEY: '',
@@ -1548,7 +1548,7 @@ test('applySavedProfileToCurrentSession replaces empty active OpenAI key for Cod
   })
 
   assert.equal(error, null)
-  assert.equal(processEnv.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(processEnv.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(processEnv.OPENAI_BASE_URL, DEFAULT_CODEX_BASE_URL)
   assert.equal(processEnv.OPENAI_MODEL, 'codexplan')
   assert.equal(Object.hasOwn(processEnv, 'OPENAI_API_KEY'), false)
@@ -1562,13 +1562,13 @@ test('buildStartupEnvFromProfile preserves plural-profile env when the legacy fi
   // so the legacy file retains whatever it had from an earlier setup (e.g.
   // OpenAI defaults). At startup, applyActiveProviderProfileFromConfig()
   // correctly applies the active plural profile (Moonshot) first, marking
-  // env with CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED=1. The legacy-file
+  // env with COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED=1. The legacy-file
   // load must NOT overwrite that env — it previously did, surfacing as
   // "banner shows the wrong provider / model".
   const processEnv = {
-    CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
-    CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: 'saved_moonshot',
-    CLAUDE_CODE_USE_OPENAI: '1',
+    COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
+    COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: 'saved_moonshot',
+    COURSE_CODE_USE_OPENAI: '1',
     OPENAI_BASE_URL: 'https://api.moonshot.ai/v1',
     OPENAI_MODEL: 'kimi-k2.6',
   }
@@ -1589,13 +1589,13 @@ test('buildStartupEnvFromProfile preserves plural-profile env when the legacy fi
   assert.equal(env.OPENAI_MODEL, 'kimi-k2.6')
   // Plural markers are retained — downstream code uses them to verify the
   // env still belongs to the profile it was applied from.
-  assert.equal(env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED, '1')
-  assert.equal(env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID, 'saved_moonshot')
+  assert.equal(env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED, '1')
+  assert.equal(env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID, 'saved_moonshot')
 })
 
 test('buildStartupEnvFromProfile ignores the legacy file when startup already has concrete env', async () => {
   const processEnv: NodeJS.ProcessEnv = {
-    CLAUDE_CODE_USE_OPENAI: '1',
+    COURSE_CODE_USE_OPENAI: '1',
     OPENAI_BASE_URL: 'https://api.moonshot.ai/v1',
     OPENAI_MODEL: 'kimi-k2.6',
   }
@@ -1620,7 +1620,7 @@ test('buildStartupEnvFromProfile falls back to legacy file when plural system ha
   // active profile yet). The legacy file is the correct source, so the
   // load must proceed as before.
   const processEnv = {
-    CLAUDE_CODE_USE_OPENAI: '1',
+    COURSE_CODE_USE_OPENAI: '1',
   }
 
   const env = await buildStartupEnvFromProfile({
@@ -1640,7 +1640,7 @@ test('buildStartupEnvFromProfile falls back to legacy file when plural system ha
 
 test('buildStartupEnvFromProfile falls back to the legacy file when startup env is incomplete', async () => {
   const processEnv = {
-    CLAUDE_CODE_USE_OPENAI: '1',
+    COURSE_CODE_USE_OPENAI: '1',
   }
 
   const env = await buildStartupEnvFromProfile({
@@ -1660,7 +1660,7 @@ test('buildStartupEnvFromProfile falls back to the legacy file when startup env 
 
 test('buildStartupEnvFromProfile ignores falsey provider flags when deciding whether startup env is concrete', async () => {
   const processEnv = {
-    CLAUDE_CODE_USE_OPENAI: '0',
+    COURSE_CODE_USE_OPENAI: '0',
     OPENAI_BASE_URL: 'https://api.stale.example/v1',
     OPENAI_MODEL: 'stale-model',
   }
@@ -1680,7 +1680,7 @@ test('buildStartupEnvFromProfile ignores falsey provider flags when deciding whe
 
 test('buildStartupEnvFromProfile treats explicit falsey provider flags as user intent', async () => {
   const processEnv = {
-    CLAUDE_CODE_USE_OPENAI: '0',
+    COURSE_CODE_USE_OPENAI: '0',
   }
 
   const env = await buildStartupEnvFromProfile({
@@ -1691,8 +1691,8 @@ test('buildStartupEnvFromProfile treats explicit falsey provider flags as user i
     processEnv,
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, undefined)
-  assert.equal(env.CLAUDE_CODE_USE_GEMINI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, undefined)
+  assert.equal(env.COURSE_CODE_USE_GEMINI, '1')
   assert.equal(env.GEMINI_API_KEY, 'gem-persisted')
   assert.equal(env.GEMINI_MODEL, 'gemini-2.5-flash')
   assert.equal(env.GEMINI_BASE_URL, 'https://generativelanguage.googleapis.com/v1beta/openai')
@@ -1970,7 +1970,7 @@ test('startup env ignores poisoned persisted openai model and base url', async (
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.OPENAI_API_KEY, 'sk-live')
   assert.equal(env.OPENAI_MODEL, 'gpt-5.5')
   assert.equal(env.OPENAI_BASE_URL, 'https://api.openai.com/v1')
@@ -1986,7 +1986,7 @@ test('startup env normalizes a semicolon-separated persisted openai model list',
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.OPENAI_API_KEY, 'sk-live')
   assert.equal(env.OPENAI_MODEL, 'gpt-5.4')
   assert.equal(env.OPENAI_BASE_URL, 'https://api.openai.com/v1')
@@ -1999,15 +1999,15 @@ test('startup env preserves persisted openai context-window override', async () 
       OPENAI_API_KEY: 'sk-live',
       OPENAI_MODEL: 'gpt-4o',
       OPENAI_BASE_URL: 'https://api.openai.com/v1',
-      CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS: override,
+      COURSE_CODE_OPENAI_CONTEXT_WINDOWS: override,
     }),
     processEnv: {},
   })
 
-  assert.equal(env.CLAUDE_CODE_USE_OPENAI, '1')
+  assert.equal(env.COURSE_CODE_USE_OPENAI, '1')
   assert.equal(env.OPENAI_MODEL, 'gpt-4o')
   assert.equal(env.OPENAI_BASE_URL, 'https://api.openai.com/v1')
-  assert.equal(env.CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS, override)
+  assert.equal(env.COURSE_CODE_OPENAI_CONTEXT_WINDOWS, override)
 })
 
 test('auto profile falls back to openai when no viable ollama model exists', () => {

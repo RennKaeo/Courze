@@ -16,7 +16,7 @@ import { sanitizePath } from '../sessionStoragePortable.js'
 import { SQLiteProvider } from './SQLiteProvider.js'
 
 describe('SQLite Storage Layer', () => {
-  const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const originalConfigDir = process.env.COURSE_CONFIG_DIR
   const originalCwd = process.cwd()
   const originalFs = getFsImplementation()
   const configDir = mkdtempSync(join(tmpdir(), 'course-sqlite-'))
@@ -89,7 +89,7 @@ describe('SQLite Storage Layer', () => {
       ...originalFs,
       cwd: () => workspaceDir,
     })
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     setClaudeConfigHomeDirForTesting(configDir)
     resetGlobalGraph()
   })
@@ -99,9 +99,9 @@ describe('SQLite Storage Layer', () => {
       resetGlobalGraph()
       clearMemoryOnly()
       if (originalConfigDir === undefined) {
-        delete process.env.CLAUDE_CONFIG_DIR
+        delete process.env.COURSE_CONFIG_DIR
       } else {
-        process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+        process.env.COURSE_CONFIG_DIR = originalConfigDir
       }
       process.chdir(originalCwd)
       setFsImplementation(originalFs)

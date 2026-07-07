@@ -363,7 +363,7 @@ async function dispatchHookChainFromHookRuntime(args: {
  */
 const SESSION_END_HOOK_TIMEOUT_MS_DEFAULT = 1500
 export function getSessionEndHookTimeoutMs(): number {
-  const raw = process.env.CLAUDE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS
+  const raw = process.env.COURSE_CODE_SESSIONEND_HOOKS_TIMEOUT_MS
   const parsed = raw ? parseInt(raw, 10) : NaN
   return Number.isFinite(parsed) && parsed > 0
     ? parsed
@@ -930,7 +930,7 @@ function processHookJSONOutput({
  *
  * Shell resolution: hook.shell → 'bash'. PowerShell hooks spawn pwsh
  * with -NoProfile -NonInteractive -Command and skip bash-specific prep
- * (POSIX path conversion, .sh auto-prepend, CLAUDE_CODE_SHELL_PREFIX).
+ * (POSIX path conversion, .sh auto-prepend, COURSE_CODE_SHELL_PREFIX).
  * See docs/design/ps-shell-selection.md §5.1.
  */
 async function execCommandHook(
@@ -1054,13 +1054,13 @@ async function execCommandHook(
     }
   }
 
-  // CLAUDE_CODE_SHELL_PREFIX wraps the command via POSIX quoting
+  // COURSE_CODE_SHELL_PREFIX wraps the command via POSIX quoting
   // (formatShellPrefixCommand uses shell-quote). This makes no sense for
   // PowerShell — see design §8.1. For now PS hooks ignore the prefix;
-  // a CLAUDE_CODE_PS_SHELL_PREFIX (or shell-aware prefix) is a follow-up.
+  // a COURSE_CODE_PS_SHELL_PREFIX (or shell-aware prefix) is a follow-up.
   const finalCommand =
-    !isPowerShell && process.env.CLAUDE_CODE_SHELL_PREFIX
-      ? formatShellPrefixCommand(process.env.CLAUDE_CODE_SHELL_PREFIX, command)
+    !isPowerShell && process.env.COURSE_CODE_SHELL_PREFIX
+      ? formatShellPrefixCommand(process.env.COURSE_CODE_SHELL_PREFIX, command)
       : command
 
   const hookTimeoutMs = hook.timeout
@@ -1406,7 +1406,7 @@ async function execCommandHook(
         // Explicitly specify UTF-8 encoding to ensure proper handling of Unicode characters
         child.stdin.write(jsonInput + '\n', 'utf8')
         // Always close stdin after writing the initial JSON payload. The Anthropic
-        // hook input contract (https://docs.claude.com/en/docs/claude-code/hooks#hook-input)
+        // hook input contract (https://docs.claude.com/en/docs/course-code/hooks#hook-input)
         // states stdin is closed after the payload is sent, and every plugin written
         // against that spec reads stdin until EOF. Leaving stdin open to support
         // future prompt-response on the same channel caused every UserPromptSubmit
@@ -2181,7 +2181,7 @@ async function* executeHooks({
     return
   }
 
-  if (isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_SIMPLE)) {
     return
   }
 
@@ -3215,7 +3215,7 @@ async function executeHooksOutsideREPL({
   signal?: AbortSignal
   timeoutMs: number
 }): Promise<HookOutsideReplResult[]> {
-  if (isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_SIMPLE)) {
     return []
   }
 

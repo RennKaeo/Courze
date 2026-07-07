@@ -18,10 +18,10 @@ export const providers: Provider[] = [
   },
   {
     id: 'opengateway',
-    name: 'Gitlawb Opengateway',
+    name: 'OpenGateway',
     setup: 'startup default, /provider, or env vars',
     envVars: ['OPENAI_API_KEY', 'OPENAI_MODEL'],
-    notes: 'Smart gateway at https://opengateway.gitlawb.com/v1. Requires an API key from gitlawb.com/opengateway/keys; routes Xiaomi MiMo and GMI Cloud partner models by model name.',
+    notes: 'Smart gateway at https://opengateway.courze.ai/v1. Requires an API key from courze.ai/opengateway/keys; routes Xiaomi MiMo and GMI Cloud partner models by model name.',
   },
   {
     id: 'gemini',

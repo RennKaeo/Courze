@@ -291,7 +291,7 @@ export function buildCurrentProviderSummary(options?: {
   const persisted = options?.persisted ?? loadProfileFile()
   const savedProfileLabel = persisted?.profile ?? 'none'
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GEMINI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GEMINI)) {
     const geminiMetadata = getProviderPresetUiMetadata('gemini', processEnv)
     return {
       providerLabel: geminiMetadata.label,
@@ -307,7 +307,7 @@ export function buildCurrentProviderSummary(options?: {
     }
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_MISTRAL)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_MISTRAL)) {
     const mistralMetadata = getProviderPresetUiMetadata('mistral', processEnv)
     return {
       providerLabel: mistralMetadata.label,
@@ -323,7 +323,7 @@ export function buildCurrentProviderSummary(options?: {
     }
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_GITHUB)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_GITHUB)) {
     return {
       providerLabel: 'GitHub Models',
       modelLabel: getSafeDisplayValue(
@@ -340,7 +340,7 @@ export function buildCurrentProviderSummary(options?: {
     }
   }
 
-  if (isEnvTruthy(processEnv.CLAUDE_CODE_USE_OPENAI)) {
+  if (isEnvTruthy(processEnv.COURSE_CODE_USE_OPENAI)) {
     const request = resolveProviderRequest({
       model: processEnv.OPENAI_MODEL,
       baseUrl: processEnv.OPENAI_BASE_URL,

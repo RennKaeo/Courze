@@ -39,7 +39,7 @@ export function getEffectiveContextWindowSize(model: string): number {
   )
   let contextWindow = getContextWindowForModel(model, getSdkBetas())
 
-  const autoCompactWindow = process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW
+  const autoCompactWindow = process.env.COURSE_CODE_AUTO_COMPACT_WINDOW
   if (autoCompactWindow) {
     const parsed = parseInt(autoCompactWindow, 10)
     if (!isNaN(parsed) && parsed > 0) {
@@ -81,7 +81,7 @@ export const MANUAL_COMPACT_BUFFER_TOKENS = 3_000
 
 export const AUTOCOMPACT_FAILURE_COOLDOWN_MS = 5 * 60 * 1000
 
-// Minimum cooldown override allowed via OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS.
+// Minimum cooldown override allowed via COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS.
 // Values below this floor are rejected (function falls back to the default) so
 // misconfiguration cannot effectively disable the circuit breaker.
 export const MIN_AUTOCOMPACT_FAILURE_COOLDOWN_MS = 10_000
@@ -92,7 +92,7 @@ export const MIN_AUTOCOMPACT_FAILURE_COOLDOWN_MS = 10_000
 export const MAX_CONSECUTIVE_AUTOCOMPACT_FAILURES = 3
 
 export function getAutoCompactFailureCooldownMs(): number {
-  const override = process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS
+  const override = process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS
   if (override) {
     const trimmed = override.trim()
     const parsed = Number(trimmed)
@@ -227,7 +227,7 @@ export function calculateTokenWarningState(
     actualContextWindow - MANUAL_COMPACT_BUFFER_TOKENS
 
   // Allow override for testing
-  const blockingLimitOverride = process.env.CLAUDE_CODE_BLOCKING_LIMIT_OVERRIDE
+  const blockingLimitOverride = process.env.COURSE_CODE_BLOCKING_LIMIT_OVERRIDE
   const parsedOverride = blockingLimitOverride
     ? parseInt(blockingLimitOverride, 10)
     : NaN

@@ -32,7 +32,7 @@ test('vision_not_supported shows image-specific guidance (issue #1421 canonical 
   const error = APIError.generate(
     404,
     undefined,
-    'OpenAI API error 404: Not Found [openai_category=vision_not_supported,host=opengateway.gitlawb.com] Hint: The provider returned 404 for a request containing images.',
+    'OpenAI API error 404: Not Found [openai_category=vision_not_supported,host=opengateway.courze.ai] Hint: The provider returned 404 for a request containing images.',
     new Headers(),
   )
 

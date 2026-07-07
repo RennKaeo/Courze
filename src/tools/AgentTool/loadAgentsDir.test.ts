@@ -23,11 +23,11 @@ import {
 
 const originalEnv = {
   HOME: process.env.HOME,
-  OPENCLAUDE_CONFIG_DIR: process.env.OPENCLAUDE_CONFIG_DIR,
-  CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
-  CLAUDE_CODE_SIMPLE: process.env.CLAUDE_CODE_SIMPLE,
-  CLAUDE_CODE_USE_NATIVE_FILE_SEARCH:
-    process.env.CLAUDE_CODE_USE_NATIVE_FILE_SEARCH,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CODE_SIMPLE: process.env.COURSE_CODE_SIMPLE,
+  COURSE_CODE_USE_NATIVE_FILE_SEARCH:
+    process.env.COURSE_CODE_USE_NATIVE_FILE_SEARCH,
   USER_TYPE: process.env.USER_TYPE,
 }
 
@@ -44,10 +44,10 @@ beforeEach(async () => {
   previousConfigHomeOverride = getClaudeConfigHomeDirOverrideForTesting()
   setClaudeConfigHomeDirForTesting(configDir)
   process.env.HOME = tempDir
-  process.env.OPENCLAUDE_CONFIG_DIR = configDir
-  process.env.CLAUDE_CONFIG_DIR = configDir
-  process.env.CLAUDE_CODE_USE_NATIVE_FILE_SEARCH = '1'
-  delete process.env.CLAUDE_CODE_SIMPLE
+  process.env.COURSE_CONFIG_DIR = configDir
+  process.env.COURSE_CONFIG_DIR = configDir
+  process.env.COURSE_CODE_USE_NATIVE_FILE_SEARCH = '1'
+  delete process.env.COURSE_CODE_SIMPLE
   setAllowedSettingSources([...SETTING_SOURCES])
   getClaudeConfigHomeDir.cache?.clear?.()
   const resolvedConfigDir = getClaudeConfigHomeDir()
@@ -68,10 +68,10 @@ afterEach(async () => {
     await rm(tempDir, { recursive: true, force: true })
     await rm(projectRootDir, { recursive: true, force: true })
     restoreEnv('HOME')
-    restoreEnv('OPENCLAUDE_CONFIG_DIR')
-    restoreEnv('CLAUDE_CONFIG_DIR')
-    restoreEnv('CLAUDE_CODE_SIMPLE')
-    restoreEnv('CLAUDE_CODE_USE_NATIVE_FILE_SEARCH')
+    restoreEnv('COURSE_CONFIG_DIR')
+    restoreEnv('COURSE_CONFIG_DIR')
+    restoreEnv('COURSE_CODE_SIMPLE')
+    restoreEnv('COURSE_CODE_USE_NATIVE_FILE_SEARCH')
     restoreEnv('USER_TYPE')
     setAllowedSettingSources([...SETTING_SOURCES])
     setClaudeConfigHomeDirForTesting(previousConfigHomeOverride)
@@ -121,7 +121,7 @@ describe('agent definition loading', () => {
       'user-agent',
     )
 
-    process.env.CLAUDE_CODE_SIMPLE = '1'
+    process.env.COURSE_CODE_SIMPLE = '1'
     clearAgentDefinitionsCache()
     loadMarkdownFilesForSubdir.cache.clear?.()
 

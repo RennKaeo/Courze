@@ -30,7 +30,7 @@ function getSessionsDir(): string {
  */
 function envSessionKind(): SessionKind | undefined {
   if (feature('BG_SESSIONS')) {
-    const k = process.env.CLAUDE_CODE_SESSION_KIND
+    const k = process.env.COURSE_CODE_SESSION_KIND
     if (k === 'bg' || k === 'daemon' || k === 'daemon-worker') return k
   }
   return undefined
@@ -82,15 +82,15 @@ export async function registerSession(): Promise<boolean> {
         cwd: getOriginalCwd(),
         startedAt: Date.now(),
         kind,
-        entrypoint: process.env.CLAUDE_CODE_ENTRYPOINT,
+        entrypoint: process.env.COURSE_CODE_ENTRYPOINT,
         ...(feature('UDS_INBOX')
-          ? { messagingSocketPath: process.env.CLAUDE_CODE_MESSAGING_SOCKET }
+          ? { messagingSocketPath: process.env.COURSE_CODE_MESSAGING_SOCKET }
           : {}),
         ...(feature('BG_SESSIONS')
           ? {
-              name: process.env.CLAUDE_CODE_SESSION_NAME,
-              logPath: process.env.CLAUDE_CODE_SESSION_LOG,
-              agent: process.env.CLAUDE_CODE_AGENT,
+              name: process.env.COURSE_CODE_SESSION_NAME,
+              logPath: process.env.COURSE_CODE_SESSION_LOG,
+              agent: process.env.COURSE_CODE_AGENT,
             }
           : {}),
       }),
@@ -182,7 +182,7 @@ export async function countConcurrentSessions(): Promise<number> {
     // Strict filename guard: only `<pid>.json` is a candidate. parseInt's
     // lenient prefix-parsing means `2026-03-14_notes.md` would otherwise
     // parse as PID 2026 and get swept as stale — silent user data loss.
-    // See anthropics/claude-code#34210.
+    // See anthropics/course-code#34210.
     if (!/^\d+\.json$/.test(file)) continue
     const pid = parseInt(file.slice(0, -5), 10)
     if (pid === process.pid) {
@@ -194,7 +194,7 @@ export async function countConcurrentSessions(): Promise<number> {
     } else if (getPlatform() !== 'wsl') {
       // Stale file from a crashed session — sweep it. Skip on WSL: if
       // ~/.claude/sessions/ is shared with Windows-native Claude (symlink
-      // or CLAUDE_CONFIG_DIR), a Windows PID won't be probeable from WSL
+      // or COURSE_CONFIG_DIR), a Windows PID won't be probeable from WSL
       // and we'd falsely delete a live session's file. This is just
       // telemetry so conservative undercount is acceptable.
       void unlink(join(dir, file)).catch(() => {})
@@ -206,14 +206,14 @@ export async function countConcurrentSessions(): Promise<number> {
 /**
  * Calculate per-session memory budget based on concurrent sessions.
  * For 32GB system: 4 sessions = ~7GB each, 8 sessions = ~3.5GB each.
- * Respects OPENCLAUDE_MAX_MEMORY_MB env var if set.
+ * Respects COURSE_MAX_MEMORY_MB env var if set.
  */
 const OS_OVERHEAD_MB = 4096
 const MIN_PER_SESSION_MB = 512
 
 export async function calculatePerSessionMemoryBudget(): Promise<number> {
   const envBudget = Number.parseInt(
-    process.env.OPENCLAUDE_MAX_MEMORY_MB ?? '0',
+    process.env.COURSE_MAX_MEMORY_MB ?? '0',
     10,
   )
   if (envBudget > 0) return envBudget

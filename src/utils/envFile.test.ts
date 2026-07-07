@@ -249,7 +249,7 @@ describe('loadEnvFile', () => {
 
   it('loads and reapplies OpenAI credential pools from provider env files', () => {
     const filePath = writeTempEnvFile([
-      'CLAUDE_CODE_USE_OPENAI=1',
+      'COURSE_CODE_USE_OPENAI=1',
       'OPENAI_BASE_URL=https://api.openai.com/v1',
       'OPENAI_MODEL=gpt-4o',
       'OPENAI_API_KEYS=key-a,key-b',
@@ -263,7 +263,7 @@ describe('loadEnvFile', () => {
 
     expect(process.env.OPENAI_API_KEYS).toBe('key-a,key-b')
     expect(loaded).toEqual({
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_BASE_URL: 'https://api.openai.com/v1',
       OPENAI_MODEL: 'gpt-4o',
       OPENAI_API_KEYS: 'key-a,key-b',

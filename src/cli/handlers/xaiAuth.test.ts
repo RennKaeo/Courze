@@ -9,12 +9,12 @@ import {
 } from '../../test/sharedMutationLock.js'
 import { setClaudeConfigHomeDirForTesting } from '../../utils/envUtils.js'
 
-// CLAUDE_CODE_SIMPLE puts utils that touch secure storage into a no-op
+// COURSE_CODE_SIMPLE puts utils that touch secure storage into a no-op
 // "bare" mode — clearXaiCredentials() succeeds without touching the
 // keychain, so the test can assert the rest of the cleanup independently.
 const SAVED_ENV = {
-  CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
-  CLAUDE_CODE_SIMPLE: process.env.CLAUDE_CODE_SIMPLE,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CODE_SIMPLE: process.env.COURSE_CODE_SIMPLE,
 }
 
 let tempConfigDir = ''
@@ -26,8 +26,8 @@ beforeEach(async () => {
   tempConfigDir = mkdtempSync(join(tmpdir(), 'course-xai-cli-config-'))
   tempCwd = mkdtempSync(join(tmpdir(), 'course-xai-cli-cwd-'))
   process.chdir(tempCwd)
-  process.env.CLAUDE_CONFIG_DIR = tempConfigDir
-  process.env.CLAUDE_CODE_SIMPLE = '1'
+  process.env.COURSE_CONFIG_DIR = tempConfigDir
+  process.env.COURSE_CODE_SIMPLE = '1'
   // Other test files (SQLiteProvider, knowledgeGraph, …) call
   // setClaudeConfigHomeDirForTesting and may leak the override. Pin it
   // to our temp dir so clearPersistedXaiOAuthProfile's path resolution
@@ -41,15 +41,15 @@ afterEach(() => {
     process.chdir(originalCwd)
     rmSync(tempConfigDir, { recursive: true, force: true })
     rmSync(tempCwd, { recursive: true, force: true })
-    if (SAVED_ENV.CLAUDE_CONFIG_DIR === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+    if (SAVED_ENV.COURSE_CONFIG_DIR === undefined) {
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = SAVED_ENV.CLAUDE_CONFIG_DIR
+      process.env.COURSE_CONFIG_DIR = SAVED_ENV.COURSE_CONFIG_DIR
     }
-    if (SAVED_ENV.CLAUDE_CODE_SIMPLE === undefined) {
-      delete process.env.CLAUDE_CODE_SIMPLE
+    if (SAVED_ENV.COURSE_CODE_SIMPLE === undefined) {
+      delete process.env.COURSE_CODE_SIMPLE
     } else {
-      process.env.CLAUDE_CODE_SIMPLE = SAVED_ENV.CLAUDE_CODE_SIMPLE
+      process.env.COURSE_CODE_SIMPLE = SAVED_ENV.COURSE_CODE_SIMPLE
     }
   } finally {
     releaseSharedMutationLock()

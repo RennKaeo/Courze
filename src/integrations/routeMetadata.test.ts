@@ -105,7 +105,7 @@ test('route credential discovery reads OPENAI_API_KEYS before singular fallback'
     resolveRouteCredentialValue({
       baseUrl: 'https://api.openai.com/v1',
       processEnv: {
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_API_KEYS: 'sk-openai-a,sk-openai-b',
       },
     }),
@@ -132,7 +132,7 @@ test('route credential discovery ignores placeholder OpenAI credentials', () => 
     resolveRouteCredentialValue({
       baseUrl: 'https://api.openai.com/v1',
       processEnv: {
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_API_KEYS: 'SUA_CHAVE',
         OPENAI_API_KEY: 'SUA_CHAVE',
       },
@@ -235,7 +235,7 @@ test('resolveActiveRouteIdFromEnv prefers xAI when env-only keys compete', () =>
 test('resolveActiveRouteIdFromEnv lets explicit MiniMax model beat ambient OpenAI-compatible env', () => {
   expect(
     resolveActiveRouteIdFromEnv({
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_API_KEY: 'openai-key',
       XAI_API_KEY: 'xai-key',
       MINIMAX_API_KEY: 'minimax-key',
@@ -247,7 +247,7 @@ test('resolveActiveRouteIdFromEnv lets explicit MiniMax model beat ambient OpenA
 test('resolveActiveRouteIdFromEnv does not use MiniMax when OpenAI base conflicts', () => {
   expect(
     resolveActiveRouteIdFromEnv({
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_API_KEY: 'openai-key',
       MINIMAX_API_KEY: 'minimax-key',
       OPENAI_BASE_URL: 'https://api.openai.com/v1',
@@ -291,8 +291,8 @@ test.each([
     expect(
       resolveActiveRouteIdFromEnv(
         {
-          CLAUDE_CODE_USE_OPENAI: '1',
-          CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
+          COURSE_CODE_USE_OPENAI: '1',
+          COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
           OPENAI_BASE_URL: baseUrl,
           OPENAI_MODEL: model,
         },
@@ -306,7 +306,7 @@ test('resolveActiveRouteIdFromEnv refines generic OpenAI profile by ClinePass ba
   expect(
     resolveActiveRouteIdFromEnv(
       {
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_BASE_URL: 'https://api.cline.bot/api/v1',
         OPENAI_MODEL: 'cline-pass/deepseek-v4-flash',
       },
@@ -324,7 +324,7 @@ test('resolveActiveRouteIdFromEnv resolves ClinePass profile provider without en
   ).toBe('clinepass')
 })
 
-test('resolveActiveRouteIdFromEnv resolves ClinePass profile provider without CLAUDE_CODE_USE_OPENAI', () => {
+test('resolveActiveRouteIdFromEnv resolves ClinePass profile provider without COURSE_CODE_USE_OPENAI', () => {
   expect(
     resolveActiveRouteIdFromEnv(
       {
@@ -373,7 +373,7 @@ test('resolveActiveRouteIdFromEnv resolves openai profile provider via ClinePass
   expect(
     resolveActiveRouteIdFromEnv(
       {
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
       },
       {
         activeProfileProvider: 'openai',
@@ -387,7 +387,7 @@ test('resolveActiveRouteIdFromEnv lets explicit OPENAI_BASE_URL override saved C
   expect(
     resolveActiveRouteIdFromEnv(
       {
-        CLAUDE_CODE_USE_OPENAI: '1',
+        COURSE_CODE_USE_OPENAI: '1',
         OPENAI_BASE_URL: 'https://openrouter.ai/api/v1',
       },
       {
@@ -440,7 +440,7 @@ test('resolveActiveRouteIdFromEnv does not infer Near AI with explicit provider 
     resolveActiveRouteIdFromEnv({
       NEARAI_API_KEY: 'nearai-key',
       OPENAI_API_KEY: 'openai-key',
-      CLAUDE_CODE_USE_GEMINI: '1',
+      COURSE_CODE_USE_GEMINI: '1',
     }),
   ).toBe('gemini')
 })

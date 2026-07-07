@@ -5,14 +5,14 @@ import {
   shouldShowEarningTip,
   resetEarningCadenceForTesting,
   buildEarningTip,
-} from './gitlawbEarn.js'
+} from './courseEarn.js'
 
 function setAds(ads: { enabled: boolean; earnCode?: string } | undefined): void {
   saveGlobalConfig(c => ({ ...c, ads }))
 }
 
 const ORIGINAL_ADS_BASE_URL = process.env.ADS_BASE_URL
-const ORIGINAL_TIP_EVERY = process.env.OPENCLAUDE_ADS_TIP_EVERY
+const ORIGINAL_TIP_EVERY = process.env.COURSE_ADS_TIP_EVERY
 const ORIGINAL_FETCH = globalThis.fetch
 let originalAds = getGlobalConfig().ads
 
@@ -22,7 +22,7 @@ beforeEach(() => {
   // Unreachable host → fetchNextTip fails fast and content() degrades to the
   // static fallback, so these tests never hit the network.
   process.env.ADS_BASE_URL = 'http://127.0.0.1:0'
-  delete process.env.OPENCLAUDE_ADS_TIP_EVERY
+  delete process.env.COURSE_ADS_TIP_EVERY
 })
 
 // Restore env + global ads config so nothing leaks into other suites in the run.
@@ -31,11 +31,11 @@ afterEach(() => {
   saveGlobalConfig(c => ({ ...c, ads: originalAds }))
   if (ORIGINAL_ADS_BASE_URL === undefined) delete process.env.ADS_BASE_URL
   else process.env.ADS_BASE_URL = ORIGINAL_ADS_BASE_URL
-  if (ORIGINAL_TIP_EVERY === undefined) delete process.env.OPENCLAUDE_ADS_TIP_EVERY
-  else process.env.OPENCLAUDE_ADS_TIP_EVERY = ORIGINAL_TIP_EVERY
+  if (ORIGINAL_TIP_EVERY === undefined) delete process.env.COURSE_ADS_TIP_EVERY
+  else process.env.COURSE_ADS_TIP_EVERY = ORIGINAL_TIP_EVERY
 })
 
-describe('gitlawb earning tips', () => {
+describe('courze earning tips', () => {
   test('disabled by default (no ads config)', () => {
     setAds(undefined)
     expect(adsEarningEnabled()).toBe(false)
@@ -56,9 +56,9 @@ describe('gitlawb earning tips', () => {
     expect(shouldShowEarningTip()).toBe(true) //  turn 4
   })
 
-  test('OPENCLAUDE_ADS_TIP_EVERY=1 shows every turn', () => {
+  test('COURSE_ADS_TIP_EVERY=1 shows every turn', () => {
     setAds({ enabled: true, earnCode: 'earn_abc' })
-    process.env.OPENCLAUDE_ADS_TIP_EVERY = '1'
+    process.env.COURSE_ADS_TIP_EVERY = '1'
     resetEarningCadenceForTesting()
     expect(shouldShowEarningTip()).toBe(true)
     expect(shouldShowEarningTip()).toBe(true)
@@ -72,7 +72,7 @@ describe('gitlawb earning tips', () => {
   test('content falls back to a static line when the ads service is unreachable', async () => {
     setAds({ enabled: true, earnCode: 'earn_abc' })
     const text = await buildEarningTip().content({ theme: 'dark' })
-    expect(text.toLowerCase()).toContain('gitlawb.com')
+    expect(text.toLowerCase()).toContain('courze.ai')
   })
 
   test('content renders a fetched ad (advertiser + ad copy) on the success path', async () => {
@@ -93,8 +93,8 @@ describe('gitlawb earning tips', () => {
 
     const text = await buildEarningTip().content({ theme: 'dark' })
     expect(text).toContain('Serverless Postgres that scales to zero') // ad copy
-    expect(text).toContain('Neon') // real advertiser, not the Gitlawb fallback
-    expect(text.toLowerCase()).not.toContain('gitlawb.com')
+    expect(text).toContain('Neon') // real advertiser, not the Courze fallback
+    expect(text.toLowerCase()).not.toContain('courze.ai')
   })
 
   test('content falls back when the ad has blank copy (no blank-ad credit)', async () => {
@@ -106,6 +106,6 @@ describe('gitlawb earning tips', () => {
       )) as typeof fetch
 
     const text = await buildEarningTip().content({ theme: 'dark' })
-    expect(text.toLowerCase()).toContain('gitlawb.com') // degraded to static line
+    expect(text.toLowerCase()).toContain('courze.ai') // degraded to static line
   })
 })

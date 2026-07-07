@@ -119,7 +119,7 @@ export default class App extends PureComponent<Props, State> {
   // Default to readable-mode stdin (legacy Ink behavior). The data-mode path
   // is kept as an explicit opt-in because some terminals can enter a state
   // where startup input appears frozen when data mode is the default.
-  stdinMode: 'readable' | 'data' = process.env.OPENCLAUDE_USE_DATA_STDIN === '1' || process.env.OPENCLAUDE_USE_READABLE_STDIN === '0' ? 'data' : 'readable';
+  stdinMode: 'readable' | 'data' = process.env.COURSE_USE_DATA_STDIN === '1' || process.env.COURSE_USE_READABLE_STDIN === '0' ? 'data' : 'readable';
   // Timeout durations for incomplete sequences (ms)
   readonly NORMAL_TIMEOUT = 50; // Short timeout for regular esc sequences
   readonly PASTE_TIMEOUT = 500; // Longer timeout for paste operations
@@ -184,7 +184,7 @@ export default class App extends PureComponent<Props, State> {
   }
   override componentDidMount() {
     // In accessibility mode, keep the native cursor visible for screen magnifiers and other tools
-    if (this.props.stdout.isTTY && !isEnvTruthy(process.env.CLAUDE_CODE_ACCESSIBILITY)) {
+    if (this.props.stdout.isTTY && !isEnvTruthy(process.env.COURSE_CODE_ACCESSIBILITY)) {
       this.props.stdout.write(HIDE_CURSOR);
     }
   }
@@ -470,7 +470,7 @@ export default class App extends PureComponent<Props, State> {
 
       // Hide cursor (unless in accessibility mode) and re-enable focus reporting after resuming
       if (this.props.stdout.isTTY) {
-        if (!isEnvTruthy(process.env.CLAUDE_CODE_ACCESSIBILITY)) {
+        if (!isEnvTruthy(process.env.COURSE_CODE_ACCESSIBILITY)) {
           this.props.stdout.write(HIDE_CURSOR);
         }
         // Re-enable focus reporting to restore terminal state

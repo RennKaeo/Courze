@@ -242,8 +242,8 @@ function isActiveProfileAppliedToRoute(
   routeId: string,
 ): boolean {
   return (
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1' &&
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID ===
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED === '1' &&
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID ===
       activeProfile.id &&
     getActiveProfileRouteId(activeProfile) === routeId
   )

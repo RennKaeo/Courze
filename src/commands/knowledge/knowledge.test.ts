@@ -14,13 +14,13 @@ import {
 
 describe('knowledge command', () => {
   const mockContext = {} as any
-  const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const originalConfigDir = process.env.COURSE_CONFIG_DIR
   let configDir: string | undefined
 
   beforeEach(async () => {
     await acquireSharedMutationLock('commands/knowledge.test.ts')
     configDir = mkdtempSync(join(tmpdir(), 'course-knowledge-command-'))
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     setClaudeConfigHomeDirForTesting(configDir)
     resetArc()
     resetGlobalGraph()
@@ -31,9 +31,9 @@ describe('knowledge command', () => {
       resetArc()
       resetGlobalGraph()
       if (originalConfigDir === undefined) {
-        delete process.env.CLAUDE_CONFIG_DIR
+        delete process.env.COURSE_CONFIG_DIR
       } else {
-        process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+        process.env.COURSE_CONFIG_DIR = originalConfigDir
       }
       setClaudeConfigHomeDirForTesting(undefined)
     } finally {

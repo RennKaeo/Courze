@@ -21,7 +21,7 @@ type RealModules = {
 const CLAUDE_WORKFLOW_PATH =
   'repos/owner/repo/contents/.github/workflows/claude.yml'
 const REVIEW_WORKFLOW_PATH =
-  'repos/owner/repo/contents/.github/workflows/claude-code-review.yml'
+  'repos/owner/repo/contents/.github/workflows/course-code-review.yml'
 
 const execCalls: ExecCall[] = []
 const openedUrls: string[] = []

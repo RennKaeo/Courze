@@ -26,13 +26,13 @@ function getEnvValue(name: string): string | undefined {
 
 describe('hydrateGithubModelsTokenFromSecureStorage', () => {
   const orig = {
-    CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
+    COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
     GITHUB_COPILOT_KEY: process.env.GITHUB_COPILOT_KEY,
     GITHUB_TOKEN: process.env.GITHUB_TOKEN,
     GH_TOKEN: process.env.GH_TOKEN,
     CLAUDE_CODE_GITHUB_TOKEN_HYDRATED:
       process.env.CLAUDE_CODE_GITHUB_TOKEN_HYDRATED,
-    CLAUDE_CODE_SIMPLE: process.env.CLAUDE_CODE_SIMPLE,
+    COURSE_CODE_SIMPLE: process.env.COURSE_CODE_SIMPLE,
   }
 
   beforeEach(async () => {
@@ -55,10 +55,10 @@ describe('hydrateGithubModelsTokenFromSecureStorage', () => {
   })
 
   test('sets GITHUB_TOKEN from secure storage when USE_GITHUB and env token empty', async () => {
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     delete process.env.GITHUB_TOKEN
     delete process.env.GH_TOKEN
-    delete process.env.CLAUDE_CODE_SIMPLE
+    delete process.env.COURSE_CODE_SIMPLE
 
     mock.module('./secureStorage/index.js', () => ({
       getSecureStorage: () => ({
@@ -76,11 +76,11 @@ describe('hydrateGithubModelsTokenFromSecureStorage', () => {
   })
 
   test('sets GITHUB_COPILOT_KEY when secure storage contains a direct Copilot key', async () => {
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.GITHUB_TOKEN = 'shell-token'
     delete process.env.GITHUB_COPILOT_KEY
     delete process.env.GH_TOKEN
-    delete process.env.CLAUDE_CODE_SIMPLE
+    delete process.env.COURSE_CODE_SIMPLE
 
     mock.module('./secureStorage/index.js', () => ({
       getSecureStorage: () => ({
@@ -102,7 +102,7 @@ describe('hydrateGithubModelsTokenFromSecureStorage', () => {
   })
 
   test('does not override existing GITHUB_TOKEN', async () => {
-    process.env.CLAUDE_CODE_USE_GITHUB = '1'
+    process.env.COURSE_CODE_USE_GITHUB = '1'
     process.env.GITHUB_TOKEN = 'already'
     delete process.env.CLAUDE_CODE_GITHUB_TOKEN_HYDRATED
 

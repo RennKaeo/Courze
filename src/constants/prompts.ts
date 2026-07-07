@@ -100,7 +100,7 @@ const skillSearchFeatureCheck = feature('EXPERIMENTAL_SKILL_SEARCH')
 import type { OutputStyleConfig } from './outputStyles.js'
 import { CYBER_RISK_INSTRUCTION } from './cyberRiskInstruction.js'
 
-export const CLAUDE_CODE_DOCS_MAP_URL =
+export const COURSE_CODE_DOCS_MAP_URL =
   'https://github.com/RennKaeo/Courze'
 
 /**
@@ -430,7 +430,7 @@ function getSimpleToneAndStyleSection(): string {
       ? null
       : `Your responses should be short and concise.`,
     `When referencing specific functions or pieces of code include the pattern file_path:line_number to allow the user to easily navigate to the source code location.`,
-    `When referencing GitHub issues or pull requests, use the owner/repo#123 format (e.g. anthropics/claude-code#100) so they render as clickable links.`,
+    `When referencing GitHub issues or pull requests, use the owner/repo#123 format (e.g. anthropics/course-code#100) so they render as clickable links.`,
     `Do not use a colon before tool calls. Your tool calls may not be shown directly in the output, so text like "Let me read the file:" followed by a read tool call should just be "Let me read the file." with a period.`,
   ].filter(item => item !== null)
 
@@ -443,7 +443,7 @@ export async function getSystemPrompt(
   additionalWorkingDirectories?: string[],
   mcpClients?: MCPServerConnection[],
 ): Promise<string[]> {
-  if (isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_SIMPLE)) {
     return [
       `You are Course Code, an open-source coding agent and CLI.\n\nCWD: ${getCwd()}\nDate: ${getSessionStartDate()}`,
     ]

@@ -6,7 +6,7 @@ export type Theme = {
   bashBorder: string
   claude: string
   claudeShimmer: string // Lighter version of claude color for shimmer effect
-  // Course Code brand accent (gitlawb orange). Values MUST be rgb() strings in
+  // Course Code brand accent (courze orange). Values MUST be rgb() strings in
   // truecolor themes — spinner shimmer/stall interpolation parses them with
   // parseRGB, which silently fails on hex.
   brand: string

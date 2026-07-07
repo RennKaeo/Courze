@@ -6,13 +6,13 @@ import {
 import { resetSettingsCache } from './settings/settingsCache.js'
 
 const ENV_KEYS = [
-  'CLAUDE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_GEMINI',
-  'CLAUDE_CODE_USE_GITHUB',
-  'CLAUDE_CODE_USE_MISTRAL',
-  'CLAUDE_CODE_USE_BEDROCK',
-  'CLAUDE_CODE_USE_VERTEX',
-  'CLAUDE_CODE_USE_FOUNDRY',
+  'COURSE_CODE_USE_OPENAI',
+  'COURSE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_GITHUB',
+  'COURSE_CODE_USE_MISTRAL',
+  'COURSE_CODE_USE_BEDROCK',
+  'COURSE_CODE_USE_VERTEX',
+  'COURSE_CODE_USE_FOUNDRY',
   'OPENAI_BASE_URL',
   'OPENAI_API_BASE',
   'OPENAI_MODEL',
@@ -25,7 +25,7 @@ const ENV_KEYS = [
   'ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES',
   'ANTHROPIC_DEFAULT_HAIKU_MODEL',
   'ANTHROPIC_DEFAULT_HAIKU_MODEL_SUPPORTED_CAPABILITIES',
-  'CLAUDE_CODE_DISABLE_THINKING',
+  'COURSE_CODE_DISABLE_THINKING',
   'USER_TYPE',
 ]
 
@@ -71,7 +71,7 @@ async function importFreshThinkingModule() {
 
 describe('modelSupportsThinking — Z.AI GLM', () => {
   test('enables thinking for exact GLM models on api.z.ai', async () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4'
     const { modelSupportsThinking } = await importFreshThinkingModule()
 
@@ -84,7 +84,7 @@ describe('modelSupportsThinking — Z.AI GLM', () => {
   })
 
   test('does not enable GLM thinking on non-Z.AI OpenAI-compatible endpoints', async () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
     const { modelSupportsThinking } = await importFreshThinkingModule()
 
@@ -93,7 +93,7 @@ describe('modelSupportsThinking — Z.AI GLM', () => {
   })
 
   test('does not match unrelated GLM-looking model names', async () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://api.z.ai/api/coding/paas/v4'
     const { modelSupportsThinking } = await importFreshThinkingModule()
 
@@ -101,7 +101,7 @@ describe('modelSupportsThinking — Z.AI GLM', () => {
   })
 
   test('does not reuse stale capability overrides after env changes', async () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'https://dashscope.aliyuncs.com/compatible-mode/v1'
     process.env.ANTHROPIC_DEFAULT_SONNET_MODEL = 'GLM-5.1'
     process.env.ANTHROPIC_DEFAULT_SONNET_MODEL_SUPPORTED_CAPABILITIES = ''
@@ -134,7 +134,7 @@ describe('modelSupportsAdaptiveThinking — Claude 4 allowlist', () => {
 
 describe('shouldUseThinkingForModel — Ollama', () => {
   test('does not use thinking for Ollama models when app-level thinking is enabled', async () => {
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_BASE_URL = 'http://localhost:11434/v1'
     const { shouldUseThinkingForModel } = await importFreshThinkingModule()
     const enabledThinking = { type: 'enabled' as const, budgetTokens: 1024 }

@@ -43,17 +43,17 @@ async function importAutoCompact(options: ImportAutoCompactOptions = {}) {
 }
 
 const SAVED_ENV = {
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_MISTRAL: process.env.CLAUDE_CODE_USE_MISTRAL,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_MISTRAL: process.env.COURSE_CODE_USE_MISTRAL,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
   MINIMAX_API_KEY: process.env.MINIMAX_API_KEY,
   XAI_API_KEY: process.env.XAI_API_KEY,
   OPENAI_API_KEY: process.env.OPENAI_API_KEY,
@@ -64,16 +64,16 @@ const SAVED_ENV = {
   ANTHROPIC_BASE_URL: process.env.ANTHROPIC_BASE_URL,
   ANTHROPIC_MODEL: process.env.ANTHROPIC_MODEL,
   USER_TYPE: process.env.USER_TYPE,
-  CLAUDE_CODE_MAX_CONTEXT_TOKENS:
-    process.env.CLAUDE_CODE_MAX_CONTEXT_TOKENS,
-  CLAUDE_CODE_AUTO_COMPACT_WINDOW:
-    process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW,
-  CLAUDE_CODE_MAX_OUTPUT_TOKENS:
-    process.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS,
+  COURSE_CODE_MAX_CONTEXT_TOKENS:
+    process.env.COURSE_CODE_MAX_CONTEXT_TOKENS,
+  COURSE_CODE_AUTO_COMPACT_WINDOW:
+    process.env.COURSE_CODE_AUTO_COMPACT_WINDOW,
+  COURSE_CODE_MAX_OUTPUT_TOKENS:
+    process.env.COURSE_CODE_MAX_OUTPUT_TOKENS,
   CLAUDE_AUTOCOMPACT_PCT_OVERRIDE:
     process.env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE,
-  OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS:
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS,
+  COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS:
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS,
   DISABLE_COMPACT: process.env.DISABLE_COMPACT,
   DISABLE_AUTO_COMPACT: process.env.DISABLE_AUTO_COMPACT,
 }
@@ -92,9 +92,9 @@ beforeEach(async () => {
   await acquireSharedMutationLock('services/compact/autoCompact.test.ts')
   delete process.env.DISABLE_COMPACT
   delete process.env.DISABLE_AUTO_COMPACT
-  delete process.env.CLAUDE_CODE_MAX_CONTEXT_TOKENS
-  delete process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW
-  delete process.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS
+  delete process.env.COURSE_CODE_MAX_CONTEXT_TOKENS
+  delete process.env.COURSE_CODE_AUTO_COMPACT_WINDOW
+  delete process.env.COURSE_CODE_MAX_OUTPUT_TOKENS
 })
 
 afterEach(() => {
@@ -175,7 +175,7 @@ describe('getEffectiveContextWindowSize', () => {
     // summary reservation is 8k and the floor is 8k + 13k = 21k. With cap
     // disabled it's 20k + 13k = 33k. Assert the worst case so the test is
     // stable regardless of flag state in CI vs local.
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     try {
       const effective = getEffectiveContextWindowSize('some-unknown-3p-model')
       expect(effective).toBeGreaterThan(0)
@@ -190,14 +190,14 @@ describe('getEffectiveContextWindowSize', () => {
 
   test('uses MiniMax M2 context and output metadata for compact budget', async () => {
     const { getEffectiveContextWindowSize } = await importAutoCompact()
-    delete process.env.CLAUDE_CODE_USE_GEMINI
-    delete process.env.CLAUDE_CODE_USE_MISTRAL
-    delete process.env.CLAUDE_CODE_USE_GITHUB
-    delete process.env.CLAUDE_CODE_USE_BEDROCK
-    delete process.env.CLAUDE_CODE_USE_VERTEX
-    delete process.env.CLAUDE_CODE_USE_FOUNDRY
-    delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-    delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+    delete process.env.COURSE_CODE_USE_GEMINI
+    delete process.env.COURSE_CODE_USE_MISTRAL
+    delete process.env.COURSE_CODE_USE_GITHUB
+    delete process.env.COURSE_CODE_USE_BEDROCK
+    delete process.env.COURSE_CODE_USE_VERTEX
+    delete process.env.COURSE_CODE_USE_FOUNDRY
+    delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+    delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
     delete process.env.XAI_API_KEY
     delete process.env.OPENAI_BASE_URL
     delete process.env.OPENAI_API_BASE
@@ -205,10 +205,10 @@ describe('getEffectiveContextWindowSize', () => {
     delete process.env.ANTHROPIC_BASE_URL
     delete process.env.ANTHROPIC_MODEL
     delete process.env.USER_TYPE
-    delete process.env.CLAUDE_CODE_MAX_CONTEXT_TOKENS
-    delete process.env.CLAUDE_CODE_AUTO_COMPACT_WINDOW
-    delete process.env.CLAUDE_CODE_MAX_OUTPUT_TOKENS
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    delete process.env.COURSE_CODE_MAX_CONTEXT_TOKENS
+    delete process.env.COURSE_CODE_AUTO_COMPACT_WINDOW
+    delete process.env.COURSE_CODE_MAX_OUTPUT_TOKENS
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     process.env.OPENAI_API_KEY = 'ambient-openai-key'
     process.env.MINIMAX_API_KEY = 'minimax-test'
     process.env.OPENAI_MODEL = 'MiniMax-M2.7'
@@ -235,7 +235,7 @@ describe('getAutoCompactThreshold', () => {
 
   test('never returns negative threshold even for unknown 3P models (issue #635)', async () => {
     const { getAutoCompactThreshold } = await importAutoCompact()
-    process.env.CLAUDE_CODE_USE_OPENAI = '1'
+    process.env.COURSE_CODE_USE_OPENAI = '1'
     try {
       const threshold = getAutoCompactThreshold('some-unknown-3p-model')
       expect(threshold).toBeGreaterThan(0)
@@ -247,7 +247,7 @@ describe('getAutoCompactThreshold', () => {
 
 describe('getAutoCompactFailureCooldownMs', () => {
   test('uses valid positive integer override above the floor', async () => {
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = ' 15000 '
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = ' 15000 '
     const { getAutoCompactFailureCooldownMs } = await importAutoCompact()
 
     expect(getAutoCompactFailureCooldownMs()).toBe(15000)
@@ -262,18 +262,18 @@ describe('getAutoCompactFailureCooldownMs', () => {
 
     // 5000 is below the 10_000ms floor — must fall back to the default
     // rather than being accepted as a valid test override.
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '5000'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '5000'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
     expect(MIN_AUTOCOMPACT_FAILURE_COOLDOWN_MS).toBe(10_000)
 
     // Boundary: exactly the floor value is accepted.
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '10000'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '10000'
     expect(getAutoCompactFailureCooldownMs()).toBe(10_000)
 
     // One below the floor is rejected.
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '9999'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '9999'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
@@ -285,42 +285,42 @@ describe('getAutoCompactFailureCooldownMs', () => {
       getAutoCompactFailureCooldownMs,
     } = await importAutoCompact()
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '5000ms'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '5000ms'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '-1'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '-1'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '1.5'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '1.5'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '1e3'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '1e3'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '0x10'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '0x10'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '0b10'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '0b10'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '+5'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '+5'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
 
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '5.0'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '5.0'
     expect(getAutoCompactFailureCooldownMs()).toBe(
       AUTOCOMPACT_FAILURE_COOLDOWN_MS,
     )
@@ -478,7 +478,7 @@ describe('resolveAutoCompactCircuitBreakerState', () => {
 describe('autoCompactIfNeeded circuit breaker', () => {
   beforeEach(() => {
     process.env.CLAUDE_AUTOCOMPACT_PCT_OVERRIDE = '1'
-    process.env.OPENCLAUDE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '15000'
+    process.env.COURSE_AUTOCOMPACT_FAILURE_COOLDOWN_MS = '15000'
   })
 
   test('trips after three non-user failures and records a retry time', async () => {

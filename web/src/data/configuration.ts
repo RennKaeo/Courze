@@ -10,7 +10,7 @@ export const settingsFiles: SettingsFile[] = [
   {
     path: '~/.course/settings.json',
     scope: 'user',
-    notes: 'Default global settings path for every project on the machine; OPENCLAUDE_CONFIG_DIR moves this under the configured config home.',
+    notes: 'Default global settings path for every project on the machine; COURSE_CONFIG_DIR moves this under the configured config home.',
   },
   {
     path: '.course/settings.json',
@@ -25,7 +25,7 @@ export const settingsFiles: SettingsFile[] = [
   {
     path: '~/.course/keybindings.json',
     scope: 'user',
-    notes: 'Default keyboard shortcut overrides path; OPENCLAUDE_CONFIG_DIR moves this under the configured config home.',
+    notes: 'Default keyboard shortcut overrides path; COURSE_CONFIG_DIR moves this under the configured config home.',
   },
   {
     path: 'CLAUDE.md / .claude/CLAUDE.md',
@@ -68,9 +68,9 @@ export const envVars: EnvVar[] = [
   { name: 'MIMO_API_KEY', description: 'Xiaomi MiMo API key.' },
   { name: 'OPENCODE_API_KEY', description: 'OpenCode Zen / Go gateway key.' },
   { name: 'GITHUB_TOKEN', description: 'GitHub token for GitHub Models and PR workflows.' },
-  { name: 'OPENCLAUDE_CONFIG_DIR', description: 'Preferred config directory override. Defaults to ~/.course when unset.' },
-  { name: 'CLAUDE_CONFIG_DIR', description: 'Legacy config directory override. Used only when OPENCLAUDE_CONFIG_DIR is unset.' },
+  { name: 'COURSE_CONFIG_DIR', description: 'Preferred config directory override. Defaults to ~/.course when unset.' },
+  { name: 'COURSE_CONFIG_DIR', description: 'Legacy config directory override. Used only when COURSE_CONFIG_DIR is unset.' },
   { name: 'HTTP_PROXY / HTTPS_PROXY', description: 'Route API traffic through a proxy.' },
   { name: 'NODE_EXTRA_CA_CERTS', description: 'Extra CA certificates for corporate TLS interception.' },
-  { name: 'CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC', description: 'Disable non-essential network traffic.' },
+  { name: 'COURSE_CODE_DISABLE_NONESSENTIAL_TRAFFIC', description: 'Disable non-essential network traffic.' },
 ]

@@ -19,16 +19,16 @@ import { parseCustomHeadersEnv } from '../providerCustomHeaders.js'
 const ROUTE = 'nvidia-nim'
 const originalEnv = {
   ANTHROPIC_CUSTOM_HEADERS: process.env.ANTHROPIC_CUSTOM_HEADERS,
-  CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
-  OPENCLAUDE_CONFIG_DIR: process.env.OPENCLAUDE_CONFIG_DIR,
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_MISTRAL: process.env.CLAUDE_CODE_USE_MISTRAL,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_MISTRAL: process.env.COURSE_CODE_USE_MISTRAL,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
   NVIDIA_API_KEY: process.env.NVIDIA_API_KEY,
   NVIDIA_NIM: process.env.NVIDIA_NIM,
   OPENAI_API_BASE: process.env.OPENAI_API_BASE,
@@ -82,8 +82,8 @@ describe('nvidia-nim discovery cache key parity', () => {
     await acquireSharedMutationLock('nvidiaNimModels.test.ts')
     mock.restore()
     tempDir = mkdtempSync(join(tmpdir(), 'course-nvidia-nim-cache-test-'))
-    process.env.CLAUDE_CONFIG_DIR = tempDir
-    process.env.OPENCLAUDE_CONFIG_DIR = tempDir
+    process.env.COURSE_CONFIG_DIR = tempDir
+    process.env.COURSE_CONFIG_DIR = tempDir
     delete process.env.ANTHROPIC_CUSTOM_HEADERS
   })
 
@@ -150,7 +150,7 @@ describe('nvidia-nim discovery cache key parity', () => {
 
     const baseUrl = 'https://integrate.api.nvidia.com/v1'
     const processEnv: NodeJS.ProcessEnv = {
-      CLAUDE_CODE_USE_OPENAI: '1',
+      COURSE_CODE_USE_OPENAI: '1',
       OPENAI_BASE_URL: baseUrl,
       OPENAI_MODEL: 'nvidia/test-chat',
       OPENAI_API_KEYS: 'key-a,key-b',

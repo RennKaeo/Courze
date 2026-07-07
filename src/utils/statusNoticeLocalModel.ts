@@ -149,9 +149,9 @@ export function resolveActiveProviderBaseUrl(
   processEnv: NodeJS.ProcessEnv = process.env,
 ): string | undefined {
   if (
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_FOUNDRY) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_BEDROCK) ||
-    isEnvTruthy(processEnv.CLAUDE_CODE_USE_VERTEX)
+    isEnvTruthy(processEnv.COURSE_CODE_USE_FOUNDRY) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_BEDROCK) ||
+    isEnvTruthy(processEnv.COURSE_CODE_USE_VERTEX)
   ) {
     return undefined
   }

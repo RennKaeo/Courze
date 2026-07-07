@@ -52,8 +52,8 @@ export const getGlobalClaudeFile = memoize((): string => {
 
   const oauthSuffix = fileSuffixForOauthConfig()
   const configDirEnv = resolveConfigDirEnv({
-    openClaudeConfigDir: process.env.OPENCLAUDE_CONFIG_DIR,
-    legacyConfigDir: process.env.CLAUDE_CONFIG_DIR,
+    openClaudeConfigDir: process.env.COURSE_CONFIG_DIR,
+    legacyConfigDir: process.env.COURSE_CONFIG_DIR,
   })
   const configDir = configDirEnv || homedir()
   const hasExplicitConfigDir = Boolean(configDirEnv)
@@ -391,12 +391,12 @@ export const env = {
 
 /**
  * Returns the host platform for analytics reporting.
- * If CLAUDE_CODE_HOST_PLATFORM is set to a valid platform value, that overrides
+ * If COURSE_CODE_HOST_PLATFORM is set to a valid platform value, that overrides
  * the detected platform. This is useful for container/remote environments where
  * process.platform reports the container OS but the actual host platform differs.
  */
 export function getHostPlatformForAnalytics(): Platform {
-  const override = process.env.CLAUDE_CODE_HOST_PLATFORM
+  const override = process.env.COURSE_CODE_HOST_PLATFORM
   if (override === 'win32' || override === 'darwin' || override === 'linux') {
     return override
   }

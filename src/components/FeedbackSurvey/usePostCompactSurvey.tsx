@@ -118,7 +118,7 @@ export function usePostCompactSurvey(messages, isLoading, t0, t1) {
       if (isFeedbackSurveyDisabled()) {
         return;
       }
-      if (isEnvTruthy(process.env.CLAUDE_CODE_DISABLE_FEEDBACK_SURVEY)) {
+      if (isEnvTruthy(process.env.COURSE_CODE_DISABLE_FEEDBACK_SURVEY)) {
         return;
       }
       if (pendingCompactBoundaryUuid.current !== null) {

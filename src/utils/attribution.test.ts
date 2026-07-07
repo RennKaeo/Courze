@@ -29,17 +29,17 @@ let testSettings: SettingsJson = {}
 
 const originalEnv = {
   ANTHROPIC_MODEL: process.env.ANTHROPIC_MODEL,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_MISTRAL: process.env.CLAUDE_CODE_USE_MISTRAL,
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_MISTRAL: process.env.COURSE_CODE_USE_MISTRAL,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
   NVIDIA_NIM: process.env.NVIDIA_NIM,
   OPENAI_MODEL: process.env.OPENAI_MODEL,
   OPENAI_BASE_URL: process.env.OPENAI_BASE_URL,
@@ -60,9 +60,9 @@ const originalEnv = {
   VENICE_API_KEY: process.env.VENICE_API_KEY,
   MIMO_API_KEY: process.env.MIMO_API_KEY,
   BNKR_API_KEY: process.env.BNKR_API_KEY,
-  OPENCLAUDE_DISABLE_CO_AUTHORED_BY:
-    process.env.OPENCLAUDE_DISABLE_CO_AUTHORED_BY,
-  CLAUDE_CODE_REMOTE_SESSION_ID: process.env.CLAUDE_CODE_REMOTE_SESSION_ID,
+  COURSE_DISABLE_CO_AUTHORED_BY:
+    process.env.COURSE_DISABLE_CO_AUTHORED_BY,
+  COURSE_CODE_REMOTE_SESSION_ID: process.env.COURSE_CODE_REMOTE_SESSION_ID,
   SESSION_INGRESS_URL: process.env.SESSION_INGRESS_URL,
   USER_TYPE: process.env.USER_TYPE,
 }
@@ -94,14 +94,14 @@ beforeEach(async () => {
   testSettings = {}
   setClientType('cli')
   setMainLoopModelOverride(undefined)
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_MISTRAL
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete process.env.COURSE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_MISTRAL
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
   delete process.env.NVIDIA_NIM
   delete process.env.OPENAI_BASE_URL
   delete process.env.OPENAI_API_BASE
@@ -119,11 +119,11 @@ beforeEach(async () => {
   delete process.env.VENICE_API_KEY
   delete process.env.MIMO_API_KEY
   delete process.env.BNKR_API_KEY
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_MODEL = 'gpt-5.5'
   setMainLoopModelOverride('gpt-5.5')
-  delete process.env.OPENCLAUDE_DISABLE_CO_AUTHORED_BY
-  delete process.env.CLAUDE_CODE_REMOTE_SESSION_ID
+  delete process.env.COURSE_DISABLE_CO_AUTHORED_BY
+  delete process.env.COURSE_CODE_REMOTE_SESSION_ID
   delete process.env.SESSION_INGRESS_URL
   delete process.env.USER_TYPE
 
@@ -223,10 +223,10 @@ describe('getDefaultCommitCoAuthorName', () => {
 
   it('uses the Course Code email for commit attribution across providers', () => {
     expect(getDefaultCommitCoAuthorEmail('openai')).toBe(
-      'course@gitlawb.com',
+      'course@courze.ai',
     )
     expect(getDefaultCommitCoAuthorEmail('firstParty')).toBe(
-      'course@gitlawb.com',
+      'course@courze.ai',
     )
   })
 })
@@ -275,7 +275,7 @@ describe('getAttributionTexts', () => {
 
     const attribution = getAttributionTexts()
     expect(attribution.commit).toStartWith('Co-Authored-By: ')
-    expect(attribution.commit).toEndWith(' <course@gitlawb.com>')
+    expect(attribution.commit).toEndWith(' <course@courze.ai>')
     expect(attribution.pr).toBe(defaultPrAttribution)
   })
 
@@ -285,8 +285,8 @@ describe('getAttributionTexts', () => {
     expect(getAttributionTexts()).toEqual({ commit: '', pr: '' })
   })
 
-  it('uses OPENCLAUDE_DISABLE_CO_AUTHORED_BY to disable the old default co-author trailer', () => {
-    process.env.OPENCLAUDE_DISABLE_CO_AUTHORED_BY = '1'
+  it('uses COURSE_DISABLE_CO_AUTHORED_BY to disable the old default co-author trailer', () => {
+    process.env.COURSE_DISABLE_CO_AUTHORED_BY = '1'
     useSettings({ includeCoAuthoredBy: true })
 
     expect(getAttributionTexts()).toEqual({
@@ -295,8 +295,8 @@ describe('getAttributionTexts', () => {
     })
   })
 
-  it('does not let OPENCLAUDE_DISABLE_CO_AUTHORED_BY override explicit commit attribution', () => {
-    process.env.OPENCLAUDE_DISABLE_CO_AUTHORED_BY = '1'
+  it('does not let COURSE_DISABLE_CO_AUTHORED_BY override explicit commit attribution', () => {
+    process.env.COURSE_DISABLE_CO_AUTHORED_BY = '1'
     useSettings({
       attribution: { commit: 'Reviewed-by: Human <h@example.com>' },
     })
@@ -309,7 +309,7 @@ describe('getAttributionTexts', () => {
 
   it('preserves remote session attribution separately from local git attribution defaults', () => {
     setClientType('remote')
-    process.env.CLAUDE_CODE_REMOTE_SESSION_ID = 'session_remote_123'
+    process.env.COURSE_CODE_REMOTE_SESSION_ID = 'session_remote_123'
     useSettings({})
 
     expect(getAttributionTexts()).toEqual({

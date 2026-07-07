@@ -180,8 +180,8 @@ Model lookup should prefer:
 3. global shared model descriptors under `src/integrations/models/` for legacy
    and custom OpenAI-compatible model names;
 4. documented env overrides from `src/utils/model/openaiContextWindows.ts`
-   (`CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS` and
-   `CLAUDE_CODE_OPENAI_MAX_OUTPUT_TOKENS`).
+   (`COURSE_CODE_OPENAI_CONTEXT_WINDOWS` and
+   `COURSE_CODE_OPENAI_MAX_OUTPUT_TOKENS`).
 
 `openaiContextWindows.ts` is compatibility glue for user-provided env
 overrides. It should not grow a second built-in model table. Built-in model

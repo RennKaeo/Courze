@@ -7,7 +7,7 @@ A practical VS Code companion for Course Code with a project-aware **Control Cen
 - **Real Control Center status** in the Activity Bar:
   - whether the configured `course` command is installed
   - the launch command being used
-  - whether the launch shim injects `CLAUDE_CODE_USE_OPENAI=1`
+  - whether the launch shim injects `COURSE_CODE_USE_OPENAI=1`
   - the current workspace folder
   - the launch cwd that will be used for terminal sessions
   - whether `.courzerc.json` exists in the current workspace root
@@ -49,7 +49,7 @@ A practical VS Code companion for Course Code with a project-aware **Control Cen
 
 1. Command Palette → **Course Code: Configure Azure / Foundry Chat (wizard)** and enter endpoint, API version, deployment name, and API key; or set `course.azure.*` in Settings and use **Course Code: Set Azure / Foundry API Key**.
 2. Enable **Course Code: Azure: Enabled** (the wizard turns this on).
-3. **Course Code: Launch in Terminal** — the extension merges env vars the OpenAI shim expects (`CLAUDE_CODE_USE_OPENAI`, `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `AZURE_OPENAI_API_VERSION`, and `OPENAI_AZURE_STYLE` when forced).
+3. **Course Code: Launch in Terminal** — the extension merges env vars the OpenAI shim expects (`COURSE_CODE_USE_OPENAI`, `OPENAI_BASE_URL`, `OPENAI_API_KEY`, `OPENAI_MODEL`, `AZURE_OPENAI_API_VERSION`, and `OPENAI_AZURE_STYLE` when forced).
 
 If you use `.courzerc.json` for the same workspace, leave Azure injection off to avoid conflicting provider configuration.
 
@@ -61,7 +61,7 @@ If you use `.courzerc.json` for the same workspace, leave Azure injection off to
 - `course.azure.*` — Foundry / Azure OpenAI terminal injection (see Settings UI)
 - `course.permissionMode` — chat permission mode
 
-`course.useOpenAIShim` only injects `CLAUDE_CODE_USE_OPENAI=1` when Azure injection did not already set it. It does not configure endpoints or keys by itself.
+`course.useOpenAIShim` only injects `COURSE_CODE_USE_OPENAI=1` when Azure injection did not already set it. It does not configure endpoints or keys by itself.
 
 ## Notes on Status Detection
 

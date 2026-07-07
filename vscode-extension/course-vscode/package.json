@@ -159,7 +159,7 @@
         "course.useOpenAIShim": {
           "type": "boolean",
           "default": false,
-          "description": "Optionally set CLAUDE_CODE_USE_OPENAI=1 in launched Course Code terminals when Azure injection is off or incomplete."
+          "description": "Optionally set COURSE_CODE_USE_OPENAI=1 in launched Course Code terminals when Azure injection is off or incomplete."
         },
         "course.azure.enabled": {
           "type": "boolean",

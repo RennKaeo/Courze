@@ -17,7 +17,7 @@ import { getProjectsDir, setClaudeConfigHomeDirForTesting } from './envUtils.js'
 import { sanitizePath } from './sessionStoragePortable.js'
 
 describe('KnowledgeGraph Global Persistence & RAG', () => {
-  const originalConfigDir = process.env.CLAUDE_CONFIG_DIR
+  const originalConfigDir = process.env.COURSE_CONFIG_DIR
   const cwd = process.cwd()
   let configDir: string | undefined
 
@@ -48,7 +48,7 @@ describe('KnowledgeGraph Global Persistence & RAG', () => {
   beforeEach(async () => {
     await acquireEnvMutex()
     configDir = mkdtempSync(join(tmpdir(), 'course-test-'))
-    process.env.CLAUDE_CONFIG_DIR = configDir
+    process.env.COURSE_CONFIG_DIR = configDir
     setClaudeConfigHomeDirForTesting(configDir)
     resetGlobalGraph()
   })
@@ -58,9 +58,9 @@ describe('KnowledgeGraph Global Persistence & RAG', () => {
       resetGlobalGraph()
       clearMemoryOnly()
       if (originalConfigDir === undefined) {
-        delete process.env.CLAUDE_CONFIG_DIR
+        delete process.env.COURSE_CONFIG_DIR
       } else {
-        process.env.CLAUDE_CONFIG_DIR = originalConfigDir
+        process.env.COURSE_CONFIG_DIR = originalConfigDir
       }
       setClaudeConfigHomeDirForTesting(undefined)
     } finally {

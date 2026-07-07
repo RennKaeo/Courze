@@ -164,7 +164,7 @@ export function ThemePicker({
 
   const syntaxHint =
     colorModuleUnavailableReason === 'env'
-      ? `Syntax highlighting disabled (via CLAUDE_CODE_SYNTAX_HIGHLIGHT=${process.env.CLAUDE_CODE_SYNTAX_HIGHLIGHT})`
+      ? `Syntax highlighting disabled (via COURSE_CODE_SYNTAX_HIGHLIGHT=${process.env.COURSE_CODE_SYNTAX_HIGHLIGHT})`
       : syntaxHighlightingDisabled
         ? `Syntax highlighting disabled (${syntaxToggleShortcut} to enable)`
         : syntaxTheme

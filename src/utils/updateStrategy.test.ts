@@ -10,8 +10,8 @@ import {
 } from './updateStrategy.js'
 
 describe('isThirdPartyBuildBlockedFor', () => {
-  const UPSTREAM = '@anthropic-ai/claude-code'
-  const OPENCLAUDE = '@renskaeo/courze'
+  const UPSTREAM = '@anthropic-ai/course-code'
+  const COURZE_PACKAGE = '@renskaeo/courze'
 
   test('blocks a third-party provider running the upstream build', () => {
     for (const provider of [
@@ -29,8 +29,8 @@ describe('isThirdPartyBuildBlockedFor', () => {
   })
 
   test('allows a custom-PACKAGE_URL build (Course Code) on any provider', () => {
-    expect(isThirdPartyBuildBlockedFor('bedrock', OPENCLAUDE)).toBe(false)
-    expect(isThirdPartyBuildBlockedFor('firstParty', OPENCLAUDE)).toBe(false)
+    expect(isThirdPartyBuildBlockedFor('bedrock', COURZE_PACKAGE)).toBe(false)
+    expect(isThirdPartyBuildBlockedFor('firstParty', COURZE_PACKAGE)).toBe(false)
   })
 })
 

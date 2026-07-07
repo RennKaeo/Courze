@@ -30,9 +30,9 @@ if (typeof globalThis.File === 'undefined') {
 // Course Code: disable experimental API betas by default.
 // Tool search (defer_loading), global cache scope, and context management
 // require internal API support not available to external accounts → 500.
-// Users can opt-in with CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS=false.
+// Users can opt-in with COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS=false.
 // eslint-disable-next-line custom-rules/no-top-level-side-effects
-process.env.CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS ??= 'true'
+process.env.COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS ??= 'true'
 
 // Bugfix for corepack auto-pinning, which adds yarnpkg to peoples' package.jsons
 // eslint-disable-next-line custom-rules/no-top-level-side-effects
@@ -55,8 +55,8 @@ if (!process.env.NODE_OPTIONS?.includes('--max-old-space-size')) {
 // module-level consts at import time — init() runs too late. feature() gate
 // DCEs this entire block from external builds.
 // eslint-disable-next-line custom-rules/no-top-level-side-effects, custom-rules/no-process-env-top-level
-if (feature('ABLATION_BASELINE') && process.env.CLAUDE_CODE_ABLATION_BASELINE) {
-  for (const k of ['CLAUDE_CODE_SIMPLE', 'CLAUDE_CODE_DISABLE_THINKING', 'DISABLE_INTERLEAVED_THINKING', 'DISABLE_COMPACT', 'DISABLE_AUTO_COMPACT', 'CLAUDE_CODE_DISABLE_AUTO_MEMORY', 'CLAUDE_CODE_DISABLE_BACKGROUND_TASKS']) {
+if (feature('ABLATION_BASELINE') && process.env.COURSE_CODE_ABLATION_BASELINE) {
+  for (const k of ['COURSE_CODE_SIMPLE', 'COURSE_CODE_DISABLE_THINKING', 'DISABLE_INTERLEAVED_THINKING', 'DISABLE_COMPACT', 'DISABLE_AUTO_COMPACT', 'COURSE_CODE_DISABLE_AUTO_MEMORY', 'COURSE_CODE_DISABLE_BACKGROUND_TASKS']) {
     // eslint-disable-next-line custom-rules/no-top-level-side-effects, custom-rules/no-process-env-top-level
     process.env[k] ??= '1';
   }
@@ -294,7 +294,7 @@ export async function main(
     }
   }
 
-  // Hydrate GitHub credentials after profile is applied so CLAUDE_CODE_USE_GITHUB from profile is available
+  // Hydrate GitHub credentials after profile is applied so COURSE_CODE_USE_GITHUB from profile is available
   {
     const {
       hydrateGithubModelsTokenFromSecureStorage,
@@ -534,11 +534,11 @@ export async function main(
   // --bare: set SIMPLE early so gates fire during module eval / commander
   // option building (not just inside the action handler).
   if (args.includes('--bare')) {
-    process.env.CLAUDE_CODE_SIMPLE = '1';
+    process.env.COURSE_CODE_SIMPLE = '1';
   }
 
   // No special flags detected, load and run the full CLI
-  if (process.env.OPENCLAUDE_DISABLE_EARLY_INPUT !== '1') {
+  if (process.env.COURSE_DISABLE_EARLY_INPUT !== '1') {
     const {
       startCapturingEarlyInput
     } = await importers.earlyInput();
@@ -554,6 +554,6 @@ export async function main(
 }
 
 // eslint-disable-next-line custom-rules/no-top-level-side-effects, custom-rules/no-process-env-top-level
-if (process.env.OPENCLAUDE_DISABLE_CLI_ENTRYPOINT_AUTO_RUN !== '1') {
+if (process.env.COURSE_DISABLE_CLI_ENTRYPOINT_AUTO_RUN !== '1') {
   void main();
 }

@@ -139,8 +139,8 @@ Adding built-in context or output limits to
 Safer rule:
 Put built-in model metadata in `src/integrations/models/`. Keep
 `openaiContextWindows.ts` focused on documented env overrides such as
-`CLAUDE_CODE_OPENAI_CONTEXT_WINDOWS` and
-`CLAUDE_CODE_OPENAI_MAX_OUTPUT_TOKENS`.
+`COURSE_CODE_OPENAI_CONTEXT_WINDOWS` and
+`COURSE_CODE_OPENAI_MAX_OUTPUT_TOKENS`.
 
 ## Pitfall 13: Forgetting the compatibility layer
 

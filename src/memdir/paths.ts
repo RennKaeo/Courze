@@ -19,9 +19,9 @@ import { getSettingsForSource } from '../utils/settings/settings.js'
 /**
  * Whether auto-memory features are enabled (memdir, agent memory, past session search).
  * Enabled by default. Priority chain (first defined wins):
- *   1. CLAUDE_CODE_DISABLE_AUTO_MEMORY env var (1/true → OFF, 0/false → ON)
- *   2. CLAUDE_CODE_SIMPLE (--bare) → OFF
- *   3. CCR without persistent storage → OFF (no CLAUDE_CODE_REMOTE_MEMORY_DIR)
+ *   1. COURSE_CODE_DISABLE_AUTO_MEMORY env var (1/true → OFF, 0/false → ON)
+ *   2. COURSE_CODE_SIMPLE (--bare) → OFF
+ *   3. CCR without persistent storage → OFF (no COURSE_CODE_REMOTE_MEMORY_DIR)
  *   4. settings.json — `memory.autoWrite` and `autoMemoryEnabled` are equivalent
  *      opt-outs (#1326), evaluated across the raw per-source settings so a
  *      single `false` in any source wins. A parent-scope opt-out can't be
@@ -29,7 +29,7 @@ import { getSettingsForSource } from '../utils/settings/settings.js'
  *   5. Default: enabled
  */
 export function isAutoMemoryEnabled(): boolean {
-  const envVal = process.env.CLAUDE_CODE_DISABLE_AUTO_MEMORY
+  const envVal = process.env.COURSE_CODE_DISABLE_AUTO_MEMORY
   if (isEnvTruthy(envVal)) {
     return false
   }
@@ -39,12 +39,12 @@ export function isAutoMemoryEnabled(): boolean {
   // --bare / SIMPLE: prompts.ts already drops the memory section from the
   // system prompt via its SIMPLE early-return; this gate stops the other half
   // (extractMemories turn-end fork, autoDream, /remember, /dream, team sync).
-  if (isEnvTruthy(process.env.CLAUDE_CODE_SIMPLE)) {
+  if (isEnvTruthy(process.env.COURSE_CODE_SIMPLE)) {
     return false
   }
   if (
-    isEnvTruthy(process.env.CLAUDE_CODE_REMOTE) &&
-    !process.env.CLAUDE_CODE_REMOTE_MEMORY_DIR
+    isEnvTruthy(process.env.COURSE_CODE_REMOTE) &&
+    !process.env.COURSE_CODE_REMOTE_MEMORY_DIR
   ) {
     return false
   }
@@ -94,12 +94,12 @@ export function isExtractModeActive(): boolean {
 /**
  * Returns the base directory for persistent memory storage.
  * Resolution order:
- *   1. CLAUDE_CODE_REMOTE_MEMORY_DIR env var (explicit override, set in CCR)
+ *   1. COURSE_CODE_REMOTE_MEMORY_DIR env var (explicit override, set in CCR)
  *   2. ~/.claude (default config home)
  */
 export function getMemoryBaseDir(): string {
-  if (process.env.CLAUDE_CODE_REMOTE_MEMORY_DIR) {
-    return process.env.CLAUDE_CODE_REMOTE_MEMORY_DIR
+  if (process.env.COURSE_CODE_REMOTE_MEMORY_DIR) {
+    return process.env.COURSE_CODE_REMOTE_MEMORY_DIR
   }
   return getClaudeConfigHomeDir()
 }
@@ -213,7 +213,7 @@ export function hasAutoMemPathOverride(): boolean {
 /**
  * Returns the canonical git repo root if available, otherwise falls back to
  * the stable project root. Uses findCanonicalGitRoot so all worktrees of the
- * same repo share one auto-memory directory (anthropics/claude-code#24382).
+ * same repo share one auto-memory directory (anthropics/course-code#24382).
  */
 function getAutoMemBase(): string {
   return findCanonicalGitRoot(getProjectRoot()) ?? getProjectRoot()
@@ -232,7 +232,7 @@ function getAutoMemBase(): string {
  * fire per tool-use message per Messages re-render; each miss costs
  * getSettingsForSource × 4 → parseSettingsFile (realpathSync + readFileSync).
  * Keyed on projectRoot so tests that change its mock mid-block recompute;
- * env vars / settings.json / CLAUDE_CONFIG_DIR are session-stable in
+ * env vars / settings.json / COURSE_CONFIG_DIR are session-stable in
  * production and covered by per-test cache.clear.
  */
 export const getAutoMemPath = memoize(

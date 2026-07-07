@@ -18,7 +18,7 @@ import { defineGateway } from '../define.js'
  * Course Code's sub-agent architecture can consume multiple Premium Requests
  * per chat interaction (one per agent per turn), rapidly depleting the quota.
  *
- * By default, when CLAUDE_CODE_USE_GITHUB=1 is active, Course Code limits
+ * By default, when COURSE_CODE_USE_GITHUB=1 is active, Course Code limits
  * sub-agents to synchronous in-process execution (max 1 concurrent) to mitigate
  * Premium Request consumption (mitigates #678). Configure these env vars to tune behaviour:
  *
@@ -52,7 +52,7 @@ export default defineGateway({
   validation: {
     kind: 'github-token',
     routing: {
-      enablementEnvVar: 'CLAUDE_CODE_USE_GITHUB',
+      enablementEnvVar: 'COURSE_CODE_USE_GITHUB',
       skipWhenUseOpenAI: true,
     },
     missingCredentialMessage:

@@ -10,9 +10,9 @@ const originalEnv = { ...process.env }
 const originalFetch = globalThis.fetch
 
 function getMockApiProvider() {
-  if (process.env.CLAUDE_CODE_USE_OPENAI === '1') return 'openai'
-  if (process.env.CLAUDE_CODE_USE_GEMINI === '1') return 'gemini'
-  if (process.env.CLAUDE_CODE_USE_GITHUB === '1') return 'github'
+  if (process.env.COURSE_CODE_USE_OPENAI === '1') return 'openai'
+  if (process.env.COURSE_CODE_USE_GEMINI === '1') return 'gemini'
+  if (process.env.COURSE_CODE_USE_GITHUB === '1') return 'github'
   return 'firstParty'
 }
 
@@ -77,13 +77,13 @@ describe('preconnectAnthropicApi', () => {
   })
 
   test('fetches in first-party mode', async () => {
-    delete process.env.CLAUDE_CODE_USE_OPENAI
-    delete process.env.CLAUDE_CODE_USE_GEMINI
-    delete process.env.CLAUDE_CODE_USE_GITHUB
-    delete process.env.CLAUDE_CODE_USE_MISTRAL
-    delete process.env.CLAUDE_CODE_USE_BEDROCK
-    delete process.env.CLAUDE_CODE_USE_VERTEX
-    delete process.env.CLAUDE_CODE_USE_FOUNDRY
+    delete process.env.COURSE_CODE_USE_OPENAI
+    delete process.env.COURSE_CODE_USE_GEMINI
+    delete process.env.COURSE_CODE_USE_GITHUB
+    delete process.env.COURSE_CODE_USE_MISTRAL
+    delete process.env.COURSE_CODE_USE_BEDROCK
+    delete process.env.COURSE_CODE_USE_VERTEX
+    delete process.env.COURSE_CODE_USE_FOUNDRY
     delete process.env.OPENAI_BASE_URL
     delete process.env.OPENAI_API_BASE
     delete process.env.OPENAI_MODEL
@@ -100,8 +100,8 @@ describe('preconnectAnthropicApi', () => {
     delete process.env.HTTP_PROXY
     delete process.env.http_proxy
     delete process.env.ANTHROPIC_UNIX_SOCKET
-    delete process.env.CLAUDE_CODE_CLIENT_CERT
-    delete process.env.CLAUDE_CODE_CLIENT_KEY
+    delete process.env.COURSE_CODE_CLIENT_CERT
+    delete process.env.COURSE_CODE_CLIENT_KEY
 
     mock.module('./model/providers.js', () => ({
       ...actualProviders,

@@ -8,9 +8,9 @@ import {
 } from '../test/sharedMutationLock.js'
 
 const originalEnv = {
-  OPENCLAUDE_CONFIG_DIR: process.env.OPENCLAUDE_CONFIG_DIR,
-  CLAUDE_CONFIG_DIR: process.env.CLAUDE_CONFIG_DIR,
-  CLAUDE_CODE_CUSTOM_OAUTH_URL: process.env.CLAUDE_CODE_CUSTOM_OAUTH_URL,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CONFIG_DIR: process.env.COURSE_CONFIG_DIR,
+  COURSE_CODE_CUSTOM_OAUTH_URL: process.env.COURSE_CODE_CUSTOM_OAUTH_URL,
   USER_TYPE: process.env.USER_TYPE,
 }
 
@@ -19,29 +19,29 @@ let tempDir: string
 beforeEach(async () => {
   await acquireSharedMutationLock('env.test.ts')
   tempDir = mkdtempSync(join(tmpdir(), 'course-env-test-'))
-  delete process.env.OPENCLAUDE_CONFIG_DIR
-  process.env.CLAUDE_CONFIG_DIR = tempDir
-  delete process.env.CLAUDE_CODE_CUSTOM_OAUTH_URL
+  delete process.env.COURSE_CONFIG_DIR
+  process.env.COURSE_CONFIG_DIR = tempDir
+  delete process.env.COURSE_CODE_CUSTOM_OAUTH_URL
   delete process.env.USER_TYPE
 })
 
 afterEach(() => {
   try {
     rmSync(tempDir, { recursive: true, force: true })
-    if (originalEnv.OPENCLAUDE_CONFIG_DIR === undefined) {
-      delete process.env.OPENCLAUDE_CONFIG_DIR
+    if (originalEnv.COURSE_CONFIG_DIR === undefined) {
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.OPENCLAUDE_CONFIG_DIR = originalEnv.OPENCLAUDE_CONFIG_DIR
+      process.env.COURSE_CONFIG_DIR = originalEnv.COURSE_CONFIG_DIR
     }
-    if (originalEnv.CLAUDE_CONFIG_DIR === undefined) {
-      delete process.env.CLAUDE_CONFIG_DIR
+    if (originalEnv.COURSE_CONFIG_DIR === undefined) {
+      delete process.env.COURSE_CONFIG_DIR
     } else {
-      process.env.CLAUDE_CONFIG_DIR = originalEnv.CLAUDE_CONFIG_DIR
+      process.env.COURSE_CONFIG_DIR = originalEnv.COURSE_CONFIG_DIR
     }
-    if (originalEnv.CLAUDE_CODE_CUSTOM_OAUTH_URL === undefined) {
-      delete process.env.CLAUDE_CODE_CUSTOM_OAUTH_URL
+    if (originalEnv.COURSE_CODE_CUSTOM_OAUTH_URL === undefined) {
+      delete process.env.COURSE_CODE_CUSTOM_OAUTH_URL
     } else {
-      process.env.CLAUDE_CODE_CUSTOM_OAUTH_URL = originalEnv.CLAUDE_CODE_CUSTOM_OAUTH_URL
+      process.env.COURSE_CODE_CUSTOM_OAUTH_URL = originalEnv.COURSE_CODE_CUSTOM_OAUTH_URL
     }
     if (originalEnv.USER_TYPE === undefined) {
       delete process.env.USER_TYPE
@@ -77,11 +77,11 @@ test('getGlobalClaudeFile: migrated user uses .course.json when both files exist
   expect(getGlobalClaudeFile()).toBe(join(tempDir, '.course.json'))
 })
 
-test('getGlobalClaudeFile: OPENCLAUDE_CONFIG_DIR uses preferred config dir', async () => {
+test('getGlobalClaudeFile: COURSE_CONFIG_DIR uses preferred config dir', async () => {
   const preferredDir = mkdtempSync(join(tmpdir(), 'course-preferred-env-test-'))
   try {
-    process.env.OPENCLAUDE_CONFIG_DIR = preferredDir
-    process.env.CLAUDE_CONFIG_DIR = tempDir
+    process.env.COURSE_CONFIG_DIR = preferredDir
+    process.env.COURSE_CONFIG_DIR = tempDir
 
     const { getGlobalClaudeFile } = await importFreshEnvModule()
 
@@ -91,11 +91,11 @@ test('getGlobalClaudeFile: OPENCLAUDE_CONFIG_DIR uses preferred config dir', asy
   }
 })
 
-test('getGlobalClaudeFile: OPENCLAUDE_CONFIG_DIR keeps .claude.json fallback when only legacy file exists', async () => {
+test('getGlobalClaudeFile: COURSE_CONFIG_DIR keeps .claude.json fallback when only legacy file exists', async () => {
   const preferredDir = mkdtempSync(join(tmpdir(), 'course-preferred-env-test-'))
   try {
-    process.env.OPENCLAUDE_CONFIG_DIR = preferredDir
-    process.env.CLAUDE_CONFIG_DIR = tempDir
+    process.env.COURSE_CONFIG_DIR = preferredDir
+    process.env.COURSE_CONFIG_DIR = tempDir
     writeFileSync(join(preferredDir, '.claude.json'), '{}')
 
     const { getGlobalClaudeFile } = await importFreshEnvModule()

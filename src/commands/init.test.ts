@@ -4,7 +4,7 @@ import {
   releaseSharedMutationLock,
 } from '../test/sharedMutationLock.js'
 
-const originalClaudeCodeNewInit = process.env.CLAUDE_CODE_NEW_INIT
+const originalClaudeCodeNewInit = process.env.COURSE_CODE_NEW_INIT
 
 async function importInitCommand() {
   return (await import(`./init.ts?ts=${Date.now()}-${Math.random()}`)).default
@@ -19,9 +19,9 @@ afterEach(() => {
     mock.restore()
 
     if (originalClaudeCodeNewInit === undefined) {
-      delete process.env.CLAUDE_CODE_NEW_INIT
+      delete process.env.COURSE_CODE_NEW_INIT
     } else {
-      process.env.CLAUDE_CODE_NEW_INIT = originalClaudeCodeNewInit
+      process.env.COURSE_CODE_NEW_INIT = originalClaudeCodeNewInit
     }
   } finally {
     releaseSharedMutationLock()
@@ -29,7 +29,7 @@ afterEach(() => {
 })
 
 test('NEW_INIT prompt preserves existing root CLAUDE.md by default', async () => {
-  process.env.CLAUDE_CODE_NEW_INIT = '1'
+  process.env.COURSE_CODE_NEW_INIT = '1'
 
   mock.module('../projectOnboardingState.js', () => ({
     maybeMarkProjectOnboardingComplete: () => {},

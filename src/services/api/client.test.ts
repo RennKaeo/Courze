@@ -20,14 +20,14 @@ type ShimClient = {
 const originalFetch = globalThis.fetch
 const originalMacro = (globalThis as Record<string, unknown>).MACRO
 const originalEnv = {
-  CLAUDE_CODE_USE_OPENAI: process.env.CLAUDE_CODE_USE_OPENAI,
-  CLAUDE_CODE_USE_BEDROCK: process.env.CLAUDE_CODE_USE_BEDROCK,
-  CLAUDE_CODE_SKIP_BEDROCK_AUTH: process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH,
-  CLAUDE_CODE_USE_VERTEX: process.env.CLAUDE_CODE_USE_VERTEX,
-  CLAUDE_CODE_USE_FOUNDRY: process.env.CLAUDE_CODE_USE_FOUNDRY,
-  CLAUDE_CODE_USE_GEMINI: process.env.CLAUDE_CODE_USE_GEMINI,
-  CLAUDE_CODE_USE_GITHUB: process.env.CLAUDE_CODE_USE_GITHUB,
-  CLAUDE_CODE_USE_MISTRAL: process.env.CLAUDE_CODE_USE_MISTRAL,
+  COURSE_CODE_USE_OPENAI: process.env.COURSE_CODE_USE_OPENAI,
+  COURSE_CODE_USE_BEDROCK: process.env.COURSE_CODE_USE_BEDROCK,
+  COURSE_CODE_SKIP_BEDROCK_AUTH: process.env.COURSE_CODE_SKIP_BEDROCK_AUTH,
+  COURSE_CODE_USE_VERTEX: process.env.COURSE_CODE_USE_VERTEX,
+  COURSE_CODE_USE_FOUNDRY: process.env.COURSE_CODE_USE_FOUNDRY,
+  COURSE_CODE_USE_GEMINI: process.env.COURSE_CODE_USE_GEMINI,
+  COURSE_CODE_USE_GITHUB: process.env.COURSE_CODE_USE_GITHUB,
+  COURSE_CODE_USE_MISTRAL: process.env.COURSE_CODE_USE_MISTRAL,
   GEMINI_API_KEY: process.env.GEMINI_API_KEY,
   GEMINI_MODEL: process.env.GEMINI_MODEL,
   GEMINI_BASE_URL: process.env.GEMINI_BASE_URL,
@@ -53,10 +53,10 @@ const originalEnv = {
   ANTHROPIC_BASE_URL: process.env.ANTHROPIC_BASE_URL,
   ANTHROPIC_MODEL: process.env.ANTHROPIC_MODEL,
   ANTHROPIC_CUSTOM_HEADERS: process.env.ANTHROPIC_CUSTOM_HEADERS,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
-  CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
-    process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+  COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID:
+    process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
 }
 
 function restoreEnv(key: string, value: string | undefined): void {
@@ -68,16 +68,16 @@ function restoreEnv(key: string, value: string | undefined): void {
 }
 
 function clearEnvForMiniMaxOnlyTest(): void {
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_MISTRAL
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_SKIP_BEDROCK_AUTH
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_MISTRAL
+  delete process.env.COURSE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -107,19 +107,19 @@ function clearEnvForMiniMaxOnlyTest(): void {
 beforeEach(async () => {
   await acquireSharedMutationLock('client.test.ts')
   ;(globalThis as Record<string, unknown>).MACRO = { VERSION: 'test-version' }
-  process.env.CLAUDE_CODE_USE_GEMINI = '1'
+  process.env.COURSE_CODE_USE_GEMINI = '1'
   process.env.GEMINI_API_KEY = 'gemini-test-key'
   process.env.GEMINI_MODEL = 'gemini-2.0-flash'
   process.env.GEMINI_BASE_URL = 'https://gemini.example/v1beta/openai'
   process.env.GEMINI_AUTH_MODE = 'api-key'
 
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_MISTRAL
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_SKIP_BEDROCK_AUTH
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_MISTRAL
   delete process.env.GOOGLE_API_KEY
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENAI_BASE_URL
@@ -141,24 +141,24 @@ beforeEach(async () => {
   delete process.env.ANTHROPIC_BASE_URL
   delete process.env.ANTHROPIC_MODEL
   delete process.env.ANTHROPIC_CUSTOM_HEADERS
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete process.env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete process.env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
 })
 
 afterEach(() => {
   try {
     ;(globalThis as Record<string, unknown>).MACRO = originalMacro
-    restoreEnv('CLAUDE_CODE_USE_OPENAI', originalEnv.CLAUDE_CODE_USE_OPENAI)
-    restoreEnv('CLAUDE_CODE_USE_BEDROCK', originalEnv.CLAUDE_CODE_USE_BEDROCK)
+    restoreEnv('COURSE_CODE_USE_OPENAI', originalEnv.COURSE_CODE_USE_OPENAI)
+    restoreEnv('COURSE_CODE_USE_BEDROCK', originalEnv.COURSE_CODE_USE_BEDROCK)
     restoreEnv(
-      'CLAUDE_CODE_SKIP_BEDROCK_AUTH',
-      originalEnv.CLAUDE_CODE_SKIP_BEDROCK_AUTH,
+      'COURSE_CODE_SKIP_BEDROCK_AUTH',
+      originalEnv.COURSE_CODE_SKIP_BEDROCK_AUTH,
     )
-    restoreEnv('CLAUDE_CODE_USE_VERTEX', originalEnv.CLAUDE_CODE_USE_VERTEX)
-    restoreEnv('CLAUDE_CODE_USE_FOUNDRY', originalEnv.CLAUDE_CODE_USE_FOUNDRY)
-    restoreEnv('CLAUDE_CODE_USE_GEMINI', originalEnv.CLAUDE_CODE_USE_GEMINI)
-    restoreEnv('CLAUDE_CODE_USE_GITHUB', originalEnv.CLAUDE_CODE_USE_GITHUB)
-    restoreEnv('CLAUDE_CODE_USE_MISTRAL', originalEnv.CLAUDE_CODE_USE_MISTRAL)
+    restoreEnv('COURSE_CODE_USE_VERTEX', originalEnv.COURSE_CODE_USE_VERTEX)
+    restoreEnv('COURSE_CODE_USE_FOUNDRY', originalEnv.COURSE_CODE_USE_FOUNDRY)
+    restoreEnv('COURSE_CODE_USE_GEMINI', originalEnv.COURSE_CODE_USE_GEMINI)
+    restoreEnv('COURSE_CODE_USE_GITHUB', originalEnv.COURSE_CODE_USE_GITHUB)
+    restoreEnv('COURSE_CODE_USE_MISTRAL', originalEnv.COURSE_CODE_USE_MISTRAL)
     restoreEnv('GEMINI_API_KEY', originalEnv.GEMINI_API_KEY)
     restoreEnv('GEMINI_MODEL', originalEnv.GEMINI_MODEL)
     restoreEnv('GEMINI_BASE_URL', originalEnv.GEMINI_BASE_URL)
@@ -185,12 +185,12 @@ afterEach(() => {
     restoreEnv('ANTHROPIC_MODEL', originalEnv.ANTHROPIC_MODEL)
     restoreEnv('ANTHROPIC_CUSTOM_HEADERS', originalEnv.ANTHROPIC_CUSTOM_HEADERS)
     restoreEnv(
-      'CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED',
-      originalEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
+      'COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED',
+      originalEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED,
     )
     restoreEnv(
-      'CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID',
-      originalEnv.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
+      'COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID',
+      originalEnv.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID,
     )
     globalThis.fetch = originalFetch
   } finally {
@@ -201,17 +201,17 @@ afterEach(() => {
 test('first-party Anthropic requests execute the configured fetch wrapper without runtime symbol errors', async () => {
   let capturedHeaders: Headers | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
   delete process.env.GEMINI_AUTH_MODE
-  delete process.env.CLAUDE_CODE_USE_OPENAI
-  delete process.env.CLAUDE_CODE_USE_BEDROCK
-  delete process.env.CLAUDE_CODE_USE_VERTEX
-  delete process.env.CLAUDE_CODE_USE_FOUNDRY
-  delete process.env.CLAUDE_CODE_USE_GITHUB
-  delete process.env.CLAUDE_CODE_USE_MISTRAL
+  delete process.env.COURSE_CODE_USE_OPENAI
+  delete process.env.COURSE_CODE_USE_BEDROCK
+  delete process.env.COURSE_CODE_USE_VERTEX
+  delete process.env.COURSE_CODE_USE_FOUNDRY
+  delete process.env.COURSE_CODE_USE_GITHUB
+  delete process.env.COURSE_CODE_USE_MISTRAL
   delete process.env.OPENAI_API_KEY
   delete process.env.OPENAI_BASE_URL
   delete process.env.OPENAI_API_BASE
@@ -343,7 +343,7 @@ test('routes env-only MiniMax requests through the Anthropic-compatible API', as
   let capturedBody: Record<string, unknown> | undefined
 
   clearEnvForMiniMaxOnlyTest()
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_API_KEY = 'ambient-openai-key'
   process.env.XAI_API_KEY = 'ambient-xai-key'
   process.env.MINIMAX_API_KEY = 'minimax-test-key'
@@ -399,7 +399,7 @@ test('routes env-only MiniMax requests through the Anthropic-compatible API', as
   expect(capturedBody?.model).toBe('MiniMax-M2.5')
   expect(process.env.ANTHROPIC_BASE_URL).toBe('https://api.minimax.io/anthropic')
   expect(process.env.ANTHROPIC_API_KEY).toBe('minimax-test-key')
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(response).toMatchObject({
     role: 'assistant',
     model: 'MiniMax-M2.5',
@@ -512,7 +512,7 @@ test('env-only MiniMax fallback drops stale OpenAI shim options', async () => {
 })
 
 test('env-only MiniMax fallback replaces stale non-MiniMax model env', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -526,13 +526,13 @@ test('env-only MiniMax fallback replaces stale non-MiniMax model env', async () 
     model: 'MiniMax-M2.7',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.ANTHROPIC_MODEL).toBe('MiniMax-M2.7')
   expect(process.env.ANTHROPIC_API_KEY).toBe('minimax-test-key')
 })
 
 test('env-only MiniMax fallback does not override explicit OpenAI credentials', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -546,14 +546,14 @@ test('env-only MiniMax fallback does not override explicit OpenAI credentials', 
     model: 'gpt-4o',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBe('openai-test-key')
   expect(process.env.OPENAI_BASE_URL).toBeUndefined()
   expect(process.env.OPENAI_MODEL).toBeUndefined()
 })
 
 test('env-only MiniMax fallback ignores non-MiniMax base overrides', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -568,7 +568,7 @@ test('env-only MiniMax fallback ignores non-MiniMax base overrides', async () =>
     model: 'MiniMax-M2.7',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBe('https://api.openai.com/v1')
   expect(process.env.OPENAI_MODEL).toBe('MiniMax-M2.7')
@@ -579,7 +579,7 @@ test('routes env-only xAI requests through the OpenAI-compatible shim', async ()
   let capturedHeaders: Headers | undefined
   let capturedBody: Record<string, unknown> | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -650,7 +650,7 @@ test('routes env-only xAI requests through the OpenAI-compatible shim', async ()
 })
 
 test('env-only xAI fallback replaces stale OpenAI credentials and model env', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -664,7 +664,7 @@ test('env-only xAI fallback replaces stale OpenAI credentials and model env', as
     model: 'grok-4',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBe('1')
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBe('1')
   expect(process.env.OPENAI_MODEL).toBe('grok-4.3')
   expect(process.env.OPENAI_API_KEY).toBe('xai-test-key')
 })
@@ -672,7 +672,7 @@ test('env-only xAI fallback replaces stale OpenAI credentials and model env', as
 test('env-only xAI fallback preserves xAI OPENAI_API_BASE host overrides', async () => {
   let capturedUrl: string | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -725,7 +725,7 @@ test('env-only xAI fallback drops unsupported OpenAI shim options', async () => 
   let capturedUrl: string | undefined
   let capturedHeaders: Headers | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -784,7 +784,7 @@ test('env-only xAI fallback drops unsupported OpenAI shim options', async () => 
 })
 
 test('env-only xAI fallback ignores non-xAI base overrides', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -799,7 +799,7 @@ test('env-only xAI fallback ignores non-xAI base overrides', async () => {
     model: 'grok-4',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBe('https://api.openai.com/v1')
   expect(process.env.OPENAI_MODEL).toBe('grok-4')
@@ -809,7 +809,7 @@ test('env-only xAI wins when MiniMax key is also present', async () => {
   let capturedUrl: string | undefined
   let capturedHeaders: Headers | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -861,13 +861,13 @@ test('env-only xAI wins when MiniMax key is also present', async () => {
 })
 
 test('env-only MiniMax fallback yields to explicit Bedrock selection', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
   delete process.env.GEMINI_AUTH_MODE
-  process.env.CLAUDE_CODE_USE_BEDROCK = '1'
-  process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH = '1'
+  process.env.COURSE_CODE_USE_BEDROCK = '1'
+  process.env.COURSE_CODE_SKIP_BEDROCK_AUTH = '1'
   process.env.MINIMAX_API_KEY = 'minimax-test-key'
 
   globalThis.fetch = (async () => {
@@ -879,20 +879,20 @@ test('env-only MiniMax fallback yields to explicit Bedrock selection', async () 
     model: 'claude-sonnet-4-6',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBeUndefined()
   expect(process.env.OPENAI_MODEL).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
 })
 
 test('env-only xAI fallback yields to explicit Bedrock selection', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
   delete process.env.GEMINI_AUTH_MODE
-  process.env.CLAUDE_CODE_USE_BEDROCK = '1'
-  process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH = '1'
+  process.env.COURSE_CODE_USE_BEDROCK = '1'
+  process.env.COURSE_CODE_SKIP_BEDROCK_AUTH = '1'
   process.env.XAI_API_KEY = 'xai-test-key'
 
   globalThis.fetch = (async () => {
@@ -904,7 +904,7 @@ test('env-only xAI fallback yields to explicit Bedrock selection', async () => {
     model: 'claude-sonnet-4-6',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBeUndefined()
   expect(process.env.OPENAI_MODEL).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
@@ -915,7 +915,7 @@ test('routes env-only Fireworks AI requests through the OpenAI-compatible shim',
   let capturedHeaders: Headers | undefined
   let capturedBody: Record<string, unknown> | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -979,7 +979,7 @@ test('routes env-only Fireworks AI requests through the OpenAI-compatible shim',
 })
 
 test('env-only Fireworks fallback replaces stale OpenAI model env', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -991,7 +991,7 @@ test('env-only Fireworks fallback replaces stale OpenAI model env', async () => 
 
   await getAnthropicClient({ maxRetries: 0, model: 'accounts/fireworks/models/deepseek-v3' })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBe('1')
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBe('1')
   expect(process.env.OPENAI_MODEL).toBe(
     'accounts/fireworks/models/llama-v3p1-70b-instruct',
   )
@@ -1001,7 +1001,7 @@ test('env-only Fireworks fallback replaces stale OpenAI model env', async () => 
 test('env-only Fireworks fallback preserves Fireworks OPENAI_API_BASE host overrides', async () => {
   let capturedUrl: string | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -1066,7 +1066,7 @@ test('env-only Fireworks fallback preserves Fireworks OPENAI_API_BASE host overr
 test('env-only Fireworks fallback drops unsupported OpenAI shim options', async () => {
   let capturedHeaders: Headers | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -1127,7 +1127,7 @@ test('env-only Fireworks fallback drops unsupported OpenAI shim options', async 
 })
 
 test('env-only Fireworks fallback ignores non-Fireworks base overrides', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -1140,7 +1140,7 @@ test('env-only Fireworks fallback ignores non-Fireworks base overrides', async (
   await getAnthropicClient({ maxRetries: 0, model: 'accounts/fireworks/models/deepseek-v3' })
 
   // ANTHROPIC_API_KEY takes precedence — Fireworks env-only provider does not activate
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBe('https://api.openai.com/v1')
   expect(process.env.OPENAI_MODEL).toBe(
@@ -1149,7 +1149,7 @@ test('env-only Fireworks fallback ignores non-Fireworks base overrides', async (
 })
 
 test('env-only Fireworks does not activate when MiniMax key is present', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
@@ -1169,20 +1169,20 @@ test('env-only Fireworks does not activate when MiniMax key is present', async (
   })
 
   // MiniMax takes priority over Fireworks
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBeUndefined()
   expect(process.env.OPENAI_MODEL).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
 })
 
 test('env-only Fireworks fallback yields to explicit Bedrock selection', async () => {
-  delete process.env.CLAUDE_CODE_USE_GEMINI
+  delete process.env.COURSE_CODE_USE_GEMINI
   delete process.env.GEMINI_API_KEY
   delete process.env.GEMINI_MODEL
   delete process.env.GEMINI_BASE_URL
   delete process.env.GEMINI_AUTH_MODE
-  process.env.CLAUDE_CODE_USE_BEDROCK = '1'
-  process.env.CLAUDE_CODE_SKIP_BEDROCK_AUTH = '1'
+  process.env.COURSE_CODE_USE_BEDROCK = '1'
+  process.env.COURSE_CODE_SKIP_BEDROCK_AUTH = '1'
   process.env.FIREWORKS_API_KEY = 'fireworks-test-key'
 
   globalThis.fetch = (async () => {
@@ -1194,7 +1194,7 @@ test('env-only Fireworks fallback yields to explicit Bedrock selection', async (
     model: 'claude-sonnet-4-6',
   })
 
-  expect(process.env.CLAUDE_CODE_USE_OPENAI).toBeUndefined()
+  expect(process.env.COURSE_CODE_USE_OPENAI).toBeUndefined()
   expect(process.env.OPENAI_BASE_URL).toBeUndefined()
   expect(process.env.OPENAI_MODEL).toBeUndefined()
   expect(process.env.OPENAI_API_KEY).toBeUndefined()
@@ -1203,8 +1203,8 @@ test('env-only Fireworks fallback yields to explicit Bedrock selection', async (
 test('strips Anthropic-specific custom headers before sending OpenAI-compatible shim requests', async () => {
   let capturedHeaders: Headers | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  delete process.env.COURSE_CODE_USE_GEMINI
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_API_KEY = 'openai-test-key'
   process.env.OPENAI_BASE_URL = 'http://example.test/v1'
   process.env.OPENAI_MODEL = 'gpt-4o'
@@ -1754,8 +1754,8 @@ test('providerOverride Groq DeepSeek does not receive stripped effort override',
 test('rejects CRLF-injected custom headers before sending OpenAI-compatible shim requests', async () => {
   let capturedHeaders: Headers | undefined
 
-  delete process.env.CLAUDE_CODE_USE_GEMINI
-  process.env.CLAUDE_CODE_USE_OPENAI = '1'
+  delete process.env.COURSE_CODE_USE_GEMINI
+  process.env.COURSE_CODE_USE_OPENAI = '1'
   process.env.OPENAI_API_KEY = 'openai-test-key'
   process.env.OPENAI_BASE_URL = 'http://example.test/v1'
   process.env.OPENAI_MODEL = 'gpt-4o'

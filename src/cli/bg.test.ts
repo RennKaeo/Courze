@@ -454,8 +454,8 @@ describe('background session CLI parsing', () => {
       entrypoint: '/repo/bin/course',
       childArgs: ['--print', 'fix failing tests'],
       processEnv: {
-        OPENCLAUDE_HEAP_RELAUNCHED: '1',
-        OPENCLAUDE_NODE_MAX_OLD_SPACE_SIZE_MB: '8192',
+        COURSE_HEAP_RELAUNCHED: '1',
+        COURSE_NODE_MAX_OLD_SPACE_SIZE_MB: '8192',
       },
       sessionName: 'tests',
       stdoutLogPath: '/tmp/bg.out.log',
@@ -469,11 +469,11 @@ describe('background session CLI parsing', () => {
       '--print',
       'fix failing tests',
     ])
-    expect(config.env.OPENCLAUDE_HEAP_RELAUNCHED).toBeUndefined()
-    expect(config.env.OPENCLAUDE_NODE_MAX_OLD_SPACE_SIZE_MB).toBe('8192')
-    expect(config.env.CLAUDE_CODE_SESSION_KIND).toBe('bg')
-    expect(config.env.CLAUDE_CODE_SESSION_LOG).toBe('/tmp/bg.out.log')
-    expect(config.env.CLAUDE_CODE_SESSION_NAME).toBe('tests')
+    expect(config.env.COURSE_HEAP_RELAUNCHED).toBeUndefined()
+    expect(config.env.COURSE_NODE_MAX_OLD_SPACE_SIZE_MB).toBe('8192')
+    expect(config.env.COURSE_CODE_SESSION_KIND).toBe('bg')
+    expect(config.env.COURSE_CODE_SESSION_LOG).toBe('/tmp/bg.out.log')
+    expect(config.env.COURSE_CODE_SESSION_NAME).toBe('tests')
   })
 
   it('escalates process-tree termination and waits for exit before returning', async () => {

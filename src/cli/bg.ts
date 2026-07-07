@@ -54,7 +54,7 @@ export type BuildBackgroundSessionLaunchDeps = {
   ) => Promise<string | null | undefined>
 }
 
-const HEAP_RELAUNCHED_ENV = 'OPENCLAUDE_HEAP_RELAUNCHED'
+const HEAP_RELAUNCHED_ENV = 'COURSE_HEAP_RELAUNCHED'
 const DEFAULT_TERM_GRACE_MS = 2_000
 const DEFAULT_KILL_GRACE_MS = 2_000
 const DEFAULT_KILL_POLL_INTERVAL_MS = 100
@@ -173,11 +173,11 @@ export function buildBackgroundChildProcessConfig(
 ): BackgroundChildProcessConfig {
   const env: NodeJS.ProcessEnv = {
     ...input.processEnv,
-    CLAUDE_CODE_ENTRYPOINT: 'bg',
-    CLAUDE_CODE_SESSION_KIND: 'bg',
-    CLAUDE_CODE_SESSION_LOG: input.stdoutLogPath,
+    COURSE_CODE_ENTRYPOINT: 'bg',
+    COURSE_CODE_SESSION_KIND: 'bg',
+    COURSE_CODE_SESSION_LOG: input.stdoutLogPath,
     ...(input.sessionName
-      ? { CLAUDE_CODE_SESSION_NAME: input.sessionName }
+      ? { COURSE_CODE_SESSION_NAME: input.sessionName }
       : {}),
   }
   delete env[HEAP_RELAUNCHED_ENV]

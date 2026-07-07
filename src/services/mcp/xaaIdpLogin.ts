@@ -34,7 +34,7 @@ import {
 import { buildRedirectUri, findAvailablePort } from './oauthPort.js'
 
 export function isXaaEnabled(): boolean {
-  return isEnvTruthy(process.env.CLAUDE_CODE_ENABLE_XAA)
+  return isEnvTruthy(process.env.COURSE_CODE_ENABLE_XAA)
 }
 
 export type XaaIdpSettings = {

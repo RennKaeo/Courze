@@ -194,12 +194,12 @@ const ANTHROPIC_WIRE_PROVIDERS: ReadonlySet<LegacyAPIProvider> = new Set([
 export function resolveToolSearchMode(
   env: {
     ENABLE_TOOL_SEARCH?: string
-    CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS?: string
+    COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS?: string
     [key: string]: string | undefined
   },
   provider: LegacyAPIProvider,
 ): ToolSearchMode {
-  // CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS is a kill switch for beta API
+  // COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS is a kill switch for beta API
   // features. Tool search emits defer_loading on tool definitions and
   // tool_reference content blocks — both require the API to accept a beta
   // header. When the kill switch is set, force 'standard' so no beta shapes
@@ -208,9 +208,9 @@ export function resolveToolSearchMode(
   // isToolSearchEnabledOptimistic doesn't cover. Scoped to Anthropic-wire
   // providers: converted wires (OpenAI shims, Gemini Vertex) never carry
   // beta shapes, so deferral stays available there.
-  // github.com/anthropics/claude-code/issues/20031
+  // github.com/anthropics/course-code/issues/20031
   if (
-    isEnvTruthy(env.CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS) &&
+    isEnvTruthy(env.COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS) &&
     ANTHROPIC_WIRE_PROVIDERS.has(provider)
   ) {
     return 'standard'
@@ -322,7 +322,7 @@ export function isToolSearchEnabledOptimistic(): boolean {
   // is 'firstParty' but the base URL points elsewhere, the proxy will reject
   // tool_reference blocks with a 400. Vertex/Bedrock/Foundry are unaffected —
   // they have their own endpoints and beta headers.
-  // https://github.com/anthropics/claude-code/issues/30912
+  // https://github.com/anthropics/course-code/issues/30912
   //
   // HOWEVER: some proxies DO support tool_reference (LiteLLM passthrough,
   // Cloudflare AI Gateway, corp gateways that forward beta headers). The

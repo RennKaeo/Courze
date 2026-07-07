@@ -153,7 +153,7 @@
     "url": "https://github.com/RennKaeo/Courze.git"
   },
   "keywords": [
-    "claude-code",
+    "course-code",
     "openai",
     "llm",
     "cli",
@@ -162,7 +162,7 @@
     "ollama",
     "gemini"
   ],
-  "license": "SEE LICENSE FILE",
+  "license": "MIT",
   "publishConfig": {
     "access": "public"
   },

@@ -19,7 +19,7 @@ import type { GoalState } from '../services/goal/types.js'
 type SerializedMessageFields = {
   cwd: string
   userType: string
-  entrypoint?: string // CLAUDE_CODE_ENTRYPOINT — distinguishes cli/sdk-ts/sdk-py/etc.
+  entrypoint?: string // COURSE_CODE_ENTRYPOINT — distinguishes cli/sdk-ts/sdk-py/etc.
   sessionId: string
   timestamp: string
   version: string

@@ -34,7 +34,7 @@ import {
 import { jsonParse } from './slowOperations.js'
 
 const GCS_BUCKET_URL =
-  'https://storage.googleapis.com/claude-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/claude-code-releases'
+  'https://storage.googleapis.com/course-code-dist-86c565f3-f756-42ad-8dfa-d59b1c096819/course-code-releases'
 
 class AutoUpdaterError extends ClaudeError {}
 
@@ -97,7 +97,7 @@ export async function assertMinVersion(): Promise<void> {
   // with a custom PACKAGE_URL (like Course Code) should still be checked.
   if (
     getAPIProvider() !== 'firstParty' &&
-    MACRO.PACKAGE_URL === '@anthropic-ai/claude-code'
+    MACRO.PACKAGE_URL === '@anthropic-ai/course-code'
   ) {
     return
   }
