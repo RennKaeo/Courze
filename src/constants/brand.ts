@@ -19,19 +19,19 @@ export const BRAND_ACCENT_RGB = 'rgb(255,122,26)'
  * rendered in different accent shades. Block characters (█ ▀ ▄) render
  * correctly in Apple Terminal. Rendered side by side with a 1-col gap:
  *
- *   █▀█ █▀█ █▀▀ █▄ █ █▀▀ █   ▄▀█ █ █ █▀▄ █▀▀
- *   █▄█ █▀▀ ██▄ █ ▀█ █▄▄ █▄▄ █▀█ █▄█ █▄▀ ██▄
+ *   █▀▀ █▀█ █ █ █▀▄ █▀▀ ▄▄█ █▀▀ █▀█ █▀▄ █▀▀
+ *   █▄▄ █▄█ █▄█ █▄▀ ▄▄█ ██▄ █▄▄ █▄█ █▄▀ ██▄
  */
-export const WORDMARK_OPEN = [
-  '█▀█ █▀█ █▀▀ █▄ █',
-  '█▄█ █▀▀ ██▄ █ ▀█',
+export const WORDMARK_COURSE = [
+  '█▀▀ █▀█ █ █ █▀▄ █▀▀ ▄▄█',
+  '█▄▄ █▄█ █▄█ █▄▀ ▄▄█ ██▄',
 ] as const
 
-export const WORDMARK_CLAUDE = [
-  '█▀▀ █   ▄▀█ █ █ █▀▄ █▀▀',
-  '█▄▄ █▄▄ █▀█ █▄█ █▄▀ ██▄',
+export const WORDMARK_CODE = [
+  '█▀▀ █▀█ █▀▄ █▀▀',
+  '█▄▄ █▄█ █▄▀ ██▄',
 ] as const
 
-/** Rendered width of the full wordmark: open half + 1-col gap + claude half. */
+/** Rendered width of the full wordmark: course half + 1-col gap + code half. */
 export const WORDMARK_WIDTH =
-  WORDMARK_OPEN[0].length + 1 + WORDMARK_CLAUDE[0].length
+  WORDMARK_COURSE[0].length + 1 + WORDMARK_CODE[0].length

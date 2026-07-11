@@ -107,7 +107,7 @@ function setupOpenAIMode(baseUrl: string, model: string): void {
 }
 
 describe('printStartupScreen logo', () => {
-  test('renders CLAUDE with a D-shaped D instead of an O-shaped block', () => {
+  test('renders COURSE CODE with the correct box-drawing characters', () => {
     ;(globalThis as Record<string, unknown>).MACRO = { VERSION: 'test-version' }
     Object.defineProperty(process.stdout, 'isTTY', {
       configurable: true,
@@ -123,10 +123,14 @@ describe('printStartupScreen logo', () => {
     printStartupScreen()
 
     const plainOutput = stripAnsi(output)
+    // COURSE patterns left half
+    expect(plainOutput).toContain('████████╗ ████████╗')
+    expect(plainOutput).toContain('██╚═════╗ ██╚═══██║')
+    // CODE patterns right half (narrow D, not O)
     expect(plainOutput).toContain('███████╗ ████████╗')
-    expect(plainOutput).toContain('██╔═══██╗ ██╔═════╝')
-    expect(plainOutput).toContain('███████╔╝ ████████╗')
-    expect(plainOutput).not.toContain('████████║ ████████╗')
+    expect(plainOutput).not.toContain('╔═══██╔╝')
+    expect(plainOutput).not.toContain('OPEN')
+    expect(plainOutput).not.toContain('CLAUDE')
   })
 })
 
