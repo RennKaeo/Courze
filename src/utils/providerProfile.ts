@@ -1831,12 +1831,21 @@ export async function buildLaunchEnv(options: {
     'FIREWORKS_API_KEY',
     'MIMO_API_KEY',
     'VENICE_API_KEY',
+    'NVIDIA_API_KEY',
   ] as const) {
     const dedicatedValue =
       sanitizeApiKey(processEnv[dedicatedKey]) ||
       sanitizeApiKey(persistedEnv[dedicatedKey])
     if (dedicatedValue) {
       env[dedicatedKey] = dedicatedValue
+    }
+  }
+  // Persist vendor flags from the profile so provider-specific routing
+  // (e.g. NVIDIA_NIM) survives the launch-env build.
+  for (const flagVar of ['NVIDIA_NIM'] as const) {
+    const value = processEnv[flagVar] || persistedEnv[flagVar]
+    if (value) {
+      env[flagVar] = value
     }
   }
   const customHeaders = shellCustomHeaders || persistedCustomHeaders

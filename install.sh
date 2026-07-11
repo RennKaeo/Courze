@@ -41,15 +41,35 @@ done
 
 # ── Prerequisites ──────────────────────────────────────────────────
 
-if ! command -v node &>/dev/null; then
-  echo -e "${RED}Error: Node.js >= 22 is required. Install it first: https://nodejs.org${NC}"
-  exit 1
-fi
+install_node() {
+  echo -e "${ORANGE}Node.js >= 22 not found. Installing via nvm...${NC}"
+  if command -v curl &>/dev/null; then
+    curl -fsSL https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    export NVM_DIR="${HOME}/.nvm"
+    [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+    nvm install 22
+    nvm use 22
+  elif command -v wget &>/dev/null; then
+    wget -qO- https://raw.githubusercontent.com/nvm-sh/nvm/v0.40.1/install.sh | bash
+    export NVM_DIR="${HOME}/.nvm"
+    [ -s "${NVM_DIR}/nvm.sh" ] && \. "${NVM_DIR}/nvm.sh"
+    nvm install 22
+    nvm use 22
+  else
+    echo -e "${RED}Error: curl or wget required to install Node.js.${NC}"
+    echo -e "${RED}Install Node.js >= 22 manually: https://nodejs.org${NC}"
+    exit 1
+  fi
+}
 
-NODE_MAJOR=$(node -e "console.log(process.versions.node.split('.')[0])")
-if [ "$NODE_MAJOR" -lt 22 ]; then
-  echo -e "${RED}Error: Node.js >= 22 required, found $(node -v)${NC}"
-  exit 1
+if ! command -v node &>/dev/null; then
+  install_node
+else
+  NODE_MAJOR=$(node -e "console.log(process.versions.node.split('.')[0])")
+  if [ "$NODE_MAJOR" -lt 22 ]; then
+    echo -e "${ORANGE}Node.js $(node -v) is too old. Upgrading...${NC}"
+    install_node
+  fi
 fi
 
 # ── Detect target platform ──────────────────────────────────────────────────

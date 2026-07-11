@@ -98,6 +98,12 @@ export default defineGateway({
         label: 'DeepSeek V4 Pro',
         modelDescriptorId: 'deepseek-v4-pro',
       },
+      {
+        id: 'nvidia-deepseek-v4-flash',
+        apiName: 'deepseek-ai/deepseek-v4-flash',
+        label: 'DeepSeek V4 Flash',
+        modelDescriptorId: 'deepseek-v4-flash',
+      },
     ],
   },
   usage: { supported: false },
