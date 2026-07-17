@@ -53,7 +53,7 @@ async function importRealModules(): Promise<RealModules> {
 
 function getWorkflowMessage(path: string): string | null {
   if (path === CLAUDE_WORKFLOW_PATH) return 'Claude PR Assistant workflow'
-  if (path === REVIEW_WORKFLOW_PATH) return 'Claude Code Review workflow'
+  if (path === REVIEW_WORKFLOW_PATH) return 'Courze Review workflow'
   return null
 }
 
@@ -153,7 +153,7 @@ function handleGhCommand(args: string[]) {
     args.length === 7 &&
     args[0] === 'secret' &&
     args[1] === 'set' &&
-    (args[2] === 'ANTHROPIC_API_KEY' || args[2] === 'CLAUDE_CODE_OAUTH_TOKEN') &&
+    (args[2] === 'ANTHROPIC_API_KEY' || args[2] === 'COURSE_CODE_OAUTH_TOKEN') &&
     args[3] === '--body' &&
     typeof args[4] === 'string' &&
     args[4].length > 0 &&
@@ -256,7 +256,7 @@ test('setupGitHubActions skip mode configures the secret without workflow writes
   await setupGitHubActions(
     'owner/repo',
     'oauth-token',
-    'CLAUDE_CODE_OAUTH_TOKEN',
+    'COURSE_CODE_OAUTH_TOKEN',
     () => {},
     true,
     ['claude', 'claude-review'],
@@ -273,7 +273,7 @@ test('setupGitHubActions skip mode configures the secret without workflow writes
   expect(branchCreates).toHaveLength(0)
   expect(workflowWritePaths()).toEqual([])
   expect(openedUrls).toHaveLength(0)
-  expect(secretSet?.args).toContain('CLAUDE_CODE_OAUTH_TOKEN')
+  expect(secretSet?.args).toContain('COURSE_CODE_OAUTH_TOKEN')
   expect(secretSet?.args).toContain('oauth-token')
   expect(setupConfig.githubActionSetupCount).toBe(1)
 })

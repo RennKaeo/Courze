@@ -105,7 +105,7 @@ export async function assertMinVersion(): Promise<void> {
   try {
     const versionConfig = await getDynamicConfig_BLOCKS_ON_INIT<{
       minVersion: string
-    }>('tengu_version_config', { minVersion: '0.0.0' })
+    }>('courze_version_config', { minVersion: '0.0.0' })
 
     if (
       versionConfig.minVersion &&
@@ -113,7 +113,7 @@ export async function assertMinVersion(): Promise<void> {
     ) {
       // biome-ignore lint/suspicious/noConsole:: intentional console output
       console.error(`
-It looks like your version of Claude Code (${MACRO.VERSION}) needs an update.
+It looks like your version of Courze (${MACRO.VERSION}) needs an update.
 A newer version (${versionConfig.minVersion} or higher) is required to continue.
 
 To update, please run:
@@ -158,7 +158,7 @@ export async function getMaxVersionMessage(): Promise<string | undefined> {
 async function getMaxVersionConfig(): Promise<MaxVersionConfig> {
   try {
     return await getDynamicConfig_BLOCKS_ON_INIT<MaxVersionConfig>(
-      'tengu_max_version_config',
+      'courze_max_version_config',
       {},
     )
   } catch (error) {
@@ -524,7 +524,7 @@ export async function installGlobalPackage(
       new AutoUpdaterError('Another process is currently installing an update'),
     )
     // Log the lock contention
-    logEvent('tengu_auto_updater_lock_contention', {
+    logEvent('courze_auto_updater_lock_contention', {
       pid: process.pid,
       currentVersion:
         MACRO.VERSION as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -545,7 +545,7 @@ export async function installGlobalPackage(
     // Check if we're using npm from Windows path in WSL
     if (packageManager === 'npm' && env.isNpmFromWindowsPath()) {
       logError(new Error('Windows NPM detected in WSL environment'))
-      logEvent('tengu_auto_updater_windows_npm_in_wsl', {
+      logEvent('courze_auto_updater_windows_npm_in_wsl', {
         currentVersion:
           MACRO.VERSION as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       })
@@ -553,7 +553,7 @@ export async function installGlobalPackage(
       console.error(`
 Error: Windows NPM detected in WSL
 
-You're running Claude Code in WSL but using the Windows NPM installation from /mnt/c/.
+You're running Courze in WSL but using the Windows NPM installation from /mnt/c/.
 This configuration is not supported for updates.
 
 To fix this issue:

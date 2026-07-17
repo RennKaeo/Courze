@@ -38,10 +38,10 @@ type Step = 'menu' | 'ghe-url' | 'copilot-key' | 'device-busy' | 'error'
 
 const PROVIDER_SPECIFIC_KEYS = new Set([
   'COURSE_CODE_USE_OPENAI',
-  'CLAUDE_CODE_USE_GEMINI',
+  'COURSE_CODE_USE_GEMINI',
   'COURSE_CODE_USE_BEDROCK',
   'COURSE_CODE_USE_VERTEX',
-  'CLAUDE_CODE_USE_FOUNDRY',
+  'COURSE_CODE_USE_FOUNDRY',
   'OPENAI_BASE_URL',
   'OPENAI_API_BASE',
   'OPENAI_API_KEYS',
@@ -112,10 +112,10 @@ export function buildGithubOnboardingSettingsEnv(
     OPENAI_BASE_URL: undefined,
     OPENAI_API_BASE: undefined,
     COURSE_CODE_USE_OPENAI: undefined,
-    CLAUDE_CODE_USE_GEMINI: undefined,
+    COURSE_CODE_USE_GEMINI: undefined,
     COURSE_CODE_USE_BEDROCK: undefined,
     COURSE_CODE_USE_VERTEX: undefined,
-    CLAUDE_CODE_USE_FOUNDRY: undefined,
+    COURSE_CODE_USE_FOUNDRY: undefined,
   }
 }
 
@@ -142,12 +142,12 @@ export function applyGithubOnboardingProcessEnv(
   delete env.GITHUB_COPILOT_KEY
 
   delete env.COURSE_CODE_USE_OPENAI
-  delete env.CLAUDE_CODE_USE_GEMINI
+  delete env.COURSE_CODE_USE_GEMINI
   delete env.COURSE_CODE_USE_BEDROCK
   delete env.COURSE_CODE_USE_VERTEX
-  delete env.CLAUDE_CODE_USE_FOUNDRY
-  delete env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED
-  delete env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
+  delete env.COURSE_CODE_USE_FOUNDRY
+  delete env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED
+  delete env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID
 }
 
 function mergeUserSettingsEnv(

@@ -48,7 +48,7 @@ export function incrementGuestPassesSeenCount(): void {
       passesUpsellSeenCount: newCount
     };
   });
-  logEvent('tengu_guest_passes_upsell_shown', {
+  logEvent('courze_guest_passes_upsell_shown', {
     seen_count: newCount
   });
 }

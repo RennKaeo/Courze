@@ -75,8 +75,8 @@ export class AuthCodeListener {
   private respondToPendingRequest(options: {
     handler: (res: ServerResponse) => void
     analyticsEvent:
-      | 'tengu_oauth_automatic_redirect'
-      | 'tengu_oauth_automatic_redirect_error'
+      | 'courze_oauth_automatic_redirect'
+      | 'courze_oauth_automatic_redirect_error'
     analyticsMetadata?: Record<string, boolean>
   }): void {
     if (!this.pendingResponse) return
@@ -126,7 +126,7 @@ export class AuthCodeListener {
         handler: res => {
           customHandler(res, scopes)
         },
-        analyticsEvent: 'tengu_oauth_automatic_redirect',
+        analyticsEvent: 'courze_oauth_automatic_redirect',
         analyticsMetadata: { custom_handler: true },
       })
       return
@@ -143,7 +143,7 @@ export class AuthCodeListener {
         res.writeHead(302, { Location: successUrl })
         res.end()
       },
-      analyticsEvent: 'tengu_oauth_automatic_redirect',
+      analyticsEvent: 'courze_oauth_automatic_redirect',
     })
   }
 
@@ -157,7 +157,7 @@ export class AuthCodeListener {
     if (customHandler) {
       this.respondToPendingRequest({
         handler: customHandler,
-        analyticsEvent: 'tengu_oauth_automatic_redirect_error',
+        analyticsEvent: 'courze_oauth_automatic_redirect_error',
         analyticsMetadata: { custom_handler: true },
       })
       return
@@ -171,7 +171,7 @@ export class AuthCodeListener {
         res.writeHead(302, { Location: errorUrl })
         res.end()
       },
-      analyticsEvent: 'tengu_oauth_automatic_redirect_error',
+      analyticsEvent: 'courze_oauth_automatic_redirect_error',
     })
   }
 

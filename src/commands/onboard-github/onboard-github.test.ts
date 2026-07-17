@@ -95,8 +95,8 @@ describe('onboarding auth precedence cleanup', () => {
       OPENAI_API_BASE: 'https://api.openai.com/v1',
       GITHUB_COPILOT_KEY: 'stale-copilot-key',
       GITHUB_ENTERPRISE_URL: 'https://github.old.example.com',
-      CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
-      CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: 'profile_old',
+      COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED: '1',
+      COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID: 'profile_old',
     }
 
     applyGithubOnboardingProcessEnv('github:copilot', undefined, env)
@@ -115,8 +115,8 @@ describe('onboarding auth precedence cleanup', () => {
     expect(env.GITHUB_ENTERPRISE_URL).toBeUndefined()
 
     expect(env.COURSE_CODE_USE_OPENAI).toBeUndefined()
-    expect(env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED).toBeUndefined()
-    expect(env.CLAUDE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID).toBeUndefined()
+    expect(env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED).toBeUndefined()
+    expect(env.COURSE_CODE_PROVIDER_PROFILE_ENV_APPLIED_ID).toBeUndefined()
 
     const settingsEnv = buildGithubOnboardingSettingsEnv('github:copilot')
     expect(settingsEnv.COURSE_CODE_USE_GITHUB).toBe('1')

@@ -84,7 +84,7 @@ const SPAWN_SESSIONS_DEFAULT = 32
 
 /**
  * GrowthBook gate for multi-session spawn modes (--spawn / --capacity / --create-session-in-dir).
- * Sibling of tengu_ccr_bridge_multi_environment (multiple envs per host:dir) —
+ * Sibling of courze_ccr_bridge_multi_environment (multiple envs per host:dir) —
  * this one enables multiple sessions per environment.
  * Rollout staged via targeting rules: ants first, then gradual external.
  *
@@ -94,7 +94,7 @@ const SPAWN_SESSIONS_DEFAULT = 32
  * disk cache for next time.
  */
 async function isMultiSessionSpawnEnabled(): Promise<boolean> {
-  return checkGate_CACHED_OR_BLOCKING('tengu_ccr_bridge_multi_session')
+  return checkGate_CACHED_OR_BLOCKING('courze_ccr_bridge_multi_session')
 }
 
 /**
@@ -165,7 +165,7 @@ export async function runBridgeLoop(
   const sessionWorkIds = new Map<string, string>()
   // Compat-surface ID (session_*) computed once at spawn and cached so
   // cleanup and status-update ticks use the same key regardless of whether
-  // the tengu_bridge_repl_v2_cse_shim_enabled gate flips mid-session.
+  // the courze_bridge_repl_v2_cse_shim_enabled gate flips mid-session.
   const sessionCompatIds = new Map<string, string>()
   // Session ingress JWTs for heartbeat auth, keyed by sessionId.
   // Stored separately from handle.accessToken because the token refresh
@@ -219,7 +219,7 @@ export async function runBridgeLoop(
           `[bridge:heartbeat] Failed for sessionId=${sessionId} workId=${workId}: ${errorMessage(err)}`,
         )
         if (err instanceof BridgeFatalError) {
-          logEvent('tengu_bridge_heartbeat_error', {
+          logEvent('courze_bridge_heartbeat_error', {
             status:
               err.status as unknown as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             error_type: (err.status === 401 || err.status === 403
@@ -477,7 +477,7 @@ export async function runBridgeLoop(
       logForDebugging(
         `[bridge:session] sessionId=${sessionId} workId=${workId ?? 'unknown'} exited status=${status} duration=${formatDuration(durationMs)}`,
       )
-      logEvent('tengu_bridge_session_done', {
+      logEvent('courze_bridge_session_done', {
         status:
           status as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         duration_ms: durationMs,
@@ -621,7 +621,7 @@ export async function runBridgeLoop(
         logForDebugging(
           `[bridge:poll] Reconnected after ${formatDuration(disconnectedMs)}`,
         )
-        logEvent('tengu_bridge_reconnected', {
+        logEvent('courze_bridge_reconnected', {
           disconnected_ms: disconnectedMs,
         })
       }
@@ -648,7 +648,7 @@ export async function runBridgeLoop(
           //   - Capacity wake fires (session ended → poll for new work)
           //   - Loop aborted (shutdown)
           if (pollConfig.non_exclusive_heartbeat_interval_ms > 0) {
-            logEvent('tengu_bridge_heartbeat_mode_entered', {
+            logEvent('courze_bridge_heartbeat_mode_entered', {
               active_sessions: activeSessions.size,
               heartbeat_interval_ms:
                 pollConfig.non_exclusive_heartbeat_interval_ms,
@@ -697,7 +697,7 @@ export async function runBridgeLoop(
                     : pollDeadline !== null && Date.now() >= pollDeadline
                       ? 'poll_due'
                       : 'config_disabled'
-            logEvent('tengu_bridge_heartbeat_mode_exited', {
+            logEvent('courze_bridge_heartbeat_mode_exited', {
               reason:
                 exitReason as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               heartbeat_cycles: hbCycles,
@@ -793,7 +793,7 @@ export async function runBridgeLoop(
         logger.logError(
           `Failed to decode work secret for workId=${work.id}: ${errMsg}`,
         )
-        logEvent('tengu_bridge_work_secret_failed', {})
+        logEvent('courze_bridge_work_secret_failed', {})
         // Can't ack (needs the JWT we failed to decode). stopWork uses OAuth,
         // so it's callable here — prevents XAUTOCLAIM from re-delivering this
         // poisoned item every reclaim_older_than_ms cycle.
@@ -1095,7 +1095,7 @@ export async function runBridgeLoop(
           const handle = spawnResult
 
           const spawnDurationMs = Date.now() - spawnStartTime
-          logEvent('tengu_bridge_session_started', {
+          logEvent('courze_bridge_session_started', {
             active_sessions: activeSessions.size,
             spawn_mode:
               spawnModeAtDecision as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -1252,7 +1252,7 @@ export async function runBridgeLoop(
           logger.logError(err.message)
           logError(err)
         }
-        logEvent('tengu_bridge_fatal_error', {
+        logEvent('courze_bridge_fatal_error', {
           status: err.status,
           error_type:
             err.errorType as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -1298,7 +1298,7 @@ export async function runBridgeLoop(
           logger.logError(
             `Server unreachable for ${Math.round(elapsed / 60_000)} minutes, giving up.`,
           )
-          logEvent('tengu_bridge_poll_give_up', {
+          logEvent('courze_bridge_poll_give_up', {
             error_type:
               'connection' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             elapsed_ms: elapsed,
@@ -1364,7 +1364,7 @@ export async function runBridgeLoop(
           logger.logError(
             `Persistent errors for ${Math.round(elapsed / 60_000)} minutes, giving up.`,
           )
-          logEvent('tengu_bridge_poll_give_up', {
+          logEvent('courze_bridge_poll_give_up', {
             error_type:
               'general' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             elapsed_ms: elapsed,
@@ -1405,7 +1405,7 @@ export async function runBridgeLoop(
   logger.clearStatus()
 
   const loopDurationMs = Date.now() - loopStartTime
-  logEvent('tengu_bridge_shutdown', {
+  logEvent('courze_bridge_shutdown', {
     active_sessions: activeSessions.size,
     loop_duration_ms: loopDurationMs,
   })
@@ -1685,7 +1685,7 @@ function onSessionTimeout(
   logForDebugging(
     `[bridge:session] sessionId=${sessionId} timed out after ${formatDuration(timeoutMs)}`,
   )
-  logEvent('tengu_bridge_session_timeout', {
+  logEvent('courze_bridge_session_timeout', {
     timeout_ms: timeoutMs,
   })
   logger.logSessionFailed(
@@ -2054,7 +2054,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
   // initSinks() so the denial event can be enqueued.
   const multiSessionEnabled = await isMultiSessionSpawnEnabled()
   if (usedMultiSessionFeature && !multiSessionEnabled) {
-    await logEventAsync('tengu_bridge_multi_session_denied', {
+    await logEventAsync('courze_bridge_multi_session_denied', {
       used_spawn: parsedSpawnMode !== undefined,
       used_capacity: parsedCapacity !== undefined,
       used_create_session_in_dir: parsedCreateSessionInDir !== undefined,
@@ -2257,7 +2257,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     const chosen: 'same-dir' | 'worktree' =
       answer.trim() === '2' ? 'worktree' : 'same-dir'
     savedSpawnMode = chosen
-    logEvent('tengu_bridge_spawn_mode_chosen', {
+    logEvent('courze_bridge_spawn_mode_chosen', {
       spawn_mode:
         chosen as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
@@ -2444,7 +2444,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     environmentId = reg.environment_id
     environmentSecret = reg.environment_secret
   } catch (err) {
-    logEvent('tengu_bridge_registration_failed', {
+    logEvent('courze_bridge_registration_failed', {
       status: err instanceof BridgeFatalError ? err.status : undefined,
     })
     // Registration failures are fatal — print a clean message instead of a stack trace.
@@ -2540,7 +2540,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
     `[bridge:init] Registered, server environmentId=${environmentId}`,
   )
   const startupPollConfig = getPollIntervalConfig()
-  logEvent('tengu_bridge_started', {
+  logEvent('courze_bridge_started', {
     max_sessions: config.maxSessions,
     has_debug_file: !!config.debugFile,
     sandbox: config.sandbox,
@@ -2615,7 +2615,7 @@ export async function bridgeMain(args: string[]): Promise<void> {
       const newMode: 'same-dir' | 'worktree' =
         config.spawnMode === 'same-dir' ? 'worktree' : 'same-dir'
       config.spawnMode = newMode
-      logEvent('tengu_bridge_spawn_mode_toggled', {
+      logEvent('courze_bridge_spawn_mode_toggled', {
         spawn_mode:
           newMode as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       })

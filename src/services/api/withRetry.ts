@@ -243,7 +243,7 @@ export async function* withRetry<T>(
       if (
         isStaleConnection &&
         getFeatureValue_CACHED_MAY_BE_STALE(
-          'tengu_disable_keepalive_on_econnreset',
+          'courze_disable_keepalive_on_econnreset',
           false,
         )
       ) {
@@ -350,7 +350,7 @@ export async function* withRetry<T>(
       // Non-foreground sources bail immediately on 529 — no retry amplification
       // during capacity cascades. User never sees these fail.
       if (is529Error(error) && !shouldRetry529(options.querySource)) {
-        logEvent('tengu_api_529_background_dropped', {
+        logEvent('courze_api_529_background_dropped', {
           query_source:
             options.querySource as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         })
@@ -369,7 +369,7 @@ export async function* withRetry<T>(
         if (consecutive529Errors >= MAX_529_RETRIES) {
           // Check if fallback model is specified
           if (options.fallbackModel) {
-            logEvent('tengu_api_opus_fallback_triggered', {
+            logEvent('courze_api_opus_fallback_triggered', {
               original_model:
                 options.model as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               fallback_model:
@@ -389,7 +389,7 @@ export async function* withRetry<T>(
             !process.env.IS_SANDBOX &&
             !persistentRetryEnabled
           ) {
-            logEvent('tengu_api_custom_529_overloaded_error', {})
+            logEvent('courze_api_custom_529_overloaded_error', {})
             throw new CannotRetryError(
               new Error(REPEATED_529_ERROR_MESSAGE),
               retryContext,
@@ -409,7 +409,7 @@ export async function* withRetry<T>(
       // reset-delay path can wait up to PERSISTENT_RESET_CAP_MS (6 hours) per attempt, so
       // exhausting 100 attempts can take far longer.
       if (persistent && persistentAttempt >= PERSISTENT_MAX_ATTEMPTS) {
-        logEvent('tengu_api_persistent_retry_cap_reached', {
+        logEvent('courze_api_persistent_retry_cap_reached', {
           error: (error as APIError).message as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           status: (error as APIError).status,
           model: retryContext.model as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -441,7 +441,7 @@ export async function* withRetry<T>(
         const affordData = parseOpenRouterAffordableMaxTokensError(error)
         if (affordData && retryContext.maxTokensOverride === undefined) {
           retryContext.maxTokensOverride = affordData.affordableMaxTokens
-          logEvent('tengu_openrouter_402_max_tokens_adjustment', {
+          logEvent('courze_openrouter_402_max_tokens_adjustment', {
             requestedMaxTokens: affordData.requestedMaxTokens,
             affordableMaxTokens: affordData.affordableMaxTokens,
             attempt,
@@ -492,7 +492,7 @@ export async function* withRetry<T>(
           )
           retryContext.maxTokensOverride = adjustedMaxTokens
 
-          logEvent('tengu_max_tokens_context_overflow_adjustment', {
+          logEvent('courze_max_tokens_context_overflow_adjustment', {
             inputTokens,
             contextLimit,
             adjustedMaxTokens,
@@ -542,7 +542,7 @@ export async function* withRetry<T>(
       // In persistent mode the for-loop `attempt` is clamped at maxRetries+1;
       // use persistentAttempt for telemetry/yields so they show the true count.
       const reportedAttempt = persistent ? persistentAttempt : attempt
-      logEvent('tengu_api_retry', {
+      logEvent('courze_api_retry', {
         attempt: reportedAttempt,
         delayMs: delayMs,
         error: (error as APIError)
@@ -553,7 +553,7 @@ export async function* withRetry<T>(
 
       if (persistent) {
         if (delayMs > 60_000) {
-          logEvent('tengu_api_persistent_retry_wait', {
+          logEvent('courze_api_persistent_retry_wait', {
             status: (error as APIError).status,
             delayMs,
             attempt: reportedAttempt,

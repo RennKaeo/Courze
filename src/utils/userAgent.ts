@@ -5,6 +5,6 @@
  * import without pulling in auth.ts and its transitive dependency tree.
  */
 
-export function getClaudeCodeUserAgent(): string {
+export function getCourseCodeUserAgent(): string {
   return `course-code/${MACRO.VERSION}`
 }

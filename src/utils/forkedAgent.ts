@@ -4,7 +4,7 @@
  * This utility ensures forked agents:
  * 1. Share identical cache-critical params with the parent to guarantee prompt cache hits
  * 2. Track full usage metrics across the entire query loop
- * 3. Log metrics via the tengu_fork_agent_query event when complete
+ * 3. Log metrics via the courze_fork_agent_query event when complete
  * 4. Isolate mutable state to prevent interference with the main agent loop
  */
 
@@ -477,7 +477,7 @@ export function createSubagentContext(
  * This function:
  * 1. Uses identical cache-safe params from parent to enable prompt caching
  * 2. Accumulates usage across all query iterations
- * 3. Logs tengu_fork_agent_query with full usage when complete
+ * 3. Logs courze_fork_agent_query with full usage when complete
  *
  * @example
  * ```typescript
@@ -646,7 +646,7 @@ export async function runForkedAgent({
 }
 
 /**
- * Logs the tengu_fork_agent_query event with full NonNullableUsage fields.
+ * Logs the courze_fork_agent_query event with full NonNullableUsage fields.
  */
 function logForkAgentQueryEvent({
   forkLabel,
@@ -673,7 +673,7 @@ function logForkAgentQueryEvent({
       ? totalUsage.cache_read_input_tokens / totalInputTokens
       : 0
 
-  logEvent('tengu_fork_agent_query', {
+  logEvent('courze_fork_agent_query', {
     // Metadata
     forkLabel:
       forkLabel as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,

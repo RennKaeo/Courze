@@ -603,7 +603,7 @@ function ModelPickerWrapper({
     )
 
   const handleCancel = () => {
-    logEvent('tengu_model_command_menu', {
+    logEvent('courze_model_command_menu', {
       action: 'cancel' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
     onDone(`Kept model as ${chalk.bold(renderModelLabel(mainLoopModel))}`, {
@@ -620,7 +620,7 @@ function ModelPickerWrapper({
       return
     }
 
-    logEvent('tengu_model_command_menu', {
+    logEvent('courze_model_command_menu', {
       action: String(model) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       from_model: String(mainLoopModel) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       to_model: String(model) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -1105,7 +1105,7 @@ export const call: LocalJSXCommandCall = async (onDone, _context, args) => {
   const trimmedArgs = args?.trim() || ''
 
   if (COMMON_INFO_ARGS.includes(trimmedArgs)) {
-    logEvent('tengu_model_command_inline_help', {
+    logEvent('courze_model_command_inline_help', {
       args: trimmedArgs as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
     return <ShowModelAndClose onDone={onDone} />
@@ -1129,7 +1129,7 @@ export const call: LocalJSXCommandCall = async (onDone, _context, args) => {
   }
 
   if (trimmedArgs) {
-    logEvent('tengu_model_command_inline', {
+    logEvent('courze_model_command_inline', {
       args: trimmedArgs as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
     return <SetModelAndClose args={trimmedArgs} onDone={onDone} />

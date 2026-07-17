@@ -62,7 +62,7 @@ export function incrementOverageCreditUpsellSeenCount(): void {
       overageCreditUpsellSeenCount: newCount
     };
   });
-  logEvent('tengu_overage_credit_upsell_shown', {
+  logEvent('courze_overage_credit_upsell_shown', {
     seen_count: newCount
   });
 }

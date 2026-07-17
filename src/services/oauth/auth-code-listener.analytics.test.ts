@@ -51,7 +51,7 @@ test('custom error responses log the error redirect analytics event', async () =
 
   expect(events).toEqual([
     {
-      name: 'tengu_oauth_automatic_redirect_error',
+      name: 'courze_oauth_automatic_redirect_error',
       metadata: { custom_handler: true },
     },
   ])
@@ -104,7 +104,7 @@ test('custom handlers that do not end the response are closed automatically and 
   expect((listener as any).pendingResponse).toBeNull()
   expect(events).toEqual([
     {
-      name: 'tengu_oauth_automatic_redirect_error',
+      name: 'courze_oauth_automatic_redirect_error',
       metadata: { custom_handler: true },
     },
   ])

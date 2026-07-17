@@ -1018,7 +1018,7 @@ const OPUS_DEFAULT_EFFORT_CONFIG_DEFAULT: OpusDefaultEffortConfig = {
 
 export function getOpusDefaultEffortConfig(): OpusDefaultEffortConfig {
   const config = getFeatureValue_CACHED_MAY_BE_STALE(
-    'tengu_grey_step2',
+    'courze_grey_step2',
     OPUS_DEFAULT_EFFORT_CONFIG_DEFAULT,
   )
   return {
@@ -1058,7 +1058,7 @@ function getLegacyDefaultEffortForModel(
   // that can greatly affect model quality and bashing.
 
   // Default effort on the recent Opus models (4.8/4.7/4.6) to medium for Pro.
-  // Max/Team also get medium when the tengu_grey_step2 config is enabled.
+  // Max/Team also get medium when the courze_grey_step2 config is enabled.
   // getDefaultOpusModel() now returns opus48 for first-party users.
   const lowerModel = model.toLowerCase()
   if (

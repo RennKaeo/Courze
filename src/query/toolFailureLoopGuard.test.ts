@@ -698,7 +698,7 @@ test('query loop checks the guard before optional follow-up work', async () => {
   )
   const summaryIndex = source.indexOf('let nextPendingToolUseSummary')
   const attachmentsIndex = source.indexOf(
-    "logEvent('tengu_query_before_attachments'",
+    "logEvent('courze_query_before_attachments'",
   )
 
   expect(guardIndex).toBeGreaterThan(-1)

@@ -253,7 +253,7 @@ function clearProviderEnv(): void {
 export type CompactMockOptions = {
   /** Mock for runForkedAgent(). ESSENTIAL — spy asserted on by both tests. */
   runForkedAgent?: ReturnType<typeof mock>
-  /** GrowthBook default for tengu_compact_cache_prefix. */
+  /** GrowthBook default for courze_compact_cache_prefix. */
   growthBookDefault?: boolean
   /** Mock for executePreCompactHooks. */
   executePreCompactHooks?: ReturnType<typeof mock>

@@ -247,7 +247,7 @@ import { AUTO_MODE_DESCRIPTION } from 'src/components/AutoModeOptInDialog.js';
 import { useLspInitializationNotification } from 'src/hooks/notifs/useLspInitializationNotification.js';
 import { useLspPluginRecommendation } from 'src/hooks/useLspPluginRecommendation.js';
 import { LspRecommendationMenu } from 'src/components/LspRecommendation/LspRecommendationMenu.js';
-import { useClaudeCodeHintRecommendation } from 'src/hooks/useClaudeCodeHintRecommendation.js';
+import { useCourseCodeHintRecommendation } from 'src/hooks/useCourseCodeHintRecommendation.js';
 import { PluginHintMenu } from 'src/components/ClaudeCodeHint/PluginHintMenu.js';
 import { DesktopUpsellStartup, shouldShowDesktopUpsellStartup } from 'src/components/DesktopUpsell/DesktopUpsellStartup.js';
 import { usePluginInstallationStatus } from 'src/hooks/notifs/usePluginInstallationStatus.js';
@@ -874,7 +874,7 @@ export function REPL({
   const {
     recommendation: hintRecommendation,
     handleResponse: handleHintResponse
-  } = useClaudeCodeHintRecommendation();
+  } = useCourseCodeHintRecommendation();
 
   // Memoize the combined initial tools array to prevent reference changes
   const combinedInitialTools = useMemo(() => {
@@ -1256,7 +1256,7 @@ export function REPL({
   // Gated so we can roll back if the sidebar indicator conflicts with
   // the title spinner in terminals that render both. When the flag is
   // on, the user-facing config setting controls whether it's active.
-  const tabStatusGateEnabled = getFeatureValue_CACHED_MAY_BE_STALE('tengu_terminal_sidebar', false);
+  const tabStatusGateEnabled = getFeatureValue_CACHED_MAY_BE_STALE('courze_terminal_sidebar', false);
   const showStatusInTerminalTab = tabStatusGateEnabled && (getGlobalConfig().showStatusInTerminalTab ?? false);
   useTabStatus(titleDisabled || !showStatusInTerminalTab ? null : sessionStatus);
 
@@ -2115,13 +2115,13 @@ export function REPL({
         }
       }
 
-      logEvent('tengu_session_resumed', {
+      logEvent('courze_session_resumed', {
         entrypoint: entrypoint as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         success: true,
         resume_duration_ms: Math.round(performance.now() - resumeStart)
       });
     } catch (error) {
-      logEvent('tengu_session_resumed', {
+      logEvent('courze_session_resumed', {
         entrypoint: entrypoint as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         success: false
       });
@@ -2142,7 +2142,7 @@ export function REPL({
   const bashTools = useRef(new Set<string>());
   const bashToolsProcessedIdx = useRef(0);
   // Session-scoped skill discovery tracking (feeds was_discovered on
-  // tengu_skill_tool_invocation). Must persist across getToolUseContext
+  // courze_skill_tool_invocation). Must persist across getToolUseContext
   // rebuilds within a session: turn-0 discovery writes via processUserInput
   // before onQuery builds its own context, and discovery on turn N must
   // still attribute a SkillTool call on turn N+k. Cleared in clearConversation.
@@ -2424,7 +2424,7 @@ export function REPL({
   useEffect(() => {
     const totalCost = getTotalCost();
     if (totalCost >= 5 /* $5 */ && !showCostDialog && !haveShownCostDialog) {
-      logEvent('tengu_cost_threshold_reached', {});
+      logEvent('courze_cost_threshold_reached', {});
       // Mark as shown even if the dialog won't render (no console billing
       // access). Otherwise this effect re-fires on every message change for
       // the rest of the session — 200k+ spurious events observed.
@@ -2918,12 +2918,12 @@ export function REPL({
     void maybeMarkProjectOnboardingComplete();
 
     // Extract a session title from the first real user message. One-shot
-    // via ref (was tengu_birch_mist experiment: first-message-only to save
+    // via ref (was courze_birch_mist experiment: first-message-only to save
     // Haiku calls). The ref replaces the old `messages.length <= 1` check,
     // which was broken by SessionStart hook messages (prepended via
     // useDeferredHookMessages) and attachment messages (appended by
     // processTextPrompt) — both pushed length past 1 on turn one, so the
-    // title silently fell through to the "Claude Code" default.
+    // title silently fell through to the "Courze" default.
     if (!titleDisabled && !sessionTitle && !agentTitle && !haikuTitleAttemptedRef.current) {
       const firstUserMessage = newMessages.find(m => m.type === 'user' && !m.isMeta);
       const text = firstUserMessage?.type === 'user' ? getContentText(firstUserMessage.message.content) : null;
@@ -3096,7 +3096,7 @@ export function REPL({
       getActiveOperations: () => lifecycleTracker.snapshot()
     });
     if (startResult === null) {
-      logEvent('tengu_concurrent_onquery_detected', {});
+      logEvent('courze_concurrent_onquery_detected', {});
 
       // Extract and enqueue user message text, skipping meta messages
       // (e.g. expanded skill content, tick prompts) that should not be
@@ -3107,7 +3107,7 @@ export function REPL({
           mode: 'prompt'
         });
         if (i === 0) {
-          logEvent('tengu_concurrent_onquery_enqueued', {});
+          logEvent('courze_concurrent_onquery_enqueued', {});
         }
       });
       return;
@@ -3456,7 +3456,7 @@ export function REPL({
       // 2. Command was triggered via keybinding (fromKeybinding option)
       const matchingCommand = commands.find(cmd => isCommandEnabled(cmd) && (cmd.name === commandName || cmd.aliases?.includes(commandName) || getCommandName(cmd) === commandName));
       if (matchingCommand?.name === 'clear' && idleHintShownRef.current) {
-        logEvent('tengu_idle_return_action', {
+        logEvent('courze_idle_return_action', {
           action: 'hint_converted' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           variant: idleHintShownRef.current as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           idleMinutes: Math.round((Date.now() - lastQueryCompletionTimeRef.current) / 60_000),
@@ -3479,11 +3479,11 @@ export function REPL({
         const pastedTextRefs = parseReferences(input).filter(r => pastedContents[r.id]?.type === 'text');
         const pastedTextCount = pastedTextRefs.length;
         const pastedTextBytes = pastedTextRefs.reduce((sum, r) => sum + (pastedContents[r.id]?.content.length ?? 0), 0);
-        logEvent('tengu_paste_text', {
+        logEvent('courze_paste_text', {
           pastedTextCount,
           pastedTextBytes
         });
-        logEvent('tengu_immediate_command_executed', {
+        logEvent('courze_immediate_command_executed', {
           commandName: matchingCommand.name as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           fromKeybinding: options?.fromKeybinding ?? false
         });
@@ -3571,10 +3571,10 @@ export function REPL({
     }
 
     // Idle-return: prompt returning users to start fresh when the
-    // conversation is large and the cache is cold. tengu_willow_mode
+    // conversation is large and the cache is cold. courze_willow_mode
     // controls treatment: "dialog" (blocking), "hint" (notification), "off".
     {
-      const willowMode = getFeatureValue_CACHED_MAY_BE_STALE('tengu_willow_mode', 'off');
+      const willowMode = getFeatureValue_CACHED_MAY_BE_STALE('courze_willow_mode', 'off');
       const idleThresholdMin = Number(process.env.COURSE_CODE_IDLE_THRESHOLD_MINUTES ?? 75);
       const tokenThreshold = Number(process.env.COURSE_CODE_IDLE_TOKEN_THRESHOLD ?? 100_000);
       if (willowMode !== 'off' && !getGlobalConfig().idleReturnDismissed && !skipIdleCheckRef.current && !speculationAccept && !input.trim().startsWith('/') && lastQueryCompletionTimeRef.current > 0 && getTotalInputTokens() >= tokenThreshold) {
@@ -3935,7 +3935,7 @@ export function REPL({
     const prev = messagesRef.current;
     const messageIndex = prev.lastIndexOf(message);
     if (messageIndex === -1) return;
-    logEvent('tengu_conversation_rewind', {
+    logEvent('courze_conversation_rewind', {
       preRewindMessageCount: prev.length,
       postRewindMessageCount: messageIndex,
       messagesRemoved: prev.length - messageIndex,
@@ -4225,7 +4225,7 @@ export function REPL({
   useEffect(() => {
     if (lastQueryCompletionTime === 0) return;
     if (isLoading) return;
-    const willowMode: string = getFeatureValue_CACHED_MAY_BE_STALE('tengu_willow_mode', 'off');
+    const willowMode: string = getFeatureValue_CACHED_MAY_BE_STALE('courze_willow_mode', 'off');
     if (willowMode !== 'hint' && willowMode !== 'hint_v2') return;
     if (getGlobalConfig().idleReturnDismissed) return;
     const tokenThreshold = Number(process.env.COURSE_CODE_IDLE_TOKEN_THRESHOLD ?? 100_000);
@@ -4255,7 +4255,7 @@ export function REPL({
         timeoutMs: 0x7fffffff
       });
       hintRef.current = mode;
-      logEvent('tengu_idle_return_action', {
+      logEvent('courze_idle_return_action', {
         action: 'hint_shown' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         variant: mode as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         idleMinutes: Math.round(idleMinutes),
@@ -4992,12 +4992,12 @@ export function REPL({
               ...current,
               hasAcknowledgedCostThreshold: true
             }));
-            logEvent('tengu_cost_threshold_acknowledged', {});
+            logEvent('courze_cost_threshold_acknowledged', {});
           }} />}
           {focusedInputDialog === 'idle-return' && idleReturnPending && <IdleReturnDialog idleMinutes={idleReturnPending.idleMinutes} totalInputTokens={getTotalInputTokens()} onDone={async action => {
             const pending = idleReturnPending;
             setIdleReturnPending(null);
-            logEvent('tengu_idle_return_action', {
+            logEvent('courze_idle_return_action', {
               action: action as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               idleMinutes: Math.round(pending.idleMinutes),
               messageCount: messagesRef.current.length,
@@ -5045,7 +5045,7 @@ export function REPL({
           {focusedInputDialog === 'resume-compact' && resumeCompactPending && <ResumeCompactPrompt tokenCount={resumeCompactPending.tokenCount} model={resumeCompactPending.model} onDone={async choice => {
             const pending = resumeCompactPending;
             setResumeCompactPending(null);
-            logEvent('tengu_resume_compact_prompt', {
+            logEvent('courze_resume_compact_prompt', {
               action: (choice === 'yes' ? 'accept' : 'decline') as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               tokenCount: pending.tokenCount,
             });

@@ -42,7 +42,7 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
     try {
       if (getAPIProvider() !== 'firstParty') {
         logForDebugging('[claudeai-mcp] Skipped: non-first-party provider')
-        logEvent('tengu_claudeai_mcp_eligibility', {
+        logEvent('courze_claudeai_mcp_eligibility', {
           state:
             'non_first_party_provider' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         })
@@ -51,7 +51,7 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
 
       if (isEnvDefinedFalsy(process.env.ENABLE_CLAUDEAI_MCP_SERVERS)) {
         logForDebugging('[claudeai-mcp] Disabled via env var')
-        logEvent('tengu_claudeai_mcp_eligibility', {
+        logEvent('courze_claudeai_mcp_eligibility', {
           state:
             'disabled_env_var' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         })
@@ -61,7 +61,7 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
       const tokens = getClaudeAIOAuthTokens()
       if (!tokens?.accessToken) {
         logForDebugging('[claudeai-mcp] No access token')
-        logEvent('tengu_claudeai_mcp_eligibility', {
+        logEvent('courze_claudeai_mcp_eligibility', {
           state:
             'no_oauth_token' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         })
@@ -77,7 +77,7 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
         logForDebugging(
           `[claudeai-mcp] Missing user:mcp_servers scope (scopes=${tokens.scopes?.join(',') || 'none'})`,
         )
-        logEvent('tengu_claudeai_mcp_eligibility', {
+        logEvent('courze_claudeai_mcp_eligibility', {
           state:
             'missing_scope' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         })
@@ -131,7 +131,7 @@ export const fetchClaudeAIMcpConfigsIfEligible = memoize(
       logForDebugging(
         `[claudeai-mcp] Fetched ${Object.keys(configs).length} servers`,
       )
-      logEvent('tengu_claudeai_mcp_eligibility', {
+      logEvent('courze_claudeai_mcp_eligibility', {
         state:
           'eligible' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       })

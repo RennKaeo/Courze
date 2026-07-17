@@ -47,11 +47,11 @@ async function createWorkflowFile(
   }
 
   let content = workflowContent
-  if (secretName === 'CLAUDE_CODE_OAUTH_TOKEN') {
-    // For OAuth tokens, use the claude_code_oauth_token parameter
+  if (secretName === 'COURSE_CODE_OAUTH_TOKEN') {
+    // For OAuth tokens, use the course_code_oauth_token parameter
     content = workflowContent.replace(
       /anthropic_api_key: \$\{\{ secrets\.ANTHROPIC_API_KEY \}\}/g,
-      `claude_code_oauth_token: \${{ secrets.CLAUDE_CODE_OAUTH_TOKEN }}`,
+      `course_code_oauth_token: \${{ secrets.COURSE_CODE_OAUTH_TOKEN }}`,
     )
   } else if (secretName !== 'ANTHROPIC_API_KEY') {
     // For other custom secret names, keep using anthropic_api_key parameter
@@ -85,7 +85,7 @@ async function createWorkflowFile(
       createFileResult.stderr.includes('422') &&
       createFileResult.stderr.includes('sha')
     ) {
-      logEvent('tengu_setup_github_actions_failed', {
+      logEvent('courze_setup_github_actions_failed', {
         reason:
           'failed_to_create_workflow_file' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         exit_code: createFileResult.code,
@@ -96,7 +96,7 @@ async function createWorkflowFile(
       )
     }
 
-    logEvent('tengu_setup_github_actions_failed', {
+    logEvent('courze_setup_github_actions_failed', {
       reason:
         'failed_to_create_workflow_file' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       exit_code: createFileResult.code,
@@ -130,7 +130,7 @@ export async function setupGitHubActions(
   },
 ) {
   try {
-    logEvent('tengu_setup_github_actions_started', {
+    logEvent('courze_setup_github_actions_started', {
       skip_workflow: skipWorkflow,
       has_api_key: !!apiKeyOrOAuthToken,
       using_default_secret_name: secretName === 'ANTHROPIC_API_KEY',
@@ -148,7 +148,7 @@ export async function setupGitHubActions(
       '.id',
     ])
     if (repoCheckResult.code !== 0) {
-      logEvent('tengu_setup_github_actions_failed', {
+      logEvent('courze_setup_github_actions_failed', {
         reason:
           'repo_not_found' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         exit_code: repoCheckResult.code,
@@ -167,7 +167,7 @@ export async function setupGitHubActions(
       '.default_branch',
     ])
     if (defaultBranchResult.code !== 0) {
-      logEvent('tengu_setup_github_actions_failed', {
+      logEvent('courze_setup_github_actions_failed', {
         reason:
           'failed_to_get_default_branch' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         exit_code: defaultBranchResult.code,
@@ -187,7 +187,7 @@ export async function setupGitHubActions(
       '.object.sha',
     ])
     if (shaResult.code !== 0) {
-      logEvent('tengu_setup_github_actions_failed', {
+      logEvent('courze_setup_github_actions_failed', {
         reason:
           'failed_to_get_branch_sha' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         exit_code: shaResult.code,
@@ -214,7 +214,7 @@ export async function setupGitHubActions(
         `sha=${sha}`,
       ])
       if (createBranchResult.code !== 0) {
-        logEvent('tengu_setup_github_actions_failed', {
+        logEvent('courze_setup_github_actions_failed', {
           reason:
             'failed_to_create_branch' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           exit_code: createBranchResult.code,
@@ -239,7 +239,7 @@ export async function setupGitHubActions(
         workflows.push({
           path: '.github/workflows/course-code-review.yml',
           content: CODE_REVIEW_PLUGIN_WORKFLOW_CONTENT,
-          message: 'Claude Code Review workflow',
+          message: 'Courze Review workflow',
         })
       }
 
@@ -269,7 +269,7 @@ export async function setupGitHubActions(
         repoName,
       ])
       if (setSecretResult.code !== 0) {
-        logEvent('tengu_setup_github_actions_failed', {
+        logEvent('courze_setup_github_actions_failed', {
           reason:
             'failed_to_set_api_key_secret' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           exit_code: setSecretResult.code,
@@ -296,7 +296,7 @@ export async function setupGitHubActions(
       await openBrowser(compareUrl)
     }
 
-    logEvent('tengu_setup_github_actions_completed', {
+    logEvent('courze_setup_github_actions_completed', {
       skip_workflow: skipWorkflow,
       has_api_key: !!apiKeyOrOAuthToken,
       auth_type:
@@ -317,7 +317,7 @@ export async function setupGitHubActions(
       !(error instanceof Error) ||
       !error.message.includes('Failed to')
     ) {
-      logEvent('tengu_setup_github_actions_failed', {
+      logEvent('courze_setup_github_actions_failed', {
         reason:
           'unexpected_error' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         ...context,

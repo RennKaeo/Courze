@@ -479,7 +479,7 @@ export const loadMarkdownFilesForSubdir = memoize(
       )
     }
 
-    logEvent(`tengu_dir_search`, {
+    logEvent(`courze_dir_search`, {
       durationMs: Date.now() - searchStartTime,
       managedFilesFound: managedFiles.length,
       userFilesFound: userFiles.length,

@@ -93,7 +93,7 @@ export const en = {
   'skills.batch.whenToUse':
     'Use when the user wants to make a sweeping, mechanical change across many files (migrations, refactors, bulk renames) that can be decomposed into independent parallel units.',
   'skills.debug.ant.description':
-    'Debug your current Claude Code session by reading the session debug log. Includes all event logging',
+    'Debug your current Courze session by reading the session debug log. Includes all event logging',
   'skills.debug.default.description':
     'Enable debug logging for this session and help diagnose issues',
   'skills.loop.description':
@@ -103,5 +103,5 @@ export const en = {
   'skills.simplify.description':
     'Review changed code for reuse, quality, and efficiency, then fix any issues found.',
   'skills.update-config.description':
-    'Use this skill to configure the Claude Code harness via settings.json. Automated behaviors ("from now on when X", "each time X", "whenever X", "before/after X") require hooks configured in settings.json - the harness executes these, not Claude, so memory/preferences cannot fulfill them. Also use for: permissions ("allow X", "add permission", "move permission to"), env vars ("set X=Y"), hook troubleshooting, or any changes to settings.json/settings.local.json files. Examples: "allow npm commands", "add bq permission to global settings", "move permission to user settings", "set DEBUG=true", "when claude stops show X". For simple settings like theme/model, use Config tool.',
+    'Use this skill to configure the Courze harness via settings.json. Automated behaviors ("from now on when X", "each time X", "whenever X", "before/after X") require hooks configured in settings.json - the harness executes these, not Claude, so memory/preferences cannot fulfill them. Also use for: permissions ("allow X", "add permission", "move permission to"), env vars ("set X=Y"), hook troubleshooting, or any changes to settings.json/settings.local.json files. Examples: "allow npm commands", "add bq permission to global settings", "move permission to user settings", "set DEBUG=true", "when claude stops show X". For simple settings like theme/model, use Config tool.',
 } as const

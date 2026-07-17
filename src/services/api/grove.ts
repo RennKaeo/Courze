@@ -17,7 +17,7 @@ import {
   withOAuth401Retry,
 } from '../../utils/http.js'
 import { logError } from '../../utils/log.js'
-import { getClaudeCodeUserAgent } from '../../utils/userAgent.js'
+import { getCourseCodeUserAgent } from '../../utils/userAgent.js'
 
 // Cache expiration: 24 hours
 const GROVE_CACHE_EXPIRATION_MS = 24 * 60 * 60 * 1000
@@ -66,7 +66,7 @@ export const getGroveSettings = memoize(
           {
             headers: {
               ...authHeaders.headers,
-              'User-Agent': getClaudeCodeUserAgent(),
+              'User-Agent': getCourseCodeUserAgent(),
             },
           },
         )
@@ -100,7 +100,7 @@ export async function markGroveNoticeViewed(): Promise<void> {
         {
           headers: {
             ...authHeaders.headers,
-            'User-Agent': getClaudeCodeUserAgent(),
+            'User-Agent': getCourseCodeUserAgent(),
           },
         },
       )
@@ -134,7 +134,7 @@ export async function updateGroveSettings(
         {
           headers: {
             ...authHeaders.headers,
-            'User-Agent': getClaudeCodeUserAgent(),
+            'User-Agent': getCourseCodeUserAgent(),
           },
         },
       )
@@ -337,7 +337,7 @@ export async function checkGroveForNonInteractive(): Promise<void> {
   if (shouldShowGrove) {
     // shouldShowGrove is only true if both API calls succeeded
     const config = configResult.success ? configResult.data : null
-    logEvent('tengu_grove_print_viewed', {
+    logEvent('courze_grove_print_viewed', {
       dismissable:
         config?.notice_is_grace_period as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })

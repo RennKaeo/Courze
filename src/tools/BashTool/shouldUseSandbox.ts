@@ -24,7 +24,7 @@ function containsExcludedCommand(command: string): boolean {
   const raw = getFeatureValue_CACHED_MAY_BE_STALE<{
     commands: string[]
     substrings: string[]
-  }>('tengu_sandbox_disabled_commands', { commands: [], substrings: [] })
+  }>('courze_sandbox_disabled_commands', { commands: [], substrings: [] })
 
   const disabledCommands =
     typeof raw === 'object' && raw !== null

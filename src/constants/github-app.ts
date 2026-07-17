@@ -1,9 +1,9 @@
-export const PR_TITLE = 'Add Claude Code GitHub Workflow'
+export const PR_TITLE = 'Add Courze GitHub Workflow'
 
 export const GITHUB_ACTION_SETUP_DOCS_URL =
   'https://github.com/anthropics/course-code-action/blob/main/docs/setup.md'
 
-export const WORKFLOW_CONTENT = `name: Claude Code
+export const WORKFLOW_CONTENT = `name: Courze
 
 on:
   issue_comment:
@@ -16,7 +16,7 @@ on:
     types: [submitted]
 
 jobs:
-  claude:
+  courze:
     if: |
       (github.event_name == 'issue_comment' && contains(github.event.comment.body, '@claude')) ||
       (github.event_name == 'pull_request_review_comment' && contains(github.event.comment.body, '@claude')) ||
@@ -35,8 +35,8 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code
-        id: claude
+      - name: Run Courze
+        id: courze
         uses: anthropics/course-code-action@v1
         with:
           anthropic_api_key: \${{ secrets.ANTHROPIC_API_KEY }}
@@ -51,17 +51,17 @@ jobs:
           # Optional: Add claude_args to customize behavior and configuration
           # See https://github.com/anthropics/course-code-action/blob/main/docs/usage.md
           # or https://code.claude.com/docs/en/cli-reference for available options
-          # claude_args: '--allowed-tools Bash(gh pr:*)'
+           # courze_args: '--allowed-tools Bash(gh pr:*)'
 
 `
 
-export const PR_BODY = `## 🤖 Installing Claude Code GitHub App
+export const PR_BODY = `## 🤖 Installing Courze GitHub App
 
-This PR adds a GitHub Actions workflow that enables Claude Code integration in our repository.
+This PR adds a GitHub Actions workflow that enables Courze integration in our repository.
 
-### What is Claude Code?
+### What is Courze?
 
-[Claude Code](https://claude.com/course-code) is an AI coding agent that can help with:
+[Courze](https://claude.com/course-code) is an AI coding agent that can help with:
 - Bug fixes and improvements  
 - Documentation updates
 - Implementing new features
@@ -93,11 +93,11 @@ Once the workflow is triggered, Claude will analyze the comment and surrounding 
 allowed_tools: Bash(npm install),Bash(npm run build),Bash(npm run lint),Bash(npm run test)
 \`\`\`
 
-There's more information in the [Claude Code action repo](https://github.com/anthropics/course-code-action).
+There's more information in the [Courze action repo](https://github.com/anthropics/course-code-action).
 
 After merging this PR, let's try mentioning @claude in a comment on any PR to get started!`
 
-export const CODE_REVIEW_PLUGIN_WORKFLOW_CONTENT = `name: Claude Code Review
+export const CODE_REVIEW_PLUGIN_WORKFLOW_CONTENT = `name: Courze Review
 
 on:
   pull_request:
@@ -130,7 +130,7 @@ jobs:
         with:
           fetch-depth: 1
 
-      - name: Run Claude Code Review
+      - name: Run Courze Review
         id: claude-review
         uses: anthropics/course-code-action@v1
         with:

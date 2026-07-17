@@ -597,7 +597,7 @@ export const FileReadTool = buildTool({
     // Telemetry: track when callers override default read limits.
     // Only fires on override (low volume) — event count = override frequency.
     if (fileReadingLimits !== undefined) {
-      logEvent('tengu_file_read_limits_override', {
+      logEvent('courze_file_read_limits_override', {
         hasMaxTokens: fileReadingLimits.maxTokens !== undefined,
         hasMaxSizeBytes: fileReadingLimits.maxSizeBytes !== undefined,
       })
@@ -622,7 +622,7 @@ export const FileReadTool = buildTool({
     // 3P default: killswitch off = dedup enabled. Client-side only — no
     // server support needed, safe for Bedrock/Vertex/Foundry.
     const dedupKillswitch = getFeatureValue_CACHED_MAY_BE_STALE(
-      'tengu_read_dedup_killswitch',
+      'courze_read_dedup_killswitch',
       false,
     )
     const existingState = dedupKillswitch
@@ -644,7 +644,7 @@ export const FileReadTool = buildTool({
           const mtimeMs = await getFileModificationTimeAsync(fullFilePath)
           if (mtimeMs === existingState.timestamp) {
             const analyticsExt = getFileExtensionForAnalytics(fullFilePath)
-            logEvent('tengu_file_read_dedup', {
+            logEvent('courze_file_read_dedup', {
               ...(analyticsExt !== undefined && { ext: analyticsExt }),
             })
             return {
@@ -1006,7 +1006,7 @@ async function callInner(
       if (!extractResult.success) {
         throw new Error(extractResult.error.message)
       }
-      logEvent('tengu_pdf_page_extraction', {
+      logEvent('courze_pdf_page_extraction', {
         success: true,
         pageCount: extractResult.data.file.count,
         fileSize: extractResult.data.file.originalSize,
@@ -1067,13 +1067,13 @@ async function callInner(
     if (shouldExtractPages) {
       const extractResult = await extractPDFPages(resolvedFilePath)
       if (extractResult.success) {
-        logEvent('tengu_pdf_page_extraction', {
+        logEvent('courze_pdf_page_extraction', {
           success: true,
           pageCount: extractResult.data.file.count,
           fileSize: extractResult.data.file.originalSize,
         })
       } else {
-        logEvent('tengu_pdf_page_extraction', {
+        logEvent('courze_pdf_page_extraction', {
           success: false,
           available: extractResult.error.reason !== 'unavailable',
           fileSize: stats.size,
@@ -1174,7 +1174,7 @@ async function callInner(
 
   const sessionFileType = detectSessionFileType(fullFilePath)
   const analyticsExt = getFileExtensionForAnalytics(fullFilePath)
-  logEvent('tengu_session_file_read', {
+  logEvent('courze_session_file_read', {
     totalLines,
     readLines: lineCount,
     totalBytes,

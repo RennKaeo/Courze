@@ -60,11 +60,11 @@ async function installCommonMocks(options?: {
     getFeatureValue_CACHED_MAY_BE_STALE: (
       name: string,
       defaultValue: unknown,
-    ) => (name === 'tengu_penguins_off' ? false : defaultValue),
+    ) => (name === 'courze_penguins_off' ? false : defaultValue),
     getFeatureValue_CACHED_WITH_REFRESH: (
       name: string,
       defaultValue: unknown,
-    ) => (name === 'tengu_penguins_off' ? false : defaultValue),
+    ) => (name === 'courze_penguins_off' ? false : defaultValue),
     getDynamicConfig_CACHED_MAY_BE_STALE: (
       _name: string,
       defaultValue: unknown,

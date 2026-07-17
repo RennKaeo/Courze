@@ -497,7 +497,7 @@ export async function call(
       } catch (error) {
         const message =
           error instanceof Error ? error.message : 'Unknown error occurred'
-        logEvent('tengu_conversation_fork_switch_failed', {
+        logEvent('courze_conversation_fork_switch_failed', {
           message_count: serializedMessages.length,
           has_custom_title: usedCustomTitle,
         })
@@ -514,7 +514,7 @@ export async function call(
         return null
       }
 
-      logEvent('tengu_conversation_forked', {
+      logEvent('courze_conversation_forked', {
         message_count: serializedMessages.length,
         has_custom_title: usedCustomTitle,
       })
@@ -529,7 +529,7 @@ export async function call(
       )
     } else {
       // Fallback if resume not available
-      logEvent('tengu_conversation_forked', {
+      logEvent('courze_conversation_forked', {
         message_count: serializedMessages.length,
         has_custom_title: usedCustomTitle,
       })

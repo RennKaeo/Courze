@@ -188,7 +188,7 @@ export function logStartupPerf(): void {
   metadata.checkpoint_count = marks.length
 
   logEvent(
-    'tengu_startup_perf',
+    'courze_startup_perf',
     metadata as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
   )
 }

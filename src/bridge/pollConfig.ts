@@ -103,7 +103,7 @@ export function getPollIntervalConfig(): PollIntervalConfig {
   // Note: the open-source flag shim resolves from the local feature-flags
   // file and takes no refresh-window argument.
   const raw = getFeatureValue_CACHED_WITH_REFRESH<unknown>(
-    'tengu_bridge_poll_interval_config',
+    'courze_bridge_poll_interval_config',
     DEFAULT_POLL_CONFIG,
   )
   const parsed = pollIntervalConfigSchema().safeParse(raw)

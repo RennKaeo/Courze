@@ -57,7 +57,7 @@ function isAttributionHeaderEnabled(): boolean {
   if (isEnvDefinedFalsy(process.env.COURSE_CODE_ATTRIBUTION_HEADER)) {
     return false
   }
-  return getFeatureValue_CACHED_MAY_BE_STALE('tengu_attribution_header', true)
+  return getFeatureValue_CACHED_MAY_BE_STALE('courze_attribution_header', true)
 }
 
 /**

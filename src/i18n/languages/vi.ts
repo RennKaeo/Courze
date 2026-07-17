@@ -94,7 +94,7 @@ export const vi = {
   'skills.batch.whenToUse':
     'Dùng khi người dùng muốn thực hiện một thay đổi bao quát, cơ học trên nhiều file (migration, refactor, đổi tên hàng loạt) có thể chia thành các đơn vị song song độc lập.',
   'skills.debug.ant.description':
-    'Debug phiên Claude Code hiện tại bằng cách đọc debug log của phiên. Bao gồm toàn bộ event logging',
+    'Debug phiên Courze hiện tại bằng cách đọc debug log của phiên. Bao gồm toàn bộ event logging',
   'skills.debug.default.description':
     'Bật debug logging cho phiên này và hỗ trợ chẩn đoán sự cố',
   'skills.loop.description':
@@ -104,5 +104,5 @@ export const vi = {
   'skills.simplify.description':
     'Đánh giá code đã thay đổi về mặt tái sử dụng, chất lượng và hiệu suất, sau đó sửa các vấn đề tìm được.',
   'skills.update-config.description':
-    'Sử dụng skill này để cấu hình Claude Code qua settings.json. Các hành vi tự động ("từ giờ khi X", "mỗi lần X", "bất cứ khi nào X", "trước/sau X") yêu cầu hooks được cấu hình trong settings.json - hệ thống thực thi hooks, không phải Claude, nên memory/preferences không thể thực hiện được. Cũng dùng cho: phân quyền ("cho phép X", "thêm quyền", "chuyển quyền"), biến môi trường ("set X=Y"), khắc phục sự cố hooks, hoặc bất kỳ thay đổi nào với settings.json/settings.local.json. Ví dụ: "cho phép lệnh npm", "thêm quyền bq vào settings toàn cục", "chuyển quyền sang user settings", "set DEBUG=true", "khi claude dừng hiển thị X". Với cài đặt đơn giản như theme/model, dùng Config tool.',
+    'Sử dụng skill này để cấu hình Courze qua settings.json. Các hành vi tự động ("từ giờ khi X", "mỗi lần X", "bất cứ khi nào X", "trước/sau X") yêu cầu hooks được cấu hình trong settings.json - hệ thống thực thi hooks, không phải Claude, nên memory/preferences không thể thực hiện được. Cũng dùng cho: phân quyền ("cho phép X", "thêm quyền", "chuyển quyền"), biến môi trường ("set X=Y"), khắc phục sự cố hooks, hoặc bất kỳ thay đổi nào với settings.json/settings.local.json. Ví dụ: "cho phép lệnh npm", "thêm quyền bq vào settings toàn cục", "chuyển quyền sang user settings", "set DEBUG=true", "khi claude dừng hiển thị X". Với cài đặt đơn giản như theme/model, dùng Config tool.',
 } as const

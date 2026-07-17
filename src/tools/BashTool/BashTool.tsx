@@ -18,7 +18,7 @@ import type { AgentId } from '../../types/ids.js';
 import type { AssistantMessage } from '../../types/message.js';
 import { parseForSecurity } from '../../utils/bash/ast.js';
 import { splitCommand_DEPRECATED, splitCommandWithOperators } from '../../utils/bash/commands.js';
-import { extractClaudeCodeHints } from '../../utils/claudeCodeHints.js';
+import { extractCourseCodeHints } from '../../utils/courseCodeHints.js';
 import { detectCodeIndexingFromCommand } from '../../utils/codeIndexing.js';
 import { isEnvTruthy } from '../../utils/envUtils.js';
 import { isENOENT, ShellError } from '../../utils/errors.js';
@@ -444,7 +444,7 @@ export function detectBlockedSleepPattern(command: string): string | null {
 /**
  * Checks if a command contains tools that shouldn't run in sandbox
  * This includes:
- * - Dynamic config-based disabled commands and substrings (tengu_sandbox_disabled_commands)
+ * - Dynamic config-based disabled commands and substrings (courze_sandbox_disabled_commands)
  * - User-configured commands from settings.json (sandbox.excludedCommands)
  *
  * User-configured commands support the same pattern syntax as permission rules:
@@ -810,7 +810,7 @@ export const BashTool = buildTool({
 
       // Check for git index.lock error (stderr is in stdout now)
       if (result.stdout && result.stdout.includes(".git/index.lock': File exists")) {
-        logEvent('tengu_git_index_lock_error', {});
+        logEvent('courze_git_index_lock_error', {});
       }
       if (!preventCwdChanges) {
         const appState = getAppState();
@@ -909,7 +909,7 @@ export const BashTool = buildTool({
       }
     }
     const commandType = input.command.split(' ')[0];
-    logEvent('tengu_bash_tool_command_executed', {
+    logEvent('courze_bash_tool_command_executed', {
       command_type: commandType as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       stdout_length: stdout.length,
       stderr_length: 0,
@@ -927,7 +927,7 @@ export const BashTool = buildTool({
     // Log code indexing tool usage
     const codeIndexingTool = detectCodeIndexingFromCommand(input.command);
     if (codeIndexingTool) {
-      logEvent('tengu_code_indexing_tool_used', {
+      logEvent('courze_code_indexing_tool_used', {
         tool: codeIndexingTool as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         source: 'cli' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         success: result.code === 0
@@ -937,11 +937,11 @@ export const BashTool = buildTool({
 
     // Claude Code hints protocol: CLIs/SDKs gated on CLAUDECODE=1 emit a
     // `<course-code-hint />` tag to stderr (merged into stdout here). Scan,
-    // record for useClaudeCodeHintRecommendation to surface, then strip
+    // record for useCourseCodeHintRecommendation to surface, then strip
     // so the model never sees the tag — a zero-token side channel.
     // Stripping runs unconditionally (subagent output must stay clean too);
     // only the dialog recording is main-thread-only.
-    const extracted = extractClaudeCodeHints(strippedStdout, input.command);
+    const extracted = extractCourseCodeHints(strippedStdout, input.command);
     strippedStdout = extracted.stripped;
     if (isMainThread && extracted.hints.length > 0) {
       for (const hint of extracted.hints) maybeRecordPluginHint(hint);
@@ -1134,7 +1134,7 @@ async function* runShellCommand({
   // Only background commands that are allowed to be auto-backgrounded (not sleep, etc.)
   if (shellCommand.onTimeout && shouldAutoBackground) {
     shellCommand.onTimeout(backgroundFn => {
-      startBackgrounding('tengu_bash_command_timeout_backgrounded', backgroundFn);
+      startBackgrounding('courze_bash_command_timeout_backgrounded', backgroundFn);
     });
   }
 
@@ -1145,7 +1145,7 @@ async function* runShellCommand({
     setTimeout(() => {
       if (shellCommand.status === 'running' && backgroundShellId === undefined) {
         assistantAutoBackgrounded = true;
-        startBackgrounding('tengu_bash_command_assistant_auto_backgrounded');
+        startBackgrounding('courze_bash_command_assistant_auto_backgrounded');
       }
     }, ASSISTANT_BLOCKING_BUDGET_MS).unref();
   }
@@ -1156,7 +1156,7 @@ async function* runShellCommand({
   // Skip if background tasks are disabled - run in foreground instead
   if (run_in_background === true && !isBackgroundTasksDisabled) {
     const shellId = await spawnBackgroundTask();
-    logEvent('tengu_bash_command_explicitly_backgrounded', {
+    logEvent('courze_bash_command_explicitly_backgrounded', {
       command_type: getCommandTypeForLogging(command)
     });
     return {

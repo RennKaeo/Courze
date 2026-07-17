@@ -74,7 +74,7 @@ export function isTeamMemoryEnabled(): boolean {
   if (!isAutoMemoryEnabled()) {
     return false
   }
-  return getFeatureValue_CACHED_MAY_BE_STALE('tengu_herring_clock', true)
+  return getFeatureValue_CACHED_MAY_BE_STALE('courze_herring_clock', true)
 }
 
 /**

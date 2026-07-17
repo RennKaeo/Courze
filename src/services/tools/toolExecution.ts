@@ -428,7 +428,7 @@ export async function* runToolUse(
   if (!tool) {
     const sanitizedToolName = sanitizeToolNameForAnalytics(toolName)
     logForDebugging(`Unknown tool ${toolName}: ${toolUse.id}`)
-    logEvent('tengu_tool_use_error', {
+    logEvent('courze_tool_use_error', {
       error:
         `No such tool available: ${sanitizedToolName}` as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       toolName: sanitizedToolName,
@@ -472,7 +472,7 @@ export async function* runToolUse(
   const toolInput = toolUse.input as { [key: string]: string }
   try {
     if (toolUseContext.abortController.signal.aborted) {
-      logEvent('tengu_tool_use_cancelled', {
+      logEvent('courze_tool_use_cancelled', {
         toolName: sanitizeToolNameForAnalytics(tool.name),
         toolUseID:
           toolUse.id as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -578,7 +578,7 @@ function streamedCheckPermissionsAndCallTool(
     mcpServerType,
     mcpServerBaseUrl,
     progress => {
-      logEvent('tengu_tool_use_progress', {
+      logEvent('courze_tool_use_progress', {
         messageID:
           messageId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         toolName: sanitizeToolNameForAnalytics(tool.name),
@@ -762,7 +762,7 @@ export async function checkPermissionsAndCallTool(
       toolUseContext.options.tools,
     )
     if (schemaHint) {
-      logEvent('tengu_deferred_tool_schema_not_sent', {
+      logEvent('courze_deferred_tool_schema_not_sent', {
         toolName: sanitizeToolNameForAnalytics(tool.name),
         isMcp: tool.isMcp ?? false,
       })
@@ -772,7 +772,7 @@ export async function checkPermissionsAndCallTool(
     logForDebugging(
       `${tool.name} tool input error: ${errorContent.slice(0, 200)}`,
     )
-    logEvent('tengu_tool_use_error', {
+    logEvent('courze_tool_use_error', {
       error:
         'InputValidationError' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       errorDetails: errorContent.slice(
@@ -905,7 +905,7 @@ export async function checkPermissionsAndCallTool(
     logForDebugging(
       `${tool.name} tool validation error: ${isValidCall.message?.slice(0, 200)}`,
     )
-    logEvent('tengu_tool_use_error', {
+    logEvent('courze_tool_use_error', {
       messageID:
         messageId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       toolName: sanitizeToolNameForAnalytics(tool.name),
@@ -1217,7 +1217,7 @@ export async function checkPermissionsAndCallTool(
       }
     }
 
-    logEvent('tengu_tool_use_can_use_tool_rejected', {
+    logEvent('courze_tool_use_can_use_tool_rejected', {
       messageID:
         messageId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       toolName: sanitizeToolNameForAnalytics(tool.name),
@@ -1321,7 +1321,7 @@ export async function checkPermissionsAndCallTool(
 
     return resultingMessages
   }
-  logEvent('tengu_tool_use_can_use_tool_allowed', {
+  logEvent('courze_tool_use_can_use_tool_allowed', {
     messageID:
       messageId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     toolName: sanitizeToolNameForAnalytics(tool.name),
@@ -1505,7 +1505,7 @@ export async function checkPermissionsAndCallTool(
       }
     }
 
-    logEvent('tengu_tool_use_success', {
+    logEvent('courze_tool_use_success', {
       messageID:
         messageId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       toolName: sanitizeToolNameForAnalytics(tool.name),
@@ -1821,7 +1821,7 @@ export async function checkPermissionsAndCallTool(
       if (!(error instanceof ShellError)) {
         logError(error)
       }
-      logEvent('tengu_tool_use_error', {
+      logEvent('courze_tool_use_error', {
         messageID:
           messageId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         toolName: sanitizeToolNameForAnalytics(tool.name),

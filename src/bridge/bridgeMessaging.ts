@@ -193,7 +193,7 @@ export function handleIngressMessage(
 
     if (sdkMessage.type === 'user') {
       if (uuid) recentInboundUUIDs.add(uuid)
-      logEvent('tengu_bridge_message_received', {
+      logEvent('courze_bridge_message_received', {
         is_repl: true,
       })
       // Fire-and-forget — handler may be async (attachment resolution).

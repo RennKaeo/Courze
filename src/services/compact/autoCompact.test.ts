@@ -170,7 +170,7 @@ describe('getEffectiveContextWindowSize', () => {
     // at least reservedTokensForSummary + buffer.
     //
     // The exact floor depends on the max-output-tokens slot-reservation cap
-    // (tengu_otk_slot_v1 GrowthBook flag). With cap enabled, the model's
+    // (courze_otk_slot_v1 GrowthBook flag). With cap enabled, the model's
     // default output cap drops to CAPPED_DEFAULT_MAX_TOKENS (8k), so the
     // summary reservation is 8k and the floor is 8k + 13k = 21k. With cap
     // disabled it's 20k + 13k = 33k. Assert the worst case so the test is

@@ -183,7 +183,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
         officialMarketplaceAutoInstalled: false,
         officialMarketplaceAutoInstallFailReason: 'policy_blocked',
       }))
-      logEvent('tengu_official_marketplace_auto_install', {
+      logEvent('courze_official_marketplace_auto_install', {
         installed: false,
         skipped: true,
         policy_blocked: true,
@@ -202,7 +202,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
         officialMarketplaceAutoInstalled: false,
         officialMarketplaceAutoInstallFailReason: 'policy_blocked',
       }))
-      logEvent('tengu_official_marketplace_auto_install', {
+      logEvent('courze_official_marketplace_auto_install', {
         installed: false,
         skipped: true,
         policy_blocked: true,
@@ -239,7 +239,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
         officialMarketplaceAutoInstallLastAttemptTime: undefined,
         officialMarketplaceAutoInstallNextRetryTime: undefined,
       }))
-      logEvent('tengu_official_marketplace_auto_install', {
+      logEvent('courze_official_marketplace_auto_install', {
         installed: true,
         skipped: false,
         via_gcs: true,
@@ -250,7 +250,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
     // ONLY if the kill-switch allows — same gate as refreshMarketplace().
     if (
       !getFeatureValue_CACHED_MAY_BE_STALE(
-        'tengu_plugin_official_mkt_git_fallback',
+        'courze_plugin_official_mkt_git_fallback',
         true,
       )
     ) {
@@ -272,7 +272,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
         officialMarketplaceAutoInstallLastAttemptTime: now,
         officialMarketplaceAutoInstallNextRetryTime: nextRetryTime,
       }))
-      logEvent('tengu_official_marketplace_auto_install', {
+      logEvent('courze_official_marketplace_auto_install', {
         installed: false,
         skipped: true,
         gcs_unavailable: true,
@@ -315,7 +315,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
           { level: 'error' },
         )
       }
-      logEvent('tengu_official_marketplace_auto_install', {
+      logEvent('courze_official_marketplace_auto_install', {
         installed: false,
         skipped: true,
         git_unavailable: true,
@@ -347,7 +347,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
       officialMarketplaceAutoInstallLastAttemptTime: undefined,
       officialMarketplaceAutoInstallNextRetryTime: undefined,
     }))
-    logEvent('tengu_official_marketplace_auto_install', {
+    logEvent('courze_official_marketplace_auto_install', {
       installed: true,
       skipped: false,
       retry_count: previousRetryCount,
@@ -369,7 +369,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
       logForDebugging(
         'Official marketplace auto-install: git is a non-functional macOS xcrun shim, treating as git_unavailable',
       )
-      logEvent('tengu_official_marketplace_auto_install', {
+      logEvent('courze_official_marketplace_auto_install', {
         installed: false,
         skipped: true,
         git_unavailable: true,
@@ -419,7 +419,7 @@ export async function checkAndInstallOfficialMarketplace(): Promise<OfficialMark
       // Still return the failure result even if config save failed
       // This ensures we report the installation failure correctly
     }
-    logEvent('tengu_official_marketplace_auto_install', {
+    logEvent('courze_official_marketplace_auto_install', {
       installed: false,
       skipped: true,
       failed: true,

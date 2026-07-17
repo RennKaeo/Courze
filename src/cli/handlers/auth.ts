@@ -80,7 +80,7 @@ export async function installOAuthTokens(tokens: OAuthTokens): Promise<void> {
   clearOAuthTokenCache()
 
   if (storageResult.warning) {
-    logEvent('tengu_oauth_storage_warning', {
+    logEvent('courze_oauth_storage_warning', {
       warning:
         storageResult.warning as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
     })
@@ -152,7 +152,7 @@ export async function authLogin({
     const scopes = envScopes.split(/\s+/).filter(Boolean)
 
     try {
-      logEvent('tengu_login_from_refresh_token', {})
+      logEvent('courze_login_from_refresh_token', {})
 
       const tokens = await refreshOAuthToken(envRefreshToken, { scopes })
       await installOAuthTokens(tokens)
@@ -170,7 +170,7 @@ export async function authLogin({
         return { ...current, hasCompletedOnboarding: true }
       })
 
-      logEvent('tengu_oauth_success', {
+      logEvent('courze_oauth_success', {
         loginWithClaudeAi: shouldUseClaudeAIAuth(tokens.scopes),
       })
       process.stdout.write('Login successful.\n')
@@ -190,7 +190,7 @@ export async function authLogin({
   const oauthService = new OAuthService()
 
   try {
-    logEvent('tengu_oauth_flow_start', { loginWithClaudeAi })
+    logEvent('courze_oauth_flow_start', { loginWithClaudeAi })
 
     const result = await oauthService.startOAuthFlow(
       async url => {
@@ -213,7 +213,7 @@ export async function authLogin({
       process.exit(1)
     }
 
-    logEvent('tengu_oauth_success', { loginWithClaudeAi })
+    logEvent('courze_oauth_success', { loginWithClaudeAi })
 
     process.stdout.write('Login successful.\n')
     process.exit(0)

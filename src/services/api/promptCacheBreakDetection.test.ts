@@ -225,7 +225,7 @@ async function triggerCacheDrop({
     'req-break',
   )
 
-  const event = events.findLast(e => e.name === 'tengu_prompt_cache_break')
+  const event = events.findLast(e => e.name === 'courze_prompt_cache_break')
   expect(event).toBeDefined()
   return event!
 }
@@ -567,7 +567,7 @@ describe('prompt cache break taxonomy', () => {
       'req-drop',
     )
 
-    expect(events.filter(e => e.name === 'tengu_prompt_cache_break')).toEqual([])
+    expect(events.filter(e => e.name === 'courze_prompt_cache_break')).toEqual([])
     expect(
       debugCalls.some(call => call.message.includes('cache deletion applied')),
     ).toBe(true)

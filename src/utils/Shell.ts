@@ -441,7 +441,7 @@ export async function exec(
             void onCwdChangedForHooks(cwd, newCwd)
           }
         } catch {
-          logEvent('tengu_shell_set_cwd', { success: false })
+          logEvent('courze_shell_set_cwd', { success: false })
         }
       }
       // Clean up the temp file used for cwd tracking
@@ -503,7 +503,7 @@ export function setCwd(path: string, relativeTo?: string): void {
   setCwdState(physicalPath)
   if (process.env.NODE_ENV !== 'test') {
     try {
-      logEvent('tengu_shell_set_cwd', {
+      logEvent('courze_shell_set_cwd', {
         success: true,
       })
     } catch (_error) {

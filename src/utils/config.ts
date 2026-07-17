@@ -621,7 +621,7 @@ export type GlobalConfig = {
   penguinModeOrgEnabled?: boolean
 
   // Epoch ms when background refreshes last ran (fast mode, quota, passes, client data).
-  // Used with tengu_cicada_nap_ms to throttle API calls
+  // Used with courze_cicada_nap_ms to throttle API calls
   startupPrefetchedAt?: number
 
   // Run Remote Control at startup (requires BRIDGE_MODE)
@@ -1018,7 +1018,7 @@ export function saveGlobalConfig(
         'saveGlobalConfig fallback: re-read config is missing auth that cache has; refusing to write. See GH #3117.',
         { level: 'error' },
       )
-      logEvent('tengu_config_auth_loss_prevented', {})
+      logEvent('courze_config_auth_loss_prevented', {})
       return
     }
     const config = updater(currentConfig)
@@ -1131,7 +1131,7 @@ export const CONFIG_WRITE_DISPLAY_THRESHOLD = 20
 function reportConfigCacheStats(): void {
   const total = configCacheHits + configCacheMisses
   if (total > 0) {
-    logEvent('tengu_config_cache_stats', {
+    logEvent('courze_config_cache_stats', {
       cache_hits: configCacheHits,
       cache_misses: configCacheMisses,
       hit_rate: configCacheHits / total,
@@ -1435,7 +1435,7 @@ function saveConfigWithLock<A extends object>(
       logForDebugging(
         'Lock acquisition took longer than expected - another Claude instance may be running',
       )
-      logEvent('tengu_config_lock_contention', {
+      logEvent('courze_config_lock_contention', {
         lock_time_ms: lockTime,
       })
     }
@@ -1449,7 +1449,7 @@ function saveConfigWithLock<A extends object>(
           currentStats.mtimeMs !== lastReadFileStats.mtime ||
           currentStats.size !== lastReadFileStats.size
         ) {
-          logEvent('tengu_config_stale_write', {
+          logEvent('courze_config_stale_write', {
             read_mtime: lastReadFileStats.mtime,
             write_mtime: currentStats.mtimeMs,
             read_size: lastReadFileStats.size,
@@ -1474,7 +1474,7 @@ function saveConfigWithLock<A extends object>(
         'saveConfigWithLock: re-read config is missing auth that cache has; refusing to write to avoid wiping ~/.course.json. See GH #3117.',
         { level: 'error' },
       )
-      logEvent('tengu_config_auth_loss_prevented', {})
+      logEvent('courze_config_auth_loss_prevented', {})
       return false
     }
 
@@ -1747,7 +1747,7 @@ function getConfig<A>(
           } catch {
             // No backup
           }
-          logEvent('tengu_config_parse_error', {
+          logEvent('courze_config_parse_error', {
             has_backup: hasBackup,
           })
         } finally {
@@ -1931,7 +1931,7 @@ export function saveCurrentProjectConfig(
         'saveCurrentProjectConfig fallback: re-read config is missing auth that cache has; refusing to write. See GH #3117.',
         { level: 'error' },
       )
-      logEvent('tengu_config_auth_loss_prevented', {})
+      logEvent('courze_config_auth_loss_prevented', {})
       return
     }
     const currentProjectConfig =

@@ -193,7 +193,7 @@ export async function generateAgent(
     )
   }
 
-  logEvent('tengu_agent_definition_generated', {
+  logEvent('courze_agent_definition_generated', {
     agent_identifier:
       parsed.identifier as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
   })

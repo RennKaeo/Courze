@@ -1040,7 +1040,7 @@ export async function runHeadless(
   // already flushed above, so this adds no user-visible latency — it just
   // delays process exit so gracefulShutdownSync's 5s failsafe doesn't kill
   // the forked agent mid-flight. Gated by isExtractModeActive so the
-  // tengu_slate_thimble flag controls non-interactive extraction end-to-end.
+  // courze_slate_thimble flag controls non-interactive extraction end-to-end.
   if (feature('EXTRACT_MEMORIES') && isExtractModeActive()) {
     await extractMemoriesModule!.drainPendingExtraction()
   }
@@ -1450,7 +1450,7 @@ function runHeadlessStreaming(
 
             const mode = request.params.mode === 'url' ? 'url' : 'form'
 
-            logEvent('tengu_mcp_elicitation_shown', {
+            logEvent('courze_mcp_elicitation_shown', {
               mode: mode as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             })
 
@@ -1465,7 +1465,7 @@ function runHeadlessStreaming(
                 serverName,
                 `Elicitation resolved by hook: ${jsonStringify(hookResponse)}`,
               )
-              logEvent('tengu_mcp_elicitation_response', {
+              logEvent('courze_mcp_elicitation_response', {
                 mode: mode as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                 action:
                   hookResponse.action as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -1508,7 +1508,7 @@ function runHeadlessStreaming(
               elicitationId,
             )
 
-            logEvent('tengu_mcp_elicitation_response', {
+            logEvent('courze_mcp_elicitation_response', {
               mode: mode as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               action:
                 result.action as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -2061,7 +2061,7 @@ function runHeadlessStreaming(
               `COURSE_CODE_SYNC_PLUGIN_INSTALL: plugin installation timed out after ${timeoutMs}ms`,
             ),
           )
-          logEvent('tengu_sync_plugin_install_timeout', {
+          logEvent('courze_sync_plugin_install_timeout', {
             timeout_ms: timeoutMs,
           })
         }
@@ -2260,7 +2260,7 @@ function runHeadlessStreaming(
           const input = command.value
 
           if (structuredIO instanceof RemoteIO && command.mode === 'prompt') {
-            logEvent('tengu_bridge_message_received', {
+            logEvent('courze_bridge_message_received', {
               is_repl: false,
             })
           }
@@ -3069,7 +3069,7 @@ function runHeadlessStreaming(
 
           if (
             message.request.agentProgressSummaries &&
-            getFeatureValue_CACHED_MAY_BE_STALE('tengu_slate_prism', true)
+            getFeatureValue_CACHED_MAY_BE_STALE('courze_slate_prism', true)
           ) {
             setSdkAgentProgressSummariesEnabled(true)
           }
@@ -3693,7 +3693,7 @@ function runHeadlessStreaming(
           // is GC'd — no fd or port is held.
           claudeOAuth?.service.cleanup()
 
-          logEvent('tengu_oauth_flow_start', {
+          logEvent('courze_oauth_flow_start', {
             loginWithClaudeAi: loginWithClaudeAi ?? true,
           })
 
@@ -3728,7 +3728,7 @@ function runHeadlessStreaming(
               // getClaudeAIOAuthTokens in this process is invalidated; the
               // next API call re-reads keychain/file and works. No respawn.
               await installOAuthTokens(tokens)
-              logEvent('tengu_oauth_success', {
+              logEvent('courze_oauth_success', {
                 loginWithClaudeAi: loginWithClaudeAi ?? true,
               })
             })
@@ -4840,7 +4840,7 @@ async function sanitizeResumedExternalMetadata(
  * goes to the consumer's canUseTool callback over stdio; there is no CLI-side
  * dialog for a remote "yes tbxkq" to resolve. If an IDE wants channel-relayed
  * tool approval, that's IDE-side plumbing against its own pending-map. (Also
- * gated separately by tengu_harbor_permissions — not yet shipping on
+ * gated separately by courze_harbor_permissions — not yet shipping on
  * interactive either.)
  */
 function handleChannelEnable(
@@ -4908,7 +4908,7 @@ function handleChannelEnable(
   const pluginId =
     `${entry.name}@${entry.marketplace}` as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
   logMCPDebug(serverName, 'Channel notifications registered')
-  logEvent('tengu_mcp_channel_enable', { plugin: pluginId })
+  logEvent('courze_mcp_channel_enable', { plugin: pluginId })
 
   // Identical enqueue shape to the interactive register block in
   // useManageMCPConnections. drainCommandQueue processes it between turns —
@@ -4922,7 +4922,7 @@ function handleChannelEnable(
         serverName,
         `notifications/claude/channel: ${content.slice(0, 80)}`,
       )
-      logEvent('tengu_mcp_channel_message', {
+      logEvent('courze_mcp_channel_message', {
         content_length: content.length,
         meta_key_count: Object.keys(meta ?? {}).length,
         entry_kind:
@@ -4998,7 +4998,7 @@ function reregisterChannelHandlerAfterReconnect(
         connection.name,
         `notifications/claude/channel: ${content.slice(0, 80)}`,
       )
-      logEvent('tengu_mcp_channel_message', {
+      logEvent('courze_mcp_channel_message', {
         content_length: content.length,
         meta_key_count: Object.keys(meta ?? {}).length,
         entry_kind:
@@ -5093,7 +5093,7 @@ async function loadInitialMessages(
   // Handle continue in print mode
   if (options.continue) {
     try {
-      logEvent('tengu_continue_print', {})
+      logEvent('courze_continue_print', {})
 
       const result = await loadConversationForResume(
         undefined /* sessionId */,
@@ -5191,7 +5191,7 @@ async function loadInitialMessages(
         )
       }
 
-      logEvent('tengu_teleport_print', {})
+      logEvent('courze_teleport_print', {})
 
       if (typeof options.teleport !== 'string') {
         throw new Error('No session ID provided for teleport')
@@ -5229,7 +5229,7 @@ async function loadInitialMessages(
       let parsedSessionId: ReturnType<typeof parseSessionIdentifier> = null
 
       if (options.resume) {
-        logEvent('tengu_resume_print', {})
+        logEvent('courze_resume_print', {})
 
         // In print mode - we require a valid session ID, JSONL file or URL
         parsedSessionId = parseSessionIdentifier(
@@ -5282,7 +5282,7 @@ async function loadInitialMessages(
           parsedSessionId.jsonlFile || undefined,
         )
       } else if (options.fromPr) {
-        logEvent('tengu_resume_from_pr_print', {})
+        logEvent('courze_resume_from_pr_print', {})
         const selector =
           options.fromPr === true ? true : String(options.fromPr)
         result = await loadConversationForResumeFromPr(selector)

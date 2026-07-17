@@ -292,13 +292,13 @@ export function useManagePlugins({
         ...baseMetrics,
         has_custom_plugin_cache_dir: !!process.env.COURSE_CODE_PLUGIN_CACHE_DIR,
       }
-      logEvent('tengu_plugins_loaded', {
+      logEvent('courze_plugins_loaded', {
         ...allMetrics,
         ...(ant_enabled_names !== undefined && {
           enabled_names: ant_enabled_names,
         }),
       })
-      logForDiagnosticsNoPII('info', 'tengu_plugins_loaded', allMetrics)
+      logForDiagnosticsNoPII('info', 'courze_plugins_loaded', allMetrics)
     })
   }, [initialPluginLoad, enabled])
 

@@ -495,7 +495,7 @@ export async function ripGrep(
         logForDebugging(
           `rg EAGAIN error detected, retrying with single-threaded mode (-j 1)`,
         )
-        logEvent('tengu_ripgrep_eagain_retry', {})
+        logEvent('courze_ripgrep_eagain_retry', {})
         ripGrepRaw(
           args,
           target,
@@ -702,7 +702,7 @@ export const testRipgrepOnFirstUse = memoize(async (): Promise<void> => {
     )
 
     // Log telemetry for actual ripgrep availability
-    logEvent('tengu_ripgrep_availability', {
+    logEvent('courze_ripgrep_availability', {
       working: working ? 1 : 0,
       using_system: config.mode === 'system' ? 1 : 0,
     })

@@ -6,7 +6,7 @@ const thinkback = {
   name: 'think-back',
   description: 'Your 2025 Course Code Year in Review',
   isEnabled: () =>
-    checkStatsigFeatureGate_CACHED_MAY_BE_STALE('tengu_thinkback'),
+    checkStatsigFeatureGate_CACHED_MAY_BE_STALE('courze_thinkback'),
   load: () => import('./thinkback.js'),
 } satisfies Command
 

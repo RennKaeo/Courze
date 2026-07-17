@@ -48,7 +48,7 @@ function logSubmissionEvent(
   options?: PermissionHandlerOptions,
 ): void {
   logEvent(
-    event === 'accept' ? 'tengu_accept_submitted' : 'tengu_reject_submitted',
+    event === 'accept' ? 'courze_accept_submitted' : 'courze_reject_submitted',
     {
       toolName: sanitizeToolNameForAnalytics(
         toolUseConfirm.tool.name,

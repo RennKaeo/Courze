@@ -657,7 +657,7 @@ async function getFilesUsingGit(
       )
     }
 
-    logEvent('tengu_file_suggestions_git_ls_files', {
+    logEvent('courze_file_suggestions_git_ls_files', {
       file_count: normalizedTracked.length,
       tracked_count: normalizedTracked.length,
       untracked_count: 0,
@@ -866,7 +866,7 @@ async function getProjectFiles(
     )
   }
 
-  logEvent('tengu_file_suggestions_ripgrep', {
+  logEvent('courze_file_suggestions_ripgrep', {
     file_count: relativePaths.length,
     duration_ms: duration,
   })
@@ -1138,7 +1138,7 @@ export async function generateFileSuggestions(
     logForDebugging(
       `[FileIndex] generateFileSuggestions: ${matches.length} results in ${duration}ms (${wasBuilding ? 'partial' : 'full'} index)`,
     )
-    logEvent('tengu_file_suggestions_query', {
+    logEvent('courze_file_suggestions_query', {
       duration_ms: duration,
       cache_hit: !wasBuilding,
       result_count: matches.length,

@@ -36,10 +36,10 @@ export function ClaudeMdExternalIncludesDialog(t0: Props) {
   React.useEffect(_temp, []);
   const handleSelection = React.useCallback((value: 'yes' | 'no') => {
     if (value === "no") {
-      logEvent("tengu_claude_md_external_includes_dialog_declined", {});
+      logEvent("courze_claude_md_external_includes_dialog_declined", {});
       saveCurrentProjectConfig(scope === 'User' ? declineUser : declineProject);
     } else {
-      logEvent("tengu_claude_md_external_includes_dialog_accepted", {});
+      logEvent("courze_claude_md_external_includes_dialog_accepted", {});
       saveCurrentProjectConfig(scope === 'User' ? acceptUser : acceptProject);
     }
     onDone();
@@ -71,5 +71,5 @@ export function ClaudeMdExternalIncludesDialog(t0: Props) {
   );
 }
 function _temp() {
-  logEvent("tengu_claude_md_includes_dialog_shown", {});
+  logEvent("courze_claude_md_includes_dialog_shown", {});
 }

@@ -17,7 +17,7 @@ export const DEFAULT_MAX_AGE_DAYS =
  * `COURSE_CODE_DISABLE_CRON=1` to turn it off locally.
  *
  * Anthropic-internal (ant) builds additionally consult the
- * `tengu_kairos_cron` GrowthBook gate on a 5-minute refresh window,
+ * `courze_kairos_cron` GrowthBook gate on a 5-minute refresh window,
  * serving as a fleet-wide kill switch.
  *
  * Called from Tool.isEnabled() (lazy, post-init) and inside useEffect /
@@ -34,7 +34,7 @@ export function isKairosCronEnabled(): boolean {
   if (process.env.USER_TYPE !== 'ant') return true
 
   return getFeatureValue_CACHED_WITH_REFRESH(
-    'tengu_kairos_cron',
+    'courze_kairos_cron',
     true,
     KAIROS_CRON_REFRESH_MS,
   )
@@ -51,7 +51,7 @@ export function isKairosCronEnabled(): boolean {
  */
 export function isDurableCronEnabled(): boolean {
   return getFeatureValue_CACHED_WITH_REFRESH(
-    'tengu_kairos_cron_durable',
+    'courze_kairos_cron_durable',
     true,
     KAIROS_CRON_REFRESH_MS,
   )

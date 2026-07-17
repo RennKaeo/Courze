@@ -316,7 +316,7 @@ export async function* handleStopHooks(
 
       // Check if we were aborted during hook execution
       if (toolUseContext.abortController.signal.aborted) {
-        logEvent('tengu_pre_stop_hooks_cancelled', {
+        logEvent('courze_pre_stop_hooks_cancelled', {
           queryChainId: toolUseContext.queryTracking
             ?.chainId as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
 
@@ -557,7 +557,7 @@ export async function* handleStopHooks(
     }
   } catch (error) {
     const durationMs = Date.now() - hookStartTime
-    logEvent('tengu_stop_hook_error', {
+    logEvent('courze_stop_hook_error', {
       duration: durationMs,
 
       queryChainId: toolUseContext.queryTracking

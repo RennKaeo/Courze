@@ -17,10 +17,10 @@ import {
   logEvent,
 } from '../../services/analytics/index.js'
 import {
-  type ClaudeCodeHint,
+  type CourseCodeHint,
   hasShownHintThisSession,
   setPendingHint,
-} from '../claudeCodeHints.js'
+} from '../courseCodeHints.js'
 import { getGlobalConfig, saveGlobalConfig } from '../config.js'
 import { logForDebugging } from '../debug.js'
 import { isPluginInstalled } from './installedPluginsManager.js'
@@ -62,8 +62,8 @@ export type PluginHintRecommendation = {
  * just to strip a stderr line. The async marketplace-cache check happens
  * later in resolvePluginHint (hook side).
  */
-export function maybeRecordPluginHint(hint: ClaudeCodeHint): void {
-  if (!getFeatureValue_CACHED_MAY_BE_STALE('tengu_lapis_finch', false)) return
+export function maybeRecordPluginHint(hint: CourseCodeHint): void {
+  if (!getFeatureValue_CACHED_MAY_BE_STALE('courze_lapis_finch', false)) return
   if (hasShownHintThisSession()) return
 
   const state = getGlobalConfig().claudeCodeHints
@@ -101,14 +101,14 @@ export function _resetHintRecommendationForTesting(): void {
  * the plugin isn't in the marketplace cache — the hint is discarded.
  */
 export async function resolvePluginHint(
-  hint: ClaudeCodeHint,
+  hint: CourseCodeHint,
 ): Promise<PluginHintRecommendation | null> {
   const pluginId = hint.value
   const { name, marketplace } = parsePluginIdentifier(pluginId)
 
   const pluginData = await getPluginById(pluginId)
 
-  logEvent('tengu_plugin_hint_detected', {
+  logEvent('courze_plugin_hint_detected', {
     _PROTO_plugin_name: (name ??
       '') as AnalyticsMetadata_I_VERIFIED_THIS_IS_PII_TAGGED,
     _PROTO_marketplace_name: (marketplace ??

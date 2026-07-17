@@ -165,7 +165,7 @@ export function GroveDialog(t0: Props) {
           return;
         }
         markGroveNoticeViewed();
-        logEvent("tengu_grove_policy_viewed", {
+        logEvent("courze_grove_policy_viewed", {
           location: location as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           dismissable: config?.notice_is_grace_period as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
@@ -196,7 +196,7 @@ export function GroveDialog(t0: Props) {
         case "accept_opt_in":
           {
             await updateGroveSettings(true);
-            logEvent("tengu_grove_policy_submitted", {
+            logEvent("courze_grove_policy_submitted", {
               state: true,
               dismissable: groveConfig?.notice_is_grace_period as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
             });
@@ -205,7 +205,7 @@ export function GroveDialog(t0: Props) {
         case "accept_opt_out":
           {
             await updateGroveSettings(false);
-            logEvent("tengu_grove_policy_submitted", {
+            logEvent("courze_grove_policy_submitted", {
               state: false,
               dismissable: groveConfig?.notice_is_grace_period as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
             });
@@ -213,14 +213,14 @@ export function GroveDialog(t0: Props) {
           }
         case "defer":
           {
-            logEvent("tengu_grove_policy_dismissed", {
+            logEvent("courze_grove_policy_dismissed", {
               state: true
             });
             break bb21;
           }
         case "escape":
           {
-            logEvent("tengu_grove_policy_escaped", {});
+            logEvent("courze_grove_policy_escaped", {});
           }
       }
       onDone(value);
@@ -458,5 +458,5 @@ export function PrivacySettingsDialog(t0: PrivacySettingsDialogProps) {
   return t8;
 }
 function _temp2() {
-  logEvent("tengu_grove_privacy_settings_viewed", {});
+  logEvent("courze_grove_privacy_settings_viewed", {});
 }

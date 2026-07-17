@@ -529,7 +529,7 @@ export const FileEditTool = buildTool({
       absoluteFilePath.endsWith(`${sep}AGENTS.md`) ||
       absoluteFilePath.endsWith(`${sep}CLAUDE.md`)
     ) {
-      logEvent('tengu_write_claudemd', {})
+      logEvent('courze_write_claudemd', {})
     }
     countLinesChanged(patch)
 
@@ -539,7 +539,7 @@ export const FileEditTool = buildTool({
       filePath: absoluteFilePath,
     })
 
-    logEvent('tengu_edit_string_lengths', {
+    logEvent('courze_edit_string_lengths', {
       oldStringBytes: Buffer.byteLength(old_string, 'utf8'),
       newStringBytes: Buffer.byteLength(new_string, 'utf8'),
       replaceAll: replace_all,
@@ -548,12 +548,12 @@ export const FileEditTool = buildTool({
     let gitDiff: ToolUseDiff | undefined
     if (
       isEnvTruthy(process.env.COURSE_CODE_REMOTE) &&
-      getFeatureValue_CACHED_MAY_BE_STALE('tengu_quartz_lantern', false)
+      getFeatureValue_CACHED_MAY_BE_STALE('courze_quartz_lantern', false)
     ) {
       const startTime = Date.now()
       const diff = await fetchSingleFileGitDiff(absoluteFilePath)
       if (diff) gitDiff = diff
-      logEvent('tengu_tool_use_diff_computed', {
+      logEvent('courze_tool_use_diff_computed', {
         isEditTool: true,
         durationMs: Date.now() - startTime,
         hasDiff: !!diff,

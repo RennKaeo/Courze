@@ -437,7 +437,7 @@ export async function generateSessionTitle(
       })
     }
 
-    logEvent('tengu_session_title_generated', { success: parsed.success })
+    logEvent('courze_session_title_generated', { success: parsed.success })
 
     return parsed.title
   } catch (error) {
@@ -450,7 +450,7 @@ export async function generateSessionTitle(
       level: 'warn',
       error,
     })
-    logEvent('tengu_session_title_generated', { success: false })
+    logEvent('courze_session_title_generated', { success: false })
 
     // Fallback: When using 3P providers without a compatible schema,
     // default to the application name.

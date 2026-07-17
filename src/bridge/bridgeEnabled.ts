@@ -31,7 +31,7 @@ export function isBridgeEnabled(): boolean {
   // inline string literals from external builds.
   return feature('BRIDGE_MODE')
     ? isClaudeAISubscriber() &&
-        getFeatureValue_CACHED_MAY_BE_STALE('tengu_ccr_bridge', false)
+        getFeatureValue_CACHED_MAY_BE_STALE('courze_ccr_bridge', false)
     : false
 }
 
@@ -50,7 +50,7 @@ export function isBridgeEnabled(): boolean {
 export async function isBridgeEnabledBlocking(): Promise<boolean> {
   return feature('BRIDGE_MODE')
     ? isClaudeAISubscriber() &&
-        (await checkGate_CACHED_OR_BLOCKING('tengu_ccr_bridge'))
+        (await checkGate_CACHED_OR_BLOCKING('courze_ccr_bridge'))
     : false
 }
 
@@ -78,7 +78,7 @@ export async function getBridgeDisabledReason(): Promise<string | null> {
     if (!getOauthAccountInfo()?.organizationUuid) {
       return 'Unable to determine your organization for Remote Control eligibility. Run `course auth login` to refresh your account information.'
     }
-    if (!(await checkGate_CACHED_OR_BLOCKING('tengu_ccr_bridge'))) {
+    if (!(await checkGate_CACHED_OR_BLOCKING('courze_ccr_bridge'))) {
       return 'Remote Control is not yet enabled for your account.'
     }
     return null
@@ -117,7 +117,7 @@ function getOauthAccountInfo(): ReturnType<
 
 /**
  * Runtime check for the env-less (v2) REPL bridge path.
- * Returns true when the GrowthBook flag `tengu_bridge_repl_v2` is enabled.
+ * Returns true when the GrowthBook flag `courze_bridge_repl_v2` is enabled.
  *
  * This gates which implementation initReplBridge uses — NOT whether bridge
  * is available at all (see isBridgeEnabled above). Daemon/print paths stay
@@ -125,7 +125,7 @@ function getOauthAccountInfo(): ReturnType<
  */
 export function isEnvLessBridgeEnabled(): boolean {
   return feature('BRIDGE_MODE')
-    ? getFeatureValue_CACHED_MAY_BE_STALE('tengu_bridge_repl_v2', false)
+    ? getFeatureValue_CACHED_MAY_BE_STALE('courze_bridge_repl_v2', false)
     : false
 }
 
@@ -141,7 +141,7 @@ export function isEnvLessBridgeEnabled(): boolean {
 export function isCseShimEnabled(): boolean {
   return feature('BRIDGE_MODE')
     ? getFeatureValue_CACHED_MAY_BE_STALE(
-        'tengu_bridge_repl_v2_cse_shim_enabled',
+        'courze_bridge_repl_v2_cse_shim_enabled',
         true,
       )
     : true
@@ -164,7 +164,7 @@ export function checkBridgeMinVersion(): string | null {
   if (feature('BRIDGE_MODE')) {
     const config = getDynamicConfig_CACHED_MAY_BE_STALE<{
       minVersion: string
-    }>('tengu_bridge_min_version', { minVersion: '0.0.0' })
+    }>('courze_bridge_min_version', { minVersion: '0.0.0' })
     if (config.minVersion && lt(MACRO.VERSION, config.minVersion)) {
       return `Your version of Course Code (${MACRO.VERSION}) is too old for Remote Control.\nVersion ${config.minVersion} or higher is required. Run \`course update\` to update.`
     }
@@ -175,7 +175,7 @@ export function checkBridgeMinVersion(): string | null {
 /**
  * Default for remoteControlAtStartup when the user hasn't explicitly set it.
  * When the CCR_AUTO_CONNECT build flag is present (internal-only) and the
- * tengu_cobalt_harbor GrowthBook gate is on, all sessions connect to CCR by
+ * courze_cobalt_harbor GrowthBook gate is on, all sessions connect to CCR by
  * default — the user can still opt out by setting remoteControlAtStartup=false
  * in config (explicit settings always win over this default).
  *
@@ -184,7 +184,7 @@ export function checkBridgeMinVersion(): string | null {
  */
 export function getCcrAutoConnectDefault(): boolean {
   return feature('CCR_AUTO_CONNECT')
-    ? getFeatureValue_CACHED_MAY_BE_STALE('tengu_cobalt_harbor', false)
+    ? getFeatureValue_CACHED_MAY_BE_STALE('courze_cobalt_harbor', false)
     : false
 }
 
@@ -197,6 +197,6 @@ export function getCcrAutoConnectDefault(): boolean {
 export function isCcrMirrorEnabled(): boolean {
   return feature('CCR_MIRROR')
     ? isEnvTruthy(process.env.COURSE_CODE_CCR_MIRROR) ||
-        getFeatureValue_CACHED_MAY_BE_STALE('tengu_ccr_mirror', false)
+        getFeatureValue_CACHED_MAY_BE_STALE('courze_ccr_mirror', false)
     : false
 }

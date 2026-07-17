@@ -568,7 +568,7 @@ test('/branch creates a new session, copies messages, keeps the source transcrip
     branchedAt,
   })
   const forkEvent = analyticsEvents.findLast(
-    event => event.name === 'tengu_conversation_forked',
+    event => event.name === 'courze_conversation_forked',
   )
   expect(forkEvent?.metadata).toMatchObject({
     message_count: 3,
@@ -618,7 +618,7 @@ test('/branch without a name auto-titles the fork and reports non-custom title m
   ).toBe('explore another approach (Branch)')
 
   const forkEvent = analyticsEvents.findLast(
-    event => event.name === 'tengu_conversation_forked',
+    event => event.name === 'courze_conversation_forked',
   )
   expect(forkEvent?.metadata).toMatchObject({
     message_count: 2,
@@ -725,11 +725,11 @@ test('/branch keeps a created branch recoverable if switching into it fails', as
   expect(message).toContain(`Resume this branch with: /resume ${newSessionId}`)
   expect(message).toContain('same working tree')
   expect(
-    analyticsEvents.find(event => event.name === 'tengu_conversation_forked'),
+    analyticsEvents.find(event => event.name === 'courze_conversation_forked'),
   ).toBeUndefined()
   expect(
     analyticsEvents.find(
-      event => event.name === 'tengu_conversation_fork_switch_failed',
+      event => event.name === 'courze_conversation_fork_switch_failed',
     )?.metadata,
   ).toMatchObject({
     message_count: 2,

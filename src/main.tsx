@@ -217,7 +217,7 @@ function logManagedSettings(): void {
     const policySettings = getSettingsForSource('policySettings');
     if (policySettings) {
       const allKeys = getManagedSettingsKeysForLogging(policySettings);
-      logEvent('tengu_managed_settings_loaded', {
+      logEvent('courze_managed_settings_loaded', {
         keyCount: allKeys.length,
         keys: allKeys.join(',') as unknown as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
@@ -308,7 +308,7 @@ function getCertEnvVarTelemetry(): Record<string, boolean> {
 async function logStartupTelemetry(): Promise<void> {
   if (isAnalyticsDisabled()) return;
   const [isGit, worktreeCount, ghAuthStatus] = await Promise.all([getIsGit(), getWorktreeCount(), getGhAuthStatus()]);
-  logEvent('tengu_startup_telemetry', {
+  logEvent('courze_startup_telemetry', {
     is_git: isGit,
     worktree_count: worktreeCount,
     gh_auth_status: ghAuthStatus as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -994,7 +994,7 @@ async function run(): Promise<CommanderCommand> {
 
     // Ignore "code" as a prompt - treat it the same as no prompt
     if (prompt === 'code') {
-      logEvent('tengu_code_prompt_ignored', {});
+      logEvent('courze_code_prompt_ignored', {});
       // biome-ignore lint/suspicious/noConsole:: intentional console output
       console.warn(chalk.yellow('Tip: You can launch Course Code with just `course`'));
       prompt = undefined;
@@ -1002,13 +1002,13 @@ async function run(): Promise<CommanderCommand> {
 
     // Log event for any single-word prompt
     if (prompt && typeof prompt === 'string' && !/\s/.test(prompt) && prompt.length > 0) {
-      logEvent('tengu_single_word_prompt', {
+      logEvent('courze_single_word_prompt', {
         length: prompt.length
       });
     }
 
     // Assistant mode: when .claude/settings.json has assistant: true AND
-    // the tengu_kairos GrowthBook gate is on, force brief on. Permission
+    // the courze_kairos GrowthBook gate is on, force brief on. Permission
     // mode is left to the user — settings defaultMode or --permission-mode
     // apply as normal. REPL-typed messages already default to 'next'
     // priority (messageQueueManager.enqueue) so they drain mid-turn between
@@ -1029,7 +1029,7 @@ async function run(): Promise<CommanderCommand> {
     }).assistant && assistantModule) {
       // --assistant (Agent SDK daemon mode): force the latch before
       // isAssistantMode() runs below. The daemon has already checked
-      // entitlement — don't make the child re-check tengu_kairos.
+      // entitlement — don't make the child re-check courze_kairos.
       assistantModule.markAssistantForced();
     }
     if (feature('KAIROS') && assistantModule?.isAssistantMode() &&
@@ -1375,7 +1375,7 @@ async function run(): Promise<CommanderCommand> {
       // is auto, OR settings defaultMode is auto but the gate denied it
       // (permissionMode resolved to default with no explicit CLI override).
       // Used by verifyAutoModeGateAccess to decide whether to notify on
-      // auto-unavailable, and by tengu_auto_mode_config opt-in carousel.
+      // auto-unavailable, and by courze_auto_mode_config opt-in carousel.
       if ((options as {
         enableAutoMode?: boolean;
       }).enableAutoMode || permissionModeCli === 'auto' || permissionMode === 'auto' || !permissionModeCli && isDefaultPermissionModeAuto()) {
@@ -1510,7 +1510,7 @@ async function run(): Promise<CommanderCommand> {
     if (claudeInChromeStartupMode === 'explicit') {
       const platform = getPlatform();
       try {
-        logEvent('tengu_claude_in_chrome_setup', {
+        logEvent('courze_claude_in_chrome_setup', {
           platform: platform as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
         const startupConfig = mergeClaudeInChromeStartupConfig({
@@ -1524,7 +1524,7 @@ async function run(): Promise<CommanderCommand> {
         allowedTools.push(...startupConfig.allowedTools);
         appendSystemPrompt = startupConfig.appendSystemPrompt;
       } catch (error) {
-        logEvent('tengu_claude_in_chrome_setup_failed', {
+        logEvent('courze_claude_in_chrome_setup_failed', {
           platform: platform as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
         logForDebugging(`[Claude in Chrome] Error: ${error}`);
@@ -1674,9 +1674,9 @@ async function run(): Promise<CommanderCommand> {
         }
       }
       // Flag-usage telemetry. Plugin identifiers are logged (same tier as
-      // tengu_plugin_installed — public-registry-style names); server-kind
+      // courze_plugin_installed — public-registry-style names); server-kind
       // names are not (MCP-server-name tier, opt-in-only elsewhere).
-      // Per-server gate outcomes land in tengu_mcp_channel_gate once
+      // Per-server gate outcomes land in courze_mcp_channel_gate once
       // servers connect. Dev entries go through a confirmation dialog after
       // this — dev_plugins captures what was typed, not what was accepted.
       if (channelEntries.length > 0 || (devChannels?.length ?? 0) > 0) {
@@ -1684,7 +1684,7 @@ async function run(): Promise<CommanderCommand> {
           const ids = entries.flatMap(e => e.kind === 'plugin' ? [`${e.name}@${e.marketplace}`] : []);
           return ids.length > 0 ? ids.sort().join(',') as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS : undefined;
         };
-        logEvent('tengu_mcp_channel_flags', {
+        logEvent('courze_mcp_channel_flags', {
           channels_count: channelEntries.length,
           dev_count: devChannels?.length ?? 0,
           plugins: joinPluginIds(channelEntries),
@@ -1863,12 +1863,12 @@ async function run(): Promise<CommanderCommand> {
         // This tool is excluded from normal filtering (see tools.ts) because it's
         // an implementation detail for structured output, not a user-controlled tool.
         tools = [...tools, syntheticOutputResult.tool];
-        logEvent('tengu_structured_output_enabled', {
+        logEvent('courze_structured_output_enabled', {
           schema_property_count: Object.keys(jsonSchema.properties as Record<string, unknown> || {}).length as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
           has_required_fields: Boolean(jsonSchema.required) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
       } else {
-        logEvent('tengu_structured_output_failure', {
+        logEvent('courze_structured_output_failure', {
           error: 'Invalid JSON schema' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
       }
@@ -2026,7 +2026,7 @@ async function run(): Promise<CommanderCommand> {
 
     // Log agent flag usage — only log agent name for built-in agents to avoid leaking custom agent names
     if (mainThreadAgentDefinition) {
-      logEvent('tengu_agent_flag', {
+      logEvent('courze_agent_flag', {
         agentType: isBuiltInAgent(mainThreadAgentDefinition) ? mainThreadAgentDefinition.agentType as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS : 'custom' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         ...(agentCli && {
           source: 'cli' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
@@ -2115,7 +2115,7 @@ async function run(): Promise<CommanderCommand> {
 
         // Log agent memory loaded event for tmux teammates
         if (customAgent.memory) {
-          logEvent('tengu_agent_memory_loaded', {
+          logEvent('courze_agent_memory_loaded', {
             scope: customAgent.memory as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             source: 'teammate' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
           });
@@ -2185,7 +2185,7 @@ async function run(): Promise<CommanderCommand> {
       // from REPL's first render (the old location) included however long
       // the user sat on trust/OAuth/onboarding/resume-picker — p99 was ~70s
       // dominated by dialog-wait time, not code-path startup.
-      logEvent('tengu_timer', {
+      logEvent('courze_timer', {
         event: 'startup' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         durationMs: Math.round(process.uptime() * 1000)
       });
@@ -2237,7 +2237,7 @@ async function run(): Promise<CommanderCommand> {
         // Refresh GrowthBook after login to get updated feature flags (e.g., for claude.ai MCPs)
         refreshGrowthBookAfterAuthChange();
         // Clear any stale trusted device token then enroll for Remote Control.
-        // Both self-gate on tengu_sessions_elevated_auth_enforcement internally
+        // Both self-gate on courze_sessions_elevated_auth_enforcement internally
         // — enrollTrustedDevice() via checkGate_CACHED_OR_BLOCKING (awaits
         // the GrowthBook reinit above), clearTrustedDeviceToken() via the
         // sync cached check (acceptable since clear is idempotent).
@@ -2289,7 +2289,7 @@ async function run(): Promise<CommanderCommand> {
     // --bare / SIMPLE: skip — these are cache-warms for the REPL's
     // first-turn responsiveness (quota, passes, fastMode, bootstrap data). Fast
     // mode doesn't apply to the Agent SDK anyway (see getFastModeUnavailableReason).
-    const bgRefreshThrottleMs = getFeatureValue_CACHED_MAY_BE_STALE('tengu_cicada_nap_ms', 0);
+    const bgRefreshThrottleMs = getFeatureValue_CACHED_MAY_BE_STALE('courze_cicada_nap_ms', 0);
     const lastPrefetched = getGlobalConfig().startupPrefetchedAt ?? 0;
     const skipStartupPrefetches = isBareMode() || bgRefreshThrottleMs > 0 && Date.now() - lastPrefetched < bgRefreshThrottleMs;
     // Always prefetch Ollama models (not gated by throttle — local server, fast & cheap)
@@ -2306,7 +2306,7 @@ async function run(): Promise<CommanderCommand> {
 
       // TODO: Consolidate other prefetches into a single bootstrap request.
       void prefetchPassesEligibility();
-      if (!getFeatureValue_CACHED_MAY_BE_STALE('tengu_miraculo_the_bard', false)) {
+      if (!getFeatureValue_CACHED_MAY_BE_STALE('courze_miraculo_the_bard', false)) {
         void prefetchFastModeStatus();
       } else {
         // Kill switch skips the network call, not org-policy enforcement.
@@ -2443,7 +2443,7 @@ async function run(): Promise<CommanderCommand> {
     registerCleanup(async () => {
       logForDiagnosticsNoPII('info', 'exited');
     });
-    void logTenguInit({
+    void logCourzeInit({
       hasInitialPrompt: Boolean(prompt),
       hasStdin: Boolean(inputPrompt),
       verbose,
@@ -2483,7 +2483,7 @@ async function run(): Promise<CommanderCommand> {
       }
       void countConcurrentSessions().then(count => {
         if (count >= 2) {
-          logEvent('tengu_concurrent_sessions', {
+          logEvent('courze_concurrent_sessions', {
             num_sessions: count
           });
         }
@@ -2696,7 +2696,7 @@ async function run(): Promise<CommanderCommand> {
         // Dedup: suppress plugin MCP servers that duplicate a claude.ai
         // connector (connector wins), then connect claude.ai servers.
         // Bounded wait — #23725 made this blocking so single-turn -p sees
-        // connectors, but with 40+ slow connectors tengu_startup_perf p99
+        // connectors, but with 40+ slow connectors courze_startup_perf p99
         // climbed to 76s. If fetch+connect doesn't finish in time, proceed;
         // the promise keeps running and updates headlessStore in the
         // background so turn 2+ still sees connectors.
@@ -2829,7 +2829,7 @@ async function run(): Promise<CommanderCommand> {
     }
 
     // Log model config at startup
-    logEvent('tengu_startup_manual_model_config', {
+    logEvent('courze_startup_manual_model_config', {
       cli_flag: options.model as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       env_var: process.env.ANTHROPIC_MODEL as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       settings_file: (getInitialSettings() || {}).model as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -3069,7 +3069,7 @@ async function run(): Promise<CommanderCommand> {
         clearSessionCaches();
         const result = await loadConversationForResume(undefined /* sessionId */, undefined /* sourceFile */);
         if (!result) {
-          logEvent('tengu_continue', {
+          logEvent('courze_continue', {
             success: false
           });
           return await exitWithError(root, 'No conversation found to continue');
@@ -3084,7 +3084,7 @@ async function run(): Promise<CommanderCommand> {
         }
         maybeActivateProactive(options);
         maybeActivateBrief(options);
-        logEvent('tengu_continue', {
+        logEvent('courze_continue', {
           success: true,
           resume_duration_ms: Math.round(performance.now() - resumeStart)
         });
@@ -3104,7 +3104,7 @@ async function run(): Promise<CommanderCommand> {
         }, renderAndRun);
       } catch (error) {
         if (!resumeSucceeded) {
-          logEvent('tengu_continue', {
+          logEvent('courze_continue', {
             success: false
           });
         }
@@ -3356,7 +3356,7 @@ async function run(): Promise<CommanderCommand> {
         }
       }
 
-      // --remote and --teleport both create/resume Claude Code Web (CCR) sessions.
+      // --remote and --teleport both create/resume Courze Web sessions.
       // Remote Control (--rc) is a separate feature gated in initReplBridge.ts.
       if (remote !== null || teleport) {
         await waitForPolicyLimitsToLoad();
@@ -3369,11 +3369,11 @@ async function run(): Promise<CommanderCommand> {
         const hasInitialPrompt = remote.length > 0;
 
         // Check if TUI mode is enabled - description is only optional in TUI mode
-        const isRemoteTuiEnabled = getFeatureValue_CACHED_MAY_BE_STALE('tengu_remote_backend', false);
+        const isRemoteTuiEnabled = getFeatureValue_CACHED_MAY_BE_STALE('courze_remote_backend', false);
         if (!isRemoteTuiEnabled && !hasInitialPrompt) {
           return await exitWithError(root, 'Error: --remote requires a description.\nUsage: course --remote "your task description"', () => gracefulShutdown(1));
         }
-        logEvent('tengu_remote_create_session', {
+        logEvent('courze_remote_create_session', {
           has_initial_prompt: String(hasInitialPrompt) as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
 
@@ -3381,12 +3381,12 @@ async function run(): Promise<CommanderCommand> {
         const currentBranch = await getBranch();
         const createdSession = await teleportToRemoteWithErrorHandling(root, hasInitialPrompt ? remote : null, new AbortController().signal, currentBranch || undefined);
         if (!createdSession) {
-          logEvent('tengu_remote_create_session_error', {
+          logEvent('courze_remote_create_session_error', {
             error: 'unable_to_create_session' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
           });
           return await exitWithError(root, 'Error: Unable to create remote session', () => gracefulShutdown(1));
         }
-        logEvent('tengu_remote_create_session_success', {
+        logEvent('courze_remote_create_session_success', {
           session_id: createdSession.id as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
         });
 
@@ -3462,7 +3462,7 @@ async function run(): Promise<CommanderCommand> {
       } else if (teleport) {
         if (teleport === true || teleport === '') {
           // Interactive mode: show task selector and handle resume
-          logEvent('tengu_teleport_interactive_mode', {});
+          logEvent('courze_teleport_interactive_mode', {});
           logForDebugging('selectAndResumeTeleportTask: Starting teleport flow...');
           const teleportResult = await launchTeleportResumeWrapper(root);
           if (!teleportResult) {
@@ -3475,7 +3475,7 @@ async function run(): Promise<CommanderCommand> {
           } = await checkOutTeleportedSessionBranch(teleportResult.branch);
           messages = processMessagesForTeleportResume(teleportResult.log, branchError);
         } else if (typeof teleport === 'string') {
-          logEvent('tengu_teleport_resume_session', {
+          logEvent('courze_teleport_resume_session', {
             mode: 'direct' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
           });
           try {
@@ -3546,7 +3546,7 @@ async function run(): Promise<CommanderCommand> {
           // Otherwise fall back to sessionId string (for direct UUID resume)
           const result = await loadConversationForResume(matchedLog ?? sessionId, undefined);
           if (!result) {
-            logEvent('tengu_session_resumed', {
+            logEvent('courze_session_resumed', {
               entrypoint: 'cli_flag' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               success: false
             });
@@ -3561,13 +3561,13 @@ async function run(): Promise<CommanderCommand> {
           if (processedResume.restoredAgentDef) {
             mainThreadAgentDefinition = processedResume.restoredAgentDef;
           }
-          logEvent('tengu_session_resumed', {
+          logEvent('courze_session_resumed', {
             entrypoint: 'cli_flag' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             success: true,
             resume_duration_ms: Math.round(performance.now() - resumeStart)
           });
         } catch (error) {
-          logEvent('tengu_session_resumed', {
+          logEvent('courze_session_resumed', {
             entrypoint: 'cli_flag' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
             success: false
           });
@@ -3648,7 +3648,7 @@ async function run(): Promise<CommanderCommand> {
       let deepLinkBanner: ReturnType<typeof createSystemMessage> | null = null;
       if (feature('LODESTONE')) {
         if (options.deepLinkOrigin) {
-          logEvent('tengu_deep_link_opened', {
+          logEvent('courze_deep_link_opened', {
             has_prefill: Boolean(options.prefill),
             has_repo: Boolean(options.deepLinkRepo)
           });
@@ -4157,7 +4157,7 @@ async function run(): Promise<CommanderCommand> {
     process.exit(0);
   });
   if (feature('TRANSCRIPT_CLASSIFIER')) {
-    // Skip when tengu_auto_mode_config.enabled === 'disabled' (circuit breaker).
+    // Skip when courze_auto_mode_config.enabled === 'disabled' (circuit breaker).
     // Reads from disk cache — GrowthBook isn't initialized at registration time.
     if (getAutoModeEnabledStateIfCached() !== 'disabled') {
       const autoModeCmd = program.command('auto-mode').description('Inspect auto mode classifier configuration');
@@ -4298,7 +4298,7 @@ async function run(): Promise<CommanderCommand> {
   profileReport();
   return program;
 }
-async function logTenguInit({
+async function logCourzeInit({
   hasInitialPrompt,
   hasStdin,
   verbose,
@@ -4346,7 +4346,7 @@ async function logTenguInit({
   assistantActivationPath: string | undefined;
 }): Promise<void> {
   try {
-    logEvent('tengu_init', {
+    logEvent('courze_init', {
       entrypoint: 'claude' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       hasInitialPrompt,
       hasStdin,
@@ -4423,7 +4423,7 @@ function maybeActivateBrief(options: unknown): void {
   }
   // Fire unconditionally once intent is seen: enabled=false captures the
   // "user tried but was gated" failure mode in Datadog.
-  logEvent('tengu_brief_mode_enabled', {
+  logEvent('courze_brief_mode_enabled', {
     enabled: entitled,
     gated: !entitled,
     source: (briefEnv ? 'env' : 'flag') as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS

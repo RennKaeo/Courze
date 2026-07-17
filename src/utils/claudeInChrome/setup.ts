@@ -77,7 +77,7 @@ export function shouldAutoEnableClaudeInChrome(): boolean {
   shouldAutoEnable =
     getIsInteractive() &&
     isChromeExtensionInstalled_CACHED_MAY_BE_STALE() &&
-    getFeatureValue_CACHED_MAY_BE_STALE('tengu_chrome_auto_enable', false)
+    getFeatureValue_CACHED_MAY_BE_STALE('courze_chrome_auto_enable', false)
 
   return shouldAutoEnable
 }

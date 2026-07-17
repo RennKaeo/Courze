@@ -60,7 +60,7 @@ export function shouldInjectAgentListInMessages(): boolean {
   if (isEnvTruthy(process.env.COURSE_CODE_AGENT_LIST_IN_MESSAGES)) return true
   if (isEnvDefinedFalsy(process.env.COURSE_CODE_AGENT_LIST_IN_MESSAGES))
     return false
-  return getFeatureValue_CACHED_MAY_BE_STALE('tengu_agent_list_attach', true)
+  return getFeatureValue_CACHED_MAY_BE_STALE('courze_agent_list_attach', true)
 }
 
 export async function getPrompt(

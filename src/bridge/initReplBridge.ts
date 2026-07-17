@@ -143,8 +143,8 @@ export async function initReplBridge(
   }
 
   // 1b. Minimum version check — deferred to after the v1/v2 branch below,
-  // since each implementation has its own floor (tengu_bridge_min_version
-  // for v1, tengu_bridge_repl_v2_config.min_version for v2).
+  // since each implementation has its own floor (courze_bridge_min_version
+  // for v1, courze_bridge_repl_v2_config.min_version for v2).
 
   // 2. Check OAuth — must be signed in with claude.ai. Runs before the
   // policy check so console-auth users get the actionable "/login" hint
@@ -389,7 +389,7 @@ export async function initReplBridge(
   // Note: the open-source flag shim resolves from the local feature-flags
   // file and takes no refresh-window argument.
   const initialHistoryCap = getFeatureValue_CACHED_WITH_REFRESH(
-    'tengu_bridge_initial_history_cap',
+    'courze_bridge_initial_history_cap',
     200,
   )
 
@@ -412,7 +412,7 @@ export async function initReplBridge(
   //
   // NAMING: "env-less" is distinct from "CCR v2" (the /worker/* transport).
   // The env-based path below can ALSO use CCR v2 via COURSE_CODE_USE_CCR_V2.
-  // tengu_bridge_repl_v2 gates env-less (no poll loop), not transport version.
+  // courze_bridge_repl_v2 gates env-less (no poll loop), not transport version.
   //
   // perpetual (assistant-mode session continuity via bridge-pointer.json) is
   // env-coupled and not yet implemented here — fall back to env-based when set
@@ -429,7 +429,7 @@ export async function initReplBridge(
       return null
     }
     logForDebugging(
-      '[bridge:repl] Using env-less bridge path (tengu_bridge_repl_v2)',
+      '[bridge:repl] Using env-less bridge path (courze_bridge_repl_v2)',
     )
     const { initEnvLessBridgeCore } = await import('./remoteBridgeCore.js')
     return initEnvLessBridgeCore({

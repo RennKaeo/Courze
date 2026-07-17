@@ -1,7 +1,7 @@
 /**
- * Claude Code hints protocol.
+ * Courze hints protocol.
  *
- * CLIs and SDKs running under Claude Code can emit a self-closing
+ * CLIs and SDKs running under Courze can emit a self-closing
  * `<course-code-hint />` tag to stderr (merged into stdout by the shell
  * tools). The harness scans tool output for these tags, strips them before
  * the output reaches the model, and surfaces an install prompt to the
@@ -18,13 +18,13 @@
 import { logForDebugging } from './debug.js'
 import { createSignal } from './signal.js'
 
-export type ClaudeCodeHintType = 'plugin'
+export type CourseCodeHintType = 'plugin'
 
-export type ClaudeCodeHint = {
+export type CourseCodeHint = {
   /** Spec version declared by the emitter. Unknown versions are dropped. */
   v: number
   /** Hint discriminator. v1 defines only `plugin`. */
-  type: ClaudeCodeHintType
+  type: CourseCodeHintType
   /**
    * Hint payload. For `type: 'plugin'`: a `name@marketplace` slug
    * matching the form accepted by `parsePluginIdentifier`.
@@ -69,17 +69,17 @@ const ATTR_RE = /(\w+)=(?:"([^"]*)"|([^\s/>]+))/g
  * @param command - The command that produced the output; its first
  *   whitespace-separated token is recorded as `sourceCommand`.
  */
-export function extractClaudeCodeHints(
+export function extractCourseCodeHints(
   output: string,
   command: string,
-): { hints: ClaudeCodeHint[]; stripped: string } {
+): { hints: CourseCodeHint[]; stripped: string } {
   // Fast path: no tag open sequence → no work, no allocation.
   if (!output.includes('<course-code-hint')) {
     return { hints: [], stripped: output }
   }
 
   const sourceCommand = firstCommandToken(command)
-  const hints: ClaudeCodeHint[] = []
+  const hints: CourseCodeHint[] = []
 
   const stripped = output.replace(HINT_TAG_RE, rawLine => {
     const attrs = parseAttrs(rawLine)
@@ -89,22 +89,22 @@ export function extractClaudeCodeHints(
 
     if (!SUPPORTED_VERSIONS.has(v)) {
       logForDebugging(
-        `[claudeCodeHints] dropped hint with unsupported v=${attrs.v}`,
+        `[courseCodeHints] dropped hint with unsupported v=${attrs.v}`,
       )
       return ''
     }
     if (!type || !SUPPORTED_TYPES.has(type)) {
       logForDebugging(
-        `[claudeCodeHints] dropped hint with unsupported type=${type}`,
+        `[courseCodeHints] dropped hint with unsupported type=${type}`,
       )
       return ''
     }
     if (!value) {
-      logForDebugging('[claudeCodeHints] dropped hint with empty value')
+      logForDebugging('[courseCodeHints] dropped hint with empty value')
       return ''
     }
 
-    hints.push({ v, type: type as ClaudeCodeHintType, value, sourceCommand })
+    hints.push({ v, type: type as CourseCodeHintType, value, sourceCommand })
     return ''
   })
 
@@ -146,13 +146,13 @@ function firstCommandToken(command: string): string {
 // the same store.
 // ============================================================================
 
-let pendingHint: ClaudeCodeHint | null = null
+let pendingHint: CourseCodeHint | null = null
 let shownThisSession = false
 const pendingHintChanged = createSignal()
 const notify = pendingHintChanged.emit
 
 /** Raw store write. Callers should gate first (see module comment). */
-export function setPendingHint(hint: ClaudeCodeHint): void {
+export function setPendingHint(hint: CourseCodeHint): void {
   if (shownThisSession) return
   pendingHint = hint
   notify()
@@ -173,7 +173,7 @@ export function markShownThisSession(): void {
 
 export const subscribeToPendingHint = pendingHintChanged.subscribe
 
-export function getPendingHintSnapshot(): ClaudeCodeHint | null {
+export function getPendingHintSnapshot(): CourseCodeHint | null {
   return pendingHint
 }
 
@@ -182,7 +182,7 @@ export function hasShownHintThisSession(): boolean {
 }
 
 /** Test-only reset. */
-export function _resetClaudeCodeHintStore(): void {
+export function _resetCourseCodeHintStore(): void {
   pendingHint = null
   shownThisSession = false
 }

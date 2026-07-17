@@ -249,7 +249,7 @@ function getUnsupportedToolReferencePatterns(): string[] {
   try {
     // Try to get from GrowthBook for live configuration
     const patterns = getFeatureValue_CACHED_MAY_BE_STALE<string[] | null>(
-      'tengu_tool_search_unsupported_models',
+      'courze_tool_search_unsupported_models',
       null,
     )
     if (patterns && Array.isArray(patterns) && patterns.length > 0) {
@@ -269,7 +269,7 @@ function getUnsupportedToolReferencePatterns(): string[] {
  * models work by default without code changes.
  *
  * Currently, Haiku models do NOT support tool_reference. This can be
- * updated via GrowthBook feature 'tengu_tool_search_unsupported_models'.
+ * updated via GrowthBook feature 'courze_tool_search_unsupported_models'.
  *
  * @param model The model name to check
  * @returns true if the model supports tool_reference, false otherwise
@@ -436,7 +436,7 @@ export async function isToolSearchEnabled(
     reason: string,
     extraProps?: Record<string, number>,
   ): void {
-    logEvent('tengu_tool_search_mode_decision', {
+    logEvent('courze_tool_search_mode_decision', {
       enabled,
       mode: mode as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       reason:
@@ -637,7 +637,7 @@ export type DeferredToolsDelta = {
 }
 
 /**
- * Call-site discriminator for the tengu_deferred_tools_pool_change event.
+ * Call-site discriminator for the courze_deferred_tools_pool_change event.
  * The scan runs from several sites with different expected-prior semantics
  * (inc-4747):
  *   - attachments_main: main-thread getAttachments → prior=0 is a BUG on fire-2+
@@ -667,7 +667,7 @@ export type DeferredToolsDeltaScanContext = {
 export function isDeferredToolsDeltaEnabled(): boolean {
   return (
     process.env.USER_TYPE === 'ant' ||
-    getFeatureValue_CACHED_MAY_BE_STALE('tengu_glacier_2xr', false)
+    getFeatureValue_CACHED_MAY_BE_STALE('courze_glacier_2xr', false)
   )
 }
 
@@ -720,7 +720,7 @@ export function getDeferredToolsDelta(
   // subagent first-fires and compact-path scans have EXPECTED prior=0 and
   // dominate the stat. callSite/querySource/attachmentTypesSeen split the
   // buckets so the real main-thread cross-turn failure is isolable in BQ.
-  logEvent('tengu_deferred_tools_pool_change', {
+  logEvent('courze_deferred_tools_pool_change', {
     addedCount: added.length,
     removedCount: removed.length,
     priorAnnouncedCount: announced.size,

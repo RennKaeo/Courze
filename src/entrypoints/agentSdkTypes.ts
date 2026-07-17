@@ -1,5 +1,5 @@
 /**
- * Main entrypoint for Claude Code Agent SDK types.
+ * Main entrypoint for Courze Agent SDK types.
  *
  * This file re-exports the public SDK API from:
  * - sdk/coreTypes.ts - Common serializable types (messages, configs)
@@ -90,7 +90,7 @@ export type CronTask = {
 
 /**
  * Cron scheduler tuning knobs (jitter + expiry). Sourced at runtime from the
- * `tengu_kairos_cron_config` GrowthBook config in CLI sessions; daemon hosts
+ * `courze_kairos_cron_config` GrowthBook config in CLI sessions; daemon hosts
  * pass this through `watchScheduledTasks({ getJitterConfig })` to get the
  * same tuning.
  * @internal
@@ -220,7 +220,7 @@ export type RemoteControlHandle = {
  * stream. Handle `controlRequests()` locally (interrupt → abort, set_model
  * → reconfigure).
  *
- * Skips the `tengu_ccr_bridge` gate and policy-limits check — @internal
+ * Skips the `courze_ccr_bridge` gate and policy-limits check — @internal
  * caller is pre-entitled. OAuth is still required (env var or keychain).
  *
  * Returns null on no-OAuth or registration failure.

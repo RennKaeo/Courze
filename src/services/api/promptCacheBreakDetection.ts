@@ -171,7 +171,7 @@ function isExcludedModel(model: string): boolean {
  * are short-lived forked agents where cache break detection provides no
  * value — they run 1-3 turns with a fresh agentId each time, so there's
  * nothing meaningful to compare against. Their cache metrics are still
- * logged via tengu_api_success for analytics.
+ * logged via courze_api_success for analytics.
  */
 function getTrackingKey(
   querySource: QuerySource,
@@ -872,7 +872,7 @@ export async function checkResponseForCacheBreak(
       reason = 'unknown local mutation or incomplete prompt state'
     }
 
-    logEvent('tengu_prompt_cache_break', {
+    logEvent('courze_prompt_cache_break', {
       classification:
         classification.kind as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
       severity:

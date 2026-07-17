@@ -277,7 +277,7 @@ export function ModelPicker(t0) {
       // emitted/persisted values are always valid for the picked model
       // (e.g. toggled 'xhigh' then picked a model that doesn't support it).
       const clampedEffort = focusedAvailableLevels.includes(effort) ? effort : focusedDefaultEffort;
-      logEvent("tengu_model_command_menu_effort", {
+      logEvent("courze_model_command_menu_effort", {
         effort: clampedEffort as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS
       });
       if (!skipSettingsWrite) {

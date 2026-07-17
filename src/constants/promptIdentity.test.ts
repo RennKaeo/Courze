@@ -14,7 +14,7 @@ let DEFAULT_AGENT_PROMPT: typeof import('./prompts.js').DEFAULT_AGENT_PROMPT
 let CLI_SYSPROMPT_PREFIXES: typeof import('./system.js').CLI_SYSPROMPT_PREFIXES
 let getCLISyspromptPrefix: typeof import('./system.js').getCLISyspromptPrefix
 let COURSE_CODE_GUIDE_AGENT:
-  typeof import('../tools/AgentTool/built-in/claudeCodeGuideAgent.js').COURSE_CODE_GUIDE_AGENT
+  typeof import('../tools/AgentTool/built-in/courseCodeGuideAgent.js').COURSE_CODE_GUIDE_AGENT
 let GENERAL_PURPOSE_AGENT:
   typeof import('../tools/AgentTool/built-in/generalPurposeAgent.js').GENERAL_PURPOSE_AGENT
 let EXPLORE_AGENT:
@@ -42,7 +42,7 @@ beforeAll(async () => {
   ;({ getSystemPrompt, DEFAULT_AGENT_PROMPT } = await import('./prompts.js'))
   ;({ CLI_SYSPROMPT_PREFIXES, getCLISyspromptPrefix } = await import('./system.js'))
   ;({ COURSE_CODE_GUIDE_AGENT } = await import(
-    '../tools/AgentTool/built-in/claudeCodeGuideAgent.js'
+    '../tools/AgentTool/built-in/courseCodeGuideAgent.js'
   ))
   ;({ GENERAL_PURPOSE_AGENT } = await import(
     '../tools/AgentTool/built-in/generalPurposeAgent.js'

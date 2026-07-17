@@ -166,7 +166,7 @@ export type BridgeCoreParams = {
   getPollIntervalConfig?: () => PollIntervalConfig
   /**
    * Max initial messages to replay on connect. REPL wrapper reads from the
-   * tengu_bridge_initial_history_cap GrowthBook flag. Daemon passes no
+   * courze_bridge_initial_history_cap GrowthBook flag. Daemon passes no
    * initialMessages so this is never read. Default 200 matches the flag
    * default.
    */
@@ -372,7 +372,7 @@ export async function initBridgeCore(
 
   logForDebugging(`[bridge:repl] Environment registered: ${environmentId}`)
   logForDiagnosticsNoPII('info', 'bridge_repl_env_registered')
-  logEvent('tengu_bridge_repl_env_registered', {})
+  logEvent('courze_bridge_repl_env_registered', {})
 
   /**
    * Reconnect-in-place: if the just-registered environmentId matches what
@@ -478,7 +478,7 @@ export async function initBridgeCore(
       logForDebugging(
         '[bridge:repl] Session creation failed, deregistering environment',
       )
-      logEvent('tengu_bridge_repl_session_failed', {})
+      logEvent('courze_bridge_repl_session_failed', {})
       await api.deregisterEnvironment(environmentId).catch(() => {})
       onStateChange?.('failed', 'Session creation failed')
       return null
@@ -499,7 +499,7 @@ export async function initBridgeCore(
     source: 'repl',
   })
   logForDiagnosticsNoPII('info', 'bridge_repl_session_created')
-  logEvent('tengu_bridge_repl_started', {
+  logEvent('courze_bridge_repl_started', {
     has_initial_messages: !!(initialMessages && initialMessages.length > 0),
     inProtectedNamespace: isInProtectedNamespace(),
   })
@@ -756,14 +756,14 @@ export async function initBridgeCore(
     // the same on success; URL on mobile/web stays valid;
     // previouslyFlushedUUIDs preserved (no re-flush).
     if (await tryReconnectInPlace(requestedEnvId, currentSessionId)) {
-      logEvent('tengu_bridge_repl_reconnected_in_place', {})
+      logEvent('courze_bridge_repl_reconnected_in_place', {})
       environmentRecreations = 0
       return true
     }
     // Env differs → TTL-expired/reaped; or reconnect failed.
     // Don't deregister — we have a fresh secret for this env either way.
     if (environmentId !== requestedEnvId) {
-      logEvent('tengu_bridge_repl_env_expired_fresh_session', {})
+      logEvent('courze_bridge_repl_env_expired_fresh_session', {})
     }
 
     // Strategy 2: fresh session on the now-registered environment.
@@ -922,7 +922,7 @@ export async function initBridgeCore(
     logForDebugging(
       `[bridge:repl] Transport permanently closed: code=${closeCode}`,
     )
-    logEvent('tengu_bridge_repl_ws_closed', {
+    logEvent('courze_bridge_repl_ws_closed', {
       code: closeCode,
     })
     // Capture SSE seq high-water mark before nulling. When called from
@@ -991,7 +991,7 @@ export async function initBridgeCore(
       logForDebugging(
         '[bridge:repl] reconnectEnvironmentWithSession resolved false — tearing down',
       )
-      logEvent('tengu_bridge_repl_reconnect_failed', {
+      logEvent('courze_bridge_repl_reconnect_failed', {
         close_code: closeCode,
       })
       onStateChange?.('failed', 'reconnection failed')
@@ -1197,7 +1197,7 @@ export async function initBridgeCore(
         }
         updateSessionIngressAuthToken(v1OauthToken)
       }
-      logEvent('tengu_bridge_repl_work_received', {})
+      logEvent('courze_bridge_repl_work_received', {})
 
       // Close the previous transport. Nullify BEFORE calling close() so
       // the close callback doesn't treat the programmatic close as
@@ -1251,7 +1251,7 @@ export async function initBridgeCore(
           if (transport !== newTransport) return
 
           logForDebugging('[bridge:repl] Ingress transport connected')
-          logEvent('tengu_bridge_repl_ws_connected', {})
+          logEvent('courze_bridge_repl_ws_connected', {})
 
           // Update the env var with the latest OAuth token so POST writes
           // (which read via getSessionIngressAuthToken()) use a fresh token.
@@ -1300,7 +1300,7 @@ export async function initBridgeCore(
               logForDebugging(
                 `[bridge:repl] Capped initial flush: ${eligibleMessages.length} -> ${cappedMessages.length} (cap=${historyCap})`,
               )
-              logEvent('tengu_bridge_repl_history_capped', {
+              logEvent('courze_bridge_repl_history_capped', {
                 eligible_count: eligibleMessages.length,
                 capped_count: cappedMessages.length,
               })
@@ -1462,7 +1462,7 @@ export async function initBridgeCore(
               `[bridge:repl] CCR v2: createV2ReplTransport failed: ${errorMessage(err)}`,
               { level: 'error' },
             )
-            logEvent('tengu_bridge_repl_ccr_v2_init_failed', {})
+            logEvent('courze_bridge_repl_ccr_v2_init_failed', {})
             // If a newer attempt is in flight or already succeeded, don't
             // touch its work item — our failure is irrelevant.
             if (thisGen !== v2Generation) return
@@ -1572,7 +1572,7 @@ export async function initBridgeCore(
   // and the session-ingress layer don't GC an otherwise-idle remote control
   // session. The keep_alive type is filtered before reaching any client UI
   // (Query.ts drops it; web/iOS/Android never see it in their message loop).
-  // Interval comes from GrowthBook (tengu_bridge_poll_interval_config
+  // Interval comes from GrowthBook (courze_bridge_poll_interval_config
   // session_keepalive_interval_v2_ms, default 120s); 0 = disabled.
   const keepAliveIntervalMs =
     getPollIntervalConfig().session_keepalive_interval_v2_ms
@@ -1878,7 +1878,7 @@ export async function initBridgeCore(
       unregister()
       await doTeardownImpl?.()
       logForDebugging('[bridge:repl] Torn down')
-      logEvent('tengu_bridge_repl_teardown', {})
+      logEvent('courze_bridge_repl_teardown', {})
     },
   }
 }
@@ -2035,7 +2035,7 @@ async function startWorkPollLoop({
             pollConfig.non_exclusive_heartbeat_interval_ms > 0 &&
             getHeartbeatInfo
           ) {
-            logEvent('tengu_bridge_heartbeat_mode_entered', {
+            logEvent('courze_bridge_heartbeat_mode_entered', {
               heartbeat_interval_ms:
                 pollConfig.non_exclusive_heartbeat_interval_ms,
             })
@@ -2072,7 +2072,7 @@ async function startWorkPollLoop({
                 )
                 if (err instanceof BridgeFatalError) {
                   cap.cleanup()
-                  logEvent('tengu_bridge_heartbeat_error', {
+                  logEvent('courze_bridge_heartbeat_error', {
                     status:
                       err.status as unknown as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
                     error_type: (err.status === 401 || err.status === 403
@@ -2116,7 +2116,7 @@ async function startWorkPollLoop({
                   : pollDeadline !== null && Date.now() >= pollDeadline
                     ? 'poll_due'
                     : 'config_disabled'
-            logEvent('tengu_bridge_heartbeat_mode_exited', {
+            logEvent('courze_bridge_heartbeat_mode_exited', {
               reason:
                 exitReason as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
               heartbeat_cycles: hbCycles,
@@ -2168,7 +2168,7 @@ async function startWorkPollLoop({
               logForDebugging(
                 `[bridge:repl] At-capacity sleep overran by ${Math.round(overrun / 1000)}s — process suspension detected, forcing one fast-poll cycle`,
               )
-              logEvent('tengu_bridge_repl_suspension_detected', {
+              logEvent('courze_bridge_repl_suspension_detected', {
                 overrun_ms: overrun,
               })
               suspensionDetected = true
@@ -2188,7 +2188,7 @@ async function startWorkPollLoop({
         logForDebugging(
           `[bridge:repl] Failed to decode work secret: ${errorMessage(err)}`,
         )
-        logEvent('tengu_bridge_repl_work_secret_failed', {})
+        logEvent('courze_bridge_repl_work_secret_failed', {})
         // Can't ack (needs the JWT we failed to decode). stopWork uses OAuth.
         // Prevents XAUTOCLAIM re-delivering this poisoned item every cycle.
         await api.stopWork(envId, work.id, false).catch(() => {})
@@ -2265,7 +2265,7 @@ async function startWorkPollLoop({
         logForDebugging(
           `[bridge:repl] Environment deleted, attempting re-registration (attempt ${environmentRecreations}/${MAX_ENVIRONMENT_RECREATIONS})`,
         )
-        logEvent('tengu_bridge_repl_env_lost', {
+        logEvent('courze_bridge_repl_env_lost', {
           attempt: environmentRecreations,
         } as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS)
 
@@ -2321,7 +2321,7 @@ async function startWorkPollLoop({
         logForDebugging(
           `[bridge:repl] Fatal poll error: ${err.message} (status=${err.status}, type=${err.errorType ?? 'unknown'})${isSuppressible ? ' (suppressed)' : ''}`,
         )
-        logEvent('tengu_bridge_repl_fatal_error', {
+        logEvent('courze_bridge_repl_fatal_error', {
           status: err.status,
           error_type:
             err.errorType as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -2381,7 +2381,7 @@ async function startWorkPollLoop({
       logForDebugging(
         `[bridge:repl] Poll error (attempt ${consecutiveErrors}, elapsed ${Math.round(elapsed / 1000)}s, ws=${wsLabel}): ${errMsg}`,
       )
-      logEvent('tengu_bridge_repl_poll_error', {
+      logEvent('courze_bridge_repl_poll_error', {
         status: httpStatus,
         consecutiveErrors,
         elapsedMs: elapsed,
@@ -2399,7 +2399,7 @@ async function startWorkPollLoop({
           `[bridge:repl] Poll failures exceeded ${POLL_ERROR_GIVE_UP_MS / 1000}s (${consecutiveErrors} errors), giving up`,
         )
         logForDiagnosticsNoPII('info', 'bridge_repl_poll_give_up')
-        logEvent('tengu_bridge_repl_poll_give_up', {
+        logEvent('courze_bridge_repl_poll_give_up', {
           consecutiveErrors,
           elapsedMs: elapsed,
           lastStatus: httpStatus,

@@ -68,7 +68,7 @@ export function countLinesChanged(
 
   addToTotalLinesChanged(numAdditions, numRemovals)
 
-  logEvent('tengu_file_changed', {
+  logEvent('courze_file_changed', {
     lines_added: numAdditions,
     lines_removed: numRemovals,
   })

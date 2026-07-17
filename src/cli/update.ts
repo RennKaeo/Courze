@@ -48,7 +48,7 @@ export async function update() {
     await gracefulShutdown(0)
   }
 
-  logEvent('tengu_update_check', {})
+  logEvent('courze_update_check', {})
   writeToStdout(`Current version: ${MACRO.DISPLAY_VERSION}\n`)
 
   const channel = getInitialSettings()?.autoUpdatesChannel ?? 'latest'

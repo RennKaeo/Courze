@@ -137,7 +137,7 @@ export function formatCommandsWithinBudget(
   if (maxDescLen < MIN_DESC_LENGTH) {
     // Extreme case: non-bundled go names-only, bundled keep descriptions
     if (process.env.USER_TYPE === 'ant') {
-      logEvent('tengu_skill_descriptions_truncated', {
+      logEvent('courze_skill_descriptions_truncated', {
         skill_count: commands.length,
         budget,
         full_total: fullTotal,
@@ -161,7 +161,7 @@ export function formatCommandsWithinBudget(
     cmd => stringWidth(getCommandDescription(cmd)) > maxDescLen,
   )
   if (process.env.USER_TYPE === 'ant') {
-    logEvent('tengu_skill_descriptions_truncated', {
+    logEvent('courze_skill_descriptions_truncated', {
       skill_count: commands.length,
       budget,
       full_total: fullTotal,

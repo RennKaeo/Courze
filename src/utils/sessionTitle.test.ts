@@ -181,7 +181,7 @@ describe('generateSessionTitle', () => {
     expect(call.options.enablePromptCaching).toBe(false)
     expect(call.options.skipCacheWrite).toBe(true)
     expect(analyticsEvents).toContainEqual({
-      name: 'tengu_session_title_generated',
+      name: 'courze_session_title_generated',
       metadata: { success: true },
     })
   }, COLD_MODULE_IMPORT_TEST_TIMEOUT_MS)
@@ -208,7 +208,7 @@ describe('generateSessionTitle', () => {
     )
     expect(debugMessages.at(-1)?.message).toContain('error_name=TimeoutError')
     expect(analyticsEvents).toContainEqual({
-      name: 'tengu_session_title_generated',
+      name: 'courze_session_title_generated',
       metadata: { success: false },
     })
   })
@@ -237,7 +237,7 @@ describe('generateSessionTitle', () => {
     )
     expect(debugMessages.at(-1)?.message).toContain('error_name=Error')
     expect(analyticsEvents).toContainEqual({
-      name: 'tengu_session_title_generated',
+      name: 'courze_session_title_generated',
       metadata: { success: false },
     })
   })
@@ -263,7 +263,7 @@ describe('generateSessionTitle', () => {
       level: 'warn',
     })
     expect(analyticsEvents).toContainEqual({
-      name: 'tengu_session_title_generated',
+      name: 'courze_session_title_generated',
       metadata: { success: false },
     })
   })
@@ -281,7 +281,7 @@ describe('generateSessionTitle', () => {
 
     expect(title).toBe('Refactor API client errors')
     expect(analyticsEvents.at(-1)).toEqual({
-      name: 'tengu_session_title_generated',
+      name: 'courze_session_title_generated',
       metadata: { success: true },
     })
   })
@@ -471,7 +471,7 @@ describe('generateSessionTitle', () => {
       level: 'warn',
     })
     expect(analyticsEvents).toContainEqual({
-      name: 'tengu_session_title_generated',
+      name: 'courze_session_title_generated',
       metadata: { success: false },
     })
   })

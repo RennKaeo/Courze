@@ -35,7 +35,7 @@ export function AutoModeOptInDialog(t0: Props) {
       bb3: switch (value) {
         case "accept":
           {
-            logEvent("tengu_auto_mode_opt_in_dialog_accept", {});
+            logEvent("courze_auto_mode_opt_in_dialog_accept", {});
             updateSettingsForSource("userSettings", {
               skipAutoPermissionPrompt: true
             });
@@ -44,7 +44,7 @@ export function AutoModeOptInDialog(t0: Props) {
           }
         case "accept-default":
           {
-            logEvent("tengu_auto_mode_opt_in_dialog_accept_default", {});
+            logEvent("courze_auto_mode_opt_in_dialog_accept_default", {});
             updateSettingsForSource("userSettings", {
               skipAutoPermissionPrompt: true,
               permissions: {
@@ -56,7 +56,7 @@ export function AutoModeOptInDialog(t0: Props) {
           }
         case "decline":
           {
-            logEvent("tengu_auto_mode_opt_in_dialog_decline", {});
+            logEvent("courze_auto_mode_opt_in_dialog_decline", {});
             onDecline();
           }
       }
@@ -137,5 +137,5 @@ export function AutoModeOptInDialog(t0: Props) {
   return t10;
 }
 function _temp() {
-  logEvent("tengu_auto_mode_opt_in_dialog_shown", {});
+  logEvent("courze_auto_mode_opt_in_dialog_shown", {});
 }

@@ -258,7 +258,7 @@ export function ResumeConversation({
         (require('../services/contextCollapse/persist.js') as typeof import('../services/contextCollapse/persist.js')).restoreFromEntries(result_3.contextCollapseCommits ?? [], result_3.contextCollapseSnapshot);
         /* eslint-enable @typescript-eslint/no-require-imports */
       }
-      logEvent('tengu_session_resumed', {
+      logEvent('courze_session_resumed', {
         entrypoint: 'picker' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         success: true,
         resume_duration_ms: Math.round(performance.now() - resumeStart)
@@ -273,7 +273,7 @@ export function ResumeConversation({
         mainThreadAgentDefinition: resolvedAgentDef
       });
     } catch (e) {
-      logEvent('tengu_session_resumed', {
+      logEvent('courze_session_resumed', {
         entrypoint: 'picker' as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
         success: false
       });

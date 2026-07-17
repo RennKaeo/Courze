@@ -9,7 +9,7 @@ const web = {
     'Setup Course Code on the web (requires connecting your GitHub account)',
   availability: ['claude-ai'],
   isEnabled: () =>
-    getFeatureValue_CACHED_MAY_BE_STALE('tengu_cobalt_lantern', false) &&
+    getFeatureValue_CACHED_MAY_BE_STALE('courze_cobalt_lantern', false) &&
     isPolicyAllowed('allow_remote_sessions'),
   get isHidden() {
     return !isPolicyAllowed('allow_remote_sessions')

@@ -82,7 +82,7 @@ export function getFastModeUnavailableReason(): string | null {
   }
 
   const statsigReason = getFeatureValue_CACHED_MAY_BE_STALE(
-    'tengu_penguins_off',
+    'courze_penguins_off',
     null,
   )
   // Statsig reason has priority over other reasons.
@@ -95,7 +95,7 @@ export function getFastModeUnavailableReason(): string | null {
   // longer necessary, but we keep this option behind a flag just in case.
   if (
     !isInBundledMode() &&
-    getFeatureValue_CACHED_MAY_BE_STALE('tengu_marble_sandcastle', false)
+    getFeatureValue_CACHED_MAY_BE_STALE('courze_marble_sandcastle', false)
   ) {
     return 'Fast mode requires the native binary · Install from: https://claude.com/product/course-code'
   }
@@ -231,7 +231,7 @@ export function triggerFastModeCooldown(
   logForDebugging(
     `Fast mode cooldown triggered (${reason}), duration ${Math.round(cooldownDurationMs / 1000)}s`,
   )
-  logEvent('tengu_fast_mode_fallback_triggered', {
+  logEvent('courze_fast_mode_fallback_triggered', {
     cooldown_duration_ms: cooldownDurationMs,
     cooldown_reason:
       reason as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
@@ -304,7 +304,7 @@ export function handleFastModeOverageRejection(reason: string | null): void {
   logForDebugging(
     `Fast mode overage rejection: ${reason ?? 'unknown'} — ${message}`,
   )
-  logEvent('tengu_fast_mode_overage_rejected', {
+  logEvent('courze_fast_mode_overage_rejected', {
     overage_disabled_reason: (reason ??
       'unknown') as AnalyticsMetadata_I_VERIFIED_THIS_IS_NOT_CODE_OR_FILEPATHS,
   })
@@ -525,7 +525,7 @@ export async function prefetchFastModeStatus(): Promise<void> {
         `Failed to fetch org fast mode status, defaulting to ${orgStatus.status === 'enabled' ? 'enabled (cached)' : 'disabled (network_error)'}: ${err}`,
         { level: 'error' },
       )
-      logEvent('tengu_org_penguin_mode_fetch_failed', {})
+      logEvent('courze_org_penguin_mode_fetch_failed', {})
     } finally {
       inflightPrefetch = null
     }
