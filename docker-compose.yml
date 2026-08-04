@@ -1,0 +1,98 @@
+services:
+  course-code:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: course-code
+    env_file:
+      - .env
+    environment:
+      # ===== PROVIDER CONFIGURATION =====
+      # Choose ONE provider by uncommenting and setting your API key:
+      
+      # --- OpenAI / OpenAI-compatible (OpenRouter, Together, Groq, etc.) ---
+      # OPENAI_API_KEY: your_api_key_here
+      # OPENAI_BASE_URL: https://api.openai.com/v1
+      # OPENAI_MODEL: gpt-4o
+      
+      # --- Anthropic (Claude) ---
+      # ANTHROPIC_API_KEY: your_api_key_here
+      # ANTHROPIC_BASE_URL: https://api.anthropic.com
+      # ANTHROPIC_MODEL: claude-sonnet-4-6
+      
+      # --- Google Gemini ---
+      # COURSE_CODE_USE_GEMINI: "1"
+      # GEMINI_API_KEY: your_api_key_here
+      # GEMINI_MODEL: gemini-2.5-pro
+      # GEMINI_BASE_URL: https://generativelanguage.googleapis.com/v1beta/openai
+      
+      # --- GitHub Copilot ---
+      # COURSE_CODE_USE_GITHUB: "1"
+      # GITHUB_TOKEN: your_github_token_here
+      
+      # --- Mistral ---
+      # COURSE_CODE_USE_MISTRAL: "1"
+      # MISTRAL_API_KEY: your_api_key_here
+      # MISTRAL_MODEL: devstral-latest
+      
+      # --- Local (Ollama) ---
+      # OPENAI_API_KEY: "ollama"  # dummy key for local
+      # OPENAI_BASE_URL: http://ollama:11434/v1
+      # OPENAI_MODEL: llama3.2
+      
+      # --- NVIDIA NIM ---
+      # NVIDIA_NIM: "1"
+      # OPENAI_API_KEY: your_nvidia_key_here
+      # OPENAI_BASE_URL: https://integrate.api.nvidia.com/v1
+      # OPENAI_MODEL: nemotron-3-ultra
+      
+      # ===== COURSE CODE SETTINGS =====
+      COURSE_CODE_DISABLE_EXPERIMENTAL_BETAS: "true"
+      COREPACK_ENABLE_AUTO_PIN: "0"
+      NODE_OPTIONS: "--max-old-space-size=8192"
+      
+      # ===== OPTIONAL: TELEGRAM (if you want bot integration) =====
+      # TELEGRAM_BOT_TOKEN: your_bot_token
+      # TELEGRAM_ALLOWED_USERS: "8866701195"
+      
+    volumes:
+      # Persistent config & data
+      - ./data/.course:/home/node/.course
+      # Your project files (mount your code here)
+      - ./workspace:/workspace
+      # SSH keys for git (read-only)
+      - ~/.ssh:/home/node/.ssh:ro
+      # Git config
+      - ~/.gitconfig:/home/node/.gitconfig:ro
+    working_dir: /workspace
+    stdin_open: true
+    tty: true
+    restart: unless-stopped
+    # Uncomment for GPU access (NVIDIA)
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+
+  # Optional: Ollama sidecar for local models
+  ollama:
+    image: ollama/ollama:latest
+    container_name: course-code-ollama
+    volumes:
+      - ./data/ollama:/root/.ollama
+    ports:
+      - "11434:11434"
+    restart: unless-stopped
+    # Uncomment for GPU
+    # deploy:
+    #   resources:
+    #     reservations:
+    #       devices:
+    #         - driver: nvidia
+    #           count: all
+    #           capabilities: [gpu]
+    profiles:
+      - local-llm

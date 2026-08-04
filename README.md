@@ -417,6 +417,72 @@ Helpful commands:
 - `bun run doctor:runtime`
 - focused `bun test ...` runs for the areas you touch
 
+## Docker
+
+Run Course Code in a container with all dependencies pre-installed.
+
+### Quick Start
+
+```bash
+# Clone the repo
+git clone https://github.com/RennKaeo/Courze.git
+cd Courze
+
+# Build the Docker image
+docker compose build
+
+# Configure your provider (copy example and edit)
+cp .env.example .env
+# Edit .env with your API keys
+
+# Run interactively
+docker compose run --rm -it course-code
+
+# Or run a one-shot command
+docker compose run --rm course-code --print "explain this codebase"
+```
+
+### Supported Providers
+
+Set provider credentials in `.env` or pass inline:
+
+| Provider | Example |
+|----------|---------|
+| **OpenAI / OpenRouter / Groq / Together** | `OPENAI_API_KEY=... OPENAI_MODEL=gpt-4o` |
+| **Anthropic (Claude)** | `ANTHROPIC_API_KEY=... ANTHROPIC_MODEL=claude-sonnet-4-6` |
+| **Google Gemini** | `COURSE_CODE_USE_GEMINI=1 GEMINI_API_KEY=... GEMINI_MODEL=gemini-2.5-pro` |
+| **GitHub Copilot** | `COURSE_CODE_USE_GITHUB=1 GITHUB_TOKEN=...` |
+| **Ollama (local)** | `OPENAI_API_KEY=ollama OPENAI_BASE_URL=http://ollama:11434/v1 OPENAI_MODEL=llama3.2` (requires `--profile local-llm`) |
+| **NVIDIA NIM** | `NVIDIA_NIM=1 OPENAI_API_KEY=nvapi-... OPENAI_MODEL=nemotron-3-ultra` |
+
+For Ollama, enable the sidecar:
+```bash
+docker compose --profile local-llm up -d ollama
+docker compose run --rm course-code ...
+```
+
+### Volumes
+
+- `./data/.course` → `/home/node/.course` (config & sessions)
+- `./workspace` → `/workspace` (your project files)
+- `~/.ssh` → `/home/node/.ssh:ro` (git SSH keys)
+- `~/.gitconfig` → `/home/node/.gitconfig:ro` (git config)
+
+### GPU Support (NVIDIA)
+
+Uncomment in `docker-compose.yml`:
+```yaml
+deploy:
+  resources:
+    reservations:
+      devices:
+        - driver: nvidia
+          count: all
+          capabilities: [gpu]
+```
+
+Requires `nvidia-container-toolkit` on host.
+
 ## Testing And Coverage
 
 Course Code uses Bun's built-in test runner for unit tests.
