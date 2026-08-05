@@ -18,6 +18,7 @@ import vendorMinimax from '../vendors/minimax.js'
 import vendorMoonshot from '../vendors/moonshot.js'
 import vendorNearai from '../vendors/nearai.js'
 import vendorOpenai from '../vendors/openai.js'
+import vendorOpencodeZen from '../vendors/opencode-zen.js'
 import vendorPerplexity from '../vendors/perplexity.js'
 import vendorReplicate from '../vendors/replicate.js'
 import vendorSambanova from '../vendors/sambanova.js'
@@ -84,7 +85,7 @@ import modelQwen from '../models/qwen.js'
 import modelXai from '../models/xai.js'
 import modelXiaomiMimo from '../models/xiaomi-mimo.js'
 
-export const VENDOR_DESCRIPTORS = [vendorAi21, vendorAnthropic, vendorBankr, vendorCohere, vendorDeepseek, vendorFireworks, vendorGemini, vendorHuggingface, vendorInflection, vendorMinimax, vendorMoonshot, vendorNearai, vendorOpenai, vendorPerplexity, vendorReplicate, vendorSambanova, vendorVenice, vendorWriter, vendorXai, vendorXiaomiMimo, vendorZai] as const satisfies readonly VendorDescriptor[]
+export const VENDOR_DESCRIPTORS = [vendorAi21, vendorAnthropic, vendorBankr, vendorCohere, vendorDeepseek, vendorFireworks, vendorGemini, vendorHuggingface, vendorInflection, vendorMinimax, vendorMoonshot, vendorNearai, vendorOpenai, vendorOpencodeZen, vendorPerplexity, vendorReplicate, vendorSambanova, vendorVenice, vendorWriter, vendorXai, vendorXiaomiMimo, vendorZai] as const satisfies readonly VendorDescriptor[]
 export const GATEWAY_DESCRIPTORS = [gatewayAtlasCloud, gatewayAtomicChat, gatewayAzureOpenai, gatewayBedrock, gatewayClinepass, gatewayCourseGateway, gatewayCustom, gatewayDashscopeCn, gatewayDashscopeIntl, gatewayGithubEnterprise, gatewayGithub, gatewayGroq, gatewayHicap, gatewayKimiCode, gatewayLmstudio, gatewayMistral, gatewayNvidiaNim, gatewayOllama, gatewayOpencodeGo, gatewayOpencode, gatewayOpenrouter, gatewayTogether, gatewayVertex, gatewayXiaomiMimoToken] as const satisfies readonly GatewayDescriptor[]
 export const ANTHROPIC_PROXY_DESCRIPTORS = [] as const satisfies readonly AnthropicProxyDescriptor[]
 export const BRAND_DESCRIPTORS = [brandClaude, brandDeepseek, brandFireworks, brandGemini, brandGlm, brandGpt, brandKimi, brandLlama, brandMinimax, brandMistral, brandNearai, brandNemotron, brandOpenaiCompatibleAlias, brandQwen, brandXai, brandXiaomiMimo] as const satisfies readonly BrandDescriptor[]

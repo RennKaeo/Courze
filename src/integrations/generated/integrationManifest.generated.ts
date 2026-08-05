@@ -366,6 +366,17 @@ export const PROVIDER_PRESET_MANIFEST = [
     ]
   },
   {
+    "preset": "opencode-zen",
+    "routeKind": "vendor",
+    "routeId": "opencode-zen",
+    "vendorId": "opencode-zen",
+    "description": "OpenCode Zen multi-model gateway",
+    "apiKeyEnvVars": [
+      "OPENCODE_API_KEY",
+      "OPENAI_API_KEY"
+    ]
+  },
+  {
     "preset": "openrouter",
     "routeKind": "gateway",
     "routeId": "openrouter",
@@ -561,6 +572,7 @@ export const ORDERED_PROVIDER_PRESETS = [
   "openai",
   "opencode-go",
   "opencode",
+  "opencode-zen",
   "openrouter",
   "perplexity",
   "replicate",
