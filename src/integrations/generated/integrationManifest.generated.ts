@@ -51,6 +51,16 @@ export const PROVIDER_PRESET_MANIFEST = [
     ]
   },
   {
+    "preset": "ai21",
+    "routeKind": "vendor",
+    "routeId": "ai21",
+    "vendorId": "ai21",
+    "description": "AI21 Labs Jamba models",
+    "apiKeyEnvVars": [
+      "AI21_API_KEY"
+    ]
+  },
+  {
     "preset": "dashscope-cn",
     "routeKind": "gateway",
     "routeId": "dashscope-cn",
@@ -128,6 +138,16 @@ export const PROVIDER_PRESET_MANIFEST = [
     ]
   },
   {
+    "preset": "cohere",
+    "routeKind": "vendor",
+    "routeId": "cohere",
+    "vendorId": "cohere",
+    "description": "Cohere Command models",
+    "apiKeyEnvVars": [
+      "COHERE_API_KEY"
+    ]
+  },
+  {
     "preset": "deepseek",
     "routeKind": "vendor",
     "routeId": "deepseek",
@@ -183,6 +203,26 @@ export const PROVIDER_PRESET_MANIFEST = [
     ],
     "modelEnvVars": [
       "OPENAI_MODEL"
+    ]
+  },
+  {
+    "preset": "huggingface",
+    "routeKind": "vendor",
+    "routeId": "huggingface",
+    "vendorId": "huggingface",
+    "description": "HuggingFace Inference API",
+    "apiKeyEnvVars": [
+      "HUGGINGFACE_API_KEY"
+    ]
+  },
+  {
+    "preset": "inflection",
+    "routeKind": "vendor",
+    "routeId": "inflection",
+    "vendorId": "inflection",
+    "description": "Inflection AI Pi models",
+    "apiKeyEnvVars": [
+      "INFLECTION_API_KEY"
     ]
   },
   {
@@ -337,6 +377,36 @@ export const PROVIDER_PRESET_MANIFEST = [
     ]
   },
   {
+    "preset": "perplexity",
+    "routeKind": "vendor",
+    "routeId": "perplexity",
+    "vendorId": "perplexity",
+    "description": "Perplexity search-augmented models",
+    "apiKeyEnvVars": [
+      "PERPLEXITY_API_KEY"
+    ]
+  },
+  {
+    "preset": "replicate",
+    "routeKind": "vendor",
+    "routeId": "replicate",
+    "vendorId": "replicate",
+    "description": "Replicate hosted models",
+    "apiKeyEnvVars": [
+      "REPLICATE_API_TOKEN"
+    ]
+  },
+  {
+    "preset": "sambanova",
+    "routeKind": "vendor",
+    "routeId": "sambanova",
+    "vendorId": "sambanova",
+    "description": "SambaNova fast inference",
+    "apiKeyEnvVars": [
+      "SAMBANOVA_API_KEY"
+    ]
+  },
+  {
     "preset": "together",
     "routeKind": "gateway",
     "routeId": "together",
@@ -358,6 +428,16 @@ export const PROVIDER_PRESET_MANIFEST = [
     ],
     "modelEnvVars": [
       "OPENAI_MODEL"
+    ]
+  },
+  {
+    "preset": "writer",
+    "routeKind": "vendor",
+    "routeId": "writer",
+    "vendorId": "writer",
+    "description": "Writer Palmyra models",
+    "apiKeyEnvVars": [
+      "WRITER_API_KEY"
     ]
   },
   {
@@ -454,17 +534,21 @@ export type ProviderPreset = (typeof PROVIDER_PRESET_MANIFEST)[number]['preset']
 export const ORDERED_PROVIDER_PRESETS = [
   "course-gateway",
   "anthropic",
+  "ai21",
   "dashscope-cn",
   "dashscope-intl",
   "atlas-cloud",
   "azure-openai",
   "bankr",
   "clinepass",
+  "cohere",
   "deepseek",
   "fireworks",
   "gemini",
   "groq",
   "hicap",
+  "huggingface",
+  "inflection",
   "lmstudio",
   "atomic-chat",
   "ollama",
@@ -478,8 +562,12 @@ export const ORDERED_PROVIDER_PRESETS = [
   "opencode-go",
   "opencode",
   "openrouter",
+  "perplexity",
+  "replicate",
+  "sambanova",
   "together",
   "venice",
+  "writer",
   "xai",
   "xiaomi-mimo",
   "xiaomi-mimo-token",

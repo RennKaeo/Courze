@@ -5,16 +5,24 @@
 // (via ensureIntegrationsLoaded) so startup does not pay for the full graph.
 
 import type { AnthropicProxyDescriptor, BrandDescriptor, GatewayDescriptor, ModelDescriptor, VendorDescriptor } from '../descriptors.js'
+import vendorAi21 from '../vendors/ai21.js'
 import vendorAnthropic from '../vendors/anthropic.js'
 import vendorBankr from '../vendors/bankr.js'
+import vendorCohere from '../vendors/cohere.js'
 import vendorDeepseek from '../vendors/deepseek.js'
 import vendorFireworks from '../vendors/fireworks.js'
 import vendorGemini from '../vendors/gemini.js'
+import vendorHuggingface from '../vendors/huggingface.js'
+import vendorInflection from '../vendors/inflection.js'
 import vendorMinimax from '../vendors/minimax.js'
 import vendorMoonshot from '../vendors/moonshot.js'
 import vendorNearai from '../vendors/nearai.js'
 import vendorOpenai from '../vendors/openai.js'
+import vendorPerplexity from '../vendors/perplexity.js'
+import vendorReplicate from '../vendors/replicate.js'
+import vendorSambanova from '../vendors/sambanova.js'
 import vendorVenice from '../vendors/venice.js'
+import vendorWriter from '../vendors/writer.js'
 import vendorXai from '../vendors/xai.js'
 import vendorXiaomiMimo from '../vendors/xiaomi-mimo.js'
 import vendorZai from '../vendors/zai.js'
@@ -23,12 +31,12 @@ import gatewayAtomicChat from '../gateways/atomic-chat.js'
 import gatewayAzureOpenai from '../gateways/azure-openai.js'
 import gatewayBedrock from '../gateways/bedrock.js'
 import gatewayClinepass from '../gateways/clinepass.js'
+import gatewayCourseGateway from '../gateways/course-gateway.js'
 import gatewayCustom from '../gateways/custom.js'
 import gatewayDashscopeCn from '../gateways/dashscope-cn.js'
 import gatewayDashscopeIntl from '../gateways/dashscope-intl.js'
 import gatewayGithubEnterprise from '../gateways/github-enterprise.js'
 import gatewayGithub from '../gateways/github.js'
-import gatewayCourzeOpengateway from '../gateways/course-gateway.js'
 import gatewayGroq from '../gateways/groq.js'
 import gatewayHicap from '../gateways/hicap.js'
 import gatewayKimiCode from '../gateways/kimi-code.js'
@@ -76,8 +84,8 @@ import modelQwen from '../models/qwen.js'
 import modelXai from '../models/xai.js'
 import modelXiaomiMimo from '../models/xiaomi-mimo.js'
 
-export const VENDOR_DESCRIPTORS = [vendorAnthropic, vendorBankr, vendorDeepseek, vendorFireworks, vendorGemini, vendorMinimax, vendorMoonshot, vendorNearai, vendorOpenai, vendorVenice, vendorXai, vendorXiaomiMimo, vendorZai] as const satisfies readonly VendorDescriptor[]
-export const GATEWAY_DESCRIPTORS = [gatewayAtlasCloud, gatewayAtomicChat, gatewayAzureOpenai, gatewayBedrock, gatewayClinepass, gatewayCustom, gatewayDashscopeCn, gatewayDashscopeIntl, gatewayGithubEnterprise, gatewayGithub, gatewayCourzeOpengateway, gatewayGroq, gatewayHicap, gatewayKimiCode, gatewayLmstudio, gatewayMistral, gatewayNvidiaNim, gatewayOllama, gatewayOpencodeGo, gatewayOpencode, gatewayOpenrouter, gatewayTogether, gatewayVertex, gatewayXiaomiMimoToken] as const satisfies readonly GatewayDescriptor[]
+export const VENDOR_DESCRIPTORS = [vendorAi21, vendorAnthropic, vendorBankr, vendorCohere, vendorDeepseek, vendorFireworks, vendorGemini, vendorHuggingface, vendorInflection, vendorMinimax, vendorMoonshot, vendorNearai, vendorOpenai, vendorPerplexity, vendorReplicate, vendorSambanova, vendorVenice, vendorWriter, vendorXai, vendorXiaomiMimo, vendorZai] as const satisfies readonly VendorDescriptor[]
+export const GATEWAY_DESCRIPTORS = [gatewayAtlasCloud, gatewayAtomicChat, gatewayAzureOpenai, gatewayBedrock, gatewayClinepass, gatewayCourseGateway, gatewayCustom, gatewayDashscopeCn, gatewayDashscopeIntl, gatewayGithubEnterprise, gatewayGithub, gatewayGroq, gatewayHicap, gatewayKimiCode, gatewayLmstudio, gatewayMistral, gatewayNvidiaNim, gatewayOllama, gatewayOpencodeGo, gatewayOpencode, gatewayOpenrouter, gatewayTogether, gatewayVertex, gatewayXiaomiMimoToken] as const satisfies readonly GatewayDescriptor[]
 export const ANTHROPIC_PROXY_DESCRIPTORS = [] as const satisfies readonly AnthropicProxyDescriptor[]
 export const BRAND_DESCRIPTORS = [brandClaude, brandDeepseek, brandFireworks, brandGemini, brandGlm, brandGpt, brandKimi, brandLlama, brandMinimax, brandMistral, brandNearai, brandNemotron, brandOpenaiCompatibleAlias, brandQwen, brandXai, brandXiaomiMimo] as const satisfies readonly BrandDescriptor[]
 export const MODEL_DESCRIPTOR_GROUPS = [modelClaude, modelDeepseek, modelFireworksMerged, modelGemini, modelGlm, modelGpt, modelKimi, modelLlama, modelMinimax, modelMistral, modelNearai, modelNemotron, modelOpenaiCompatibleAlias, modelOpencode, modelQwen, modelXai, modelXiaomiMimo] as const satisfies readonly (readonly ModelDescriptor[])[]
