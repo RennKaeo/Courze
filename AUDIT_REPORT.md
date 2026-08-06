@@ -37,3 +37,13 @@
 `GITHUB_TOKEN` (`ghp_Au2uy...fHa00PRUsp`) saved to `~/.hermes/.env`. Token is exposed in public Telegram chat (`ʜᴇʀᴍᴇs ᴀᴜᴛᴏᴍᴀᴛɪᴏɴ ɢʀᴏᴜᴘ`, thread 2). User must revoke/regenerate.
 
 ## Audit Status: FULL SCAN COMPLETE — no file skipped. Fix pushed. Potential bugs flagged for follow-up.
+
+
+## Manual Verification (post-full-scan)
+- query.ts:1362  — verified, handled (yieldMissingToolResultBlocks)
+- setup.ts:292   — verified, documented + handled (initSessionMemory order)
+- history.ts:287 — verified, handled (skippedTimestamps Set + file lock)
+- sessionStorage.ts — scanned (5601 lines), multiple silent-fails documented
+- main.tsx       — scanned (4462 lines), high complexity, gracefulShutdown paths verified
+- Fix pushed: cache-probe.ts (commit 5213293)
+- Report pushed: AUDIT_REPORT.md (commit 4b45db3)
