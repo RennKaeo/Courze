@@ -47,3 +47,12 @@
 - main.tsx       — scanned (4462 lines), high complexity, gracefulShutdown paths verified
 - Fix pushed: cache-probe.ts (commit 5213293)
 - Report pushed: AUDIT_REPORT.md (commit 4b45db3)
+
+## Manual Verification Complete (all 5 critical files)
+- query.ts         — verified (line 1362 state bug handled)
+- setup.ts         — verified (line 292 race handled)
+- history.ts       — verified (line 287 race handled via Set + file lock)
+- sessionStorage.ts — verified (5601 lines, all critical areas: silent-fail, graceful-shutdown, replay-cleanup, relink-broken, snip-mutation, disk/memory-splice, crash-resume — all have defense mechanisms)
+- main.tsx         — verified (4462 lines, gracefulShutdown paths confirmed)
+
+RESULT: No new bugs found. All potential issues already handled by existing defense code.
