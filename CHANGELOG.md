@@ -1,5 +1,21 @@
 # Changelog
 
+## [0.22.0](https://github.com/RennKaeo/Courze/compare/v0.21.0...v0.22.0) (2026-08-06)
+
+
+### Features
+
+* add 8 new AI providers ([818b8f8](https://github.com/RennKaeo/Courze/commit/818b8f85ef6620e51e1bce0ad621120b49d8a576))
+* add Docker support with multi-provider docker-compose.yml and docs ([255b212](https://github.com/RennKaeo/Courze/commit/255b212fe738fa5c2a1d7e8c3c6d6f3e43f817f5))
+* add OpenCode Zen provider ([56aabca](https://github.com/RennKaeo/Courze/commit/56aabcaf61562b8ec89e7b313953088a727fe14f))
+
+
+### Bug Fixes
+
+* audit improvements ([45b9c89](https://github.com/RennKaeo/Courze/commit/45b9c8942a9a45451009c0da30d9656700f548e2))
+* **cache-probe:** mainMakeUsage() baca cached_tokens, bukan hardcode 0 ([5213293](https://github.com/RennKaeo/Courze/commit/52132932c499dcf728313725c32e920a9bc641d8))
+* security vulnerability patches ([cca3e2d](https://github.com/RennKaeo/Courze/commit/cca3e2d6b04b9b78db78e48459f35dbfdc1c8287))
+
 ## [0.21.0](https://github.com/RennKaeo/Courze/compare/v0.20.1...v0.21.0) (2026-06-30)
 
 
