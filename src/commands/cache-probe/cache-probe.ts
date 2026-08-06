@@ -395,7 +395,7 @@ export const call: LocalCommandCall = async (args) => {
       input_tokens: u?.input_tokens ?? 0,
       output_tokens: u?.output_tokens ?? 0,
       cache_creation_input_tokens: 0,
-      cache_read_input_tokens: 0,  // ← main hardcodes this to 0
+      cache_read_input_tokens: (u?.input_tokens_details?.cached_tokens ?? u?.prompt_tokens_details?.cached_tokens) ?? 0,
     }
   }
   // openaiShim.ts convertChunkUsage() — used for Chat Completions
